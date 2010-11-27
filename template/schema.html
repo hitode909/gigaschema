@@ -3,6 +3,10 @@
 {% block id %}schema{% endblock %}
 
 {% block content %}
+<script>
+    var schema = {{ data }};
+</script>
+
 <h1>スキーマページです</h1>
 <p>ここは<b>{{ schema.owner.nickname }}</b>さんの<b>{{ schema.name }}</b>です〜</p>
 

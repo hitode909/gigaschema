@@ -14,7 +14,8 @@ class SchemaHandler(webapp.RequestHandler):
 
         template_values = {
             'schema': schema,
-            'schema_url': self.request.path # TODO = shema.url
+            'schema_url': self.request.path, # TODO = shema.url
+            'data': ViewHelper.process_data(schema.as_hash())
         }
         self.response.out.write(ViewHelper.process('schema', template_values))
 
