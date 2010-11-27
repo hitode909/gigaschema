@@ -8,7 +8,6 @@ from model import *
 
 class SchemaHandler(webapp.RequestHandler):
     def get(self, owner_name, schema_name):
-
         schema = Schema.retrieve_by_names(owner_name, schema_name)
         if not schema:
             self.redirect('/')
@@ -22,8 +21,13 @@ class SchemaHandler(webapp.RequestHandler):
         self.response.out.write(ViewHelper.process('schema', template_values))
 
     def post(self, owner_name, schema_name):
-        self.response.out.write("data api_key=" + self.request.get('api_key') + ", value=" + self.request.get('value') + " was created")
+        schema = Schema.retrieve_by_names(owner_name, schema_name)
+        if not schema:
+            self.redirect('/')
 
+        value = self.request.get('value')
+        data = Data.create(schema, value)
+        self.redirect(self.request.path)
 
 class SchemaSettingHandler(webapp.RequestHandler):
     def get(self, owner_name, schema_name):
