@@ -3,6 +3,7 @@ import os
 import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util, template
+from google.appengine.api import users
 from datetime import datetime
 from helper import *
 from model import *
@@ -11,9 +12,21 @@ import hashlib
 
 class IndexHandler(webapp.RequestHandler):
     def get(self):
+        user = users.get_current_user()
+        login_url = ''
+        logout_url = ''
+
+        if user:
+            logout_url = users.create_logout_url("/intl/ja/")
+        else:
+            login_url = users.create_login_url("/intl/ja/")
+
         template_values = {
-            'today': datetime.now()
-            }
+            'today': datetime.now(),
+            'user': user,
+            'login_url': login_url,
+            'logout_url': logout_url
+        }
         self.response.out.write(ViewHelper.process('index', template_values))
 
     def post(self):

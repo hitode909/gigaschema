@@ -6,6 +6,11 @@
   </head>
   <body>
     <h1>ようこそ</h1>
+    {% if user %}
+        <a href="{{ logout_url }}">ログアウト</a>
+    {% else %}
+        <a href="{{ login_url }}">ログイン</a>
+    {% endif %}
     <p>ただいまの時間は<b>{{ today|date:"Y-m-d H:i:s"}}</b>です〜</p>
 
     <h2>スキーマ作る</h2>
