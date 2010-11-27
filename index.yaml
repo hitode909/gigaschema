@@ -13,12 +13,12 @@ indexes:
 - kind: Data
   properties:
   - name: schema
-  - name: datetime
+  - name: created_on
 
 - kind: Data
   properties:
   - name: schema
-  - name: datetime
+  - name: created_on
     direction: desc
 
 - kind: Data

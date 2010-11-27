@@ -3,7 +3,7 @@ from model.schema import Schema
 
 class Data(db.Model):
     schema = db.ReferenceProperty(Schema, required=True)
-    datetime = db.DateTimeProperty(auto_now=True)
+    created_on = db.DateTimeProperty(auto_now=True)
     value = db.StringProperty()
 
     @classmethod
@@ -20,6 +20,6 @@ class Data(db.Model):
 
     def as_hash(self):
         return {
-            'timestamp': str(self.datetime),
+            'timestamp': str(self.created_on),
             'value': self.value,
         }

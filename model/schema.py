@@ -59,7 +59,7 @@ class Schema(db.Model):
 
         q = db.GqlQuery("SELECT * FROM Data " + 
                         "WHERE schema = :1 " + 
-                        "ORDER BY datetime " + order_dir, self.key())
+                        "ORDER BY created_on " + order_dir, self.key())
         data = q.fetch(100)
         return data
 
