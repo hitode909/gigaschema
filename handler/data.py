@@ -31,7 +31,20 @@ class DataHandler(webapp.RequestHandler):
         self.response.out.write(ViewHelper.process('data', template_values))
 
     def delete(self, owner_name, schema_name, data_key):
-        self.response.out.write(data_key + " deleted")
+        schema = Schema.retrieve_by_names(owner_name, schema_name)
+        if not schema:
+            logging.info("schema not found " + schema_name)
+            self.response.out.write(self.response.http_status_message(404))
+            return
+
+        data = Data.get(data_key)
+        if not data:
+            logging.info("data not found " + data_key)
+            self.response.out.write(self.response.http_status_message(404))
+            return
+
+        data.delete()
+        self.redirect(schema.url())
 
     def post(self, owner_name, schema_name, data_key):
         if not self.request.get('delete'):
