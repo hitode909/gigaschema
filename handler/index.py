@@ -23,7 +23,8 @@ class IndexHandler(webapp.RequestHandler):
             'today': datetime.now(),
             'user': user,
             'login_url': login_url,
-            'logout_url': logout_url
+            'logout_url': logout_url,
+            'schema_list': Schema.all().order('-created_at').fetch(1000)
         }
         self.response.out.write(ViewHelper.process('index', template_values))
 

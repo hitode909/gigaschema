@@ -10,6 +10,7 @@ class Schema(db.Model):
     digit_only = db.BooleanProperty(default = False)
     api_key = db.StringProperty()
     owner = db.UserProperty(required=True)
+    created_at = db.DateTimeProperty(auto_now_add = True)
 
     @classmethod
     def key_from_names(klass, owner_name, schema_name):
@@ -67,6 +68,9 @@ class Schema(db.Model):
 
     def setting_url(self):
         return "/" + UserHelper.extract_user_name(self.owner) + "/" + self.name + ".setting"
+
+    def slug(self):
+        return UserHelper.extract_user_name(self.owner) + "/" + self.name
 
     def as_hash(self):
         result = {

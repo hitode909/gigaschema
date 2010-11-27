@@ -11,4 +11,14 @@
   <label><input type="checkbox" name="with-api-key">APIキーを使う</label><br>
   <input type="submit" value="作る">
 </form>
+
+<h2>スキーマ</h2>
+<ul class="schema-list">
+{% for schema in schema_list %}
+<li class="schema">
+  <a href="{{ schema.url }}">{{ schema.slug }}</a>
+</li>
+{% endfor %}
+</ul>
+
 {% endblock %}
