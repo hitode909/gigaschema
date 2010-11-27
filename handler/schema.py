@@ -25,7 +25,7 @@ class SchemaHandler(webapp.RequestHandler):
 
         value = self.request.get('value')
         data = Data.create(schema, value)
-        self.redirect(data.url())
+        self.redirect(schema.url())
 
 class SchemaSettingHandler(webapp.RequestHandler):
     def get(self, owner_name, schema_name):

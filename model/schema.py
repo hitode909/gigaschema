@@ -51,6 +51,17 @@ class Schema(db.Model):
         self.api_key_value = s.hexdigest()
         self.put();
 
+    def data(self, reverse=True):
+        order_dir = 'ASC'
+        if reverse:
+            order_dir = 'DESC'
+
+        q = db.GqlQuery("SELECT * FROM Data " + 
+                        "WHERE schema = :1 " + 
+                        "ORDER BY datetime " + order_dir, self.key())
+        data = q.fetch(10)
+        return data
+
     def url(self):
         return "/" + UserHelper.extract_user_name(self.owner) + "/" + self.name
 
@@ -60,7 +71,7 @@ class Schema(db.Model):
     def as_hash(self):
         result = {
             'name': self.name,
-            'data': [ data.as_hash() for data in self.data_set ]
+            'data': [ data.as_hash() for data in self.data() ]
         }
         return result
 
