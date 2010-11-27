@@ -5,4 +5,4 @@ class Schema(db.Model):
     origin = db.StringProperty()
     rule = db.StringProperty()
     api_key = db.StringProperty()
-    user_id = db.StringProperty()
+    owner = db.UserProperty(required=True)
