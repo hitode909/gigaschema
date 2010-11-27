@@ -7,5 +7,11 @@
   <body>
     <h1>ようこそ</h1>
     <p>ただいまの時間は<b>{{ today|date:"Y-m-d H:i:s"}}</b>です〜</p>
+
+    <h2>スキーマ作る</h2>
+    <form method="POST" action="/">
+      <input type="text" name="name" placeholder="名前" />
+      <input type="submit" value="作る">
+    </form>
   </body>
 </html>

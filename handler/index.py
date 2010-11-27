@@ -11,3 +11,6 @@ class IndexHandler(webapp.RequestHandler):
             'today': datetime.now()
             }
         self.response.out.write(ViewHelper.process('index', template_values))
+
+    def post(self):
+        self.response.out.write(self.request.get('name') + " was created")
