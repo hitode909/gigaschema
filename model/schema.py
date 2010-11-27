@@ -1,6 +1,7 @@
 from google.appengine.api import users
 from google.appengine.ext import db
 from time import time
+from helper import *
 import hashlib
 
 class Schema(db.Model):
@@ -11,10 +12,17 @@ class Schema(db.Model):
     owner = db.UserProperty(required=True)
 
     @classmethod
+    def key_from_names(klass, owner_name, schema_name):
+        return owner_name + '/' + schema_name
+
+    @classmethod
     def create_with_key(klass, **args):
         user = users.get_current_user()
 
-        key_name = args['owner'].user_id() + '/' + args['name']
+        key_name = klass.key_from_names(
+            UserHelper.extract_user_name(args['owner']), 
+            args['name']
+        )
 
         api_key_value = None
         if args['with_api_key']:
@@ -35,4 +43,12 @@ class Schema(db.Model):
         schema.put()
 
         return schema
+
+    @classmethod
+    def retrieve_by_names(klass, owner_name, schema_name):
+        key_name = klass.key_from_names(owner_name, schema_name)
+        return klass.get_by_key_name(key_name)
+
+
+
 

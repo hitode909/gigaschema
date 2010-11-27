@@ -4,15 +4,21 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util, template
 from datetime import datetime
 from helper import *
+from model import *
 
 class SchemaHandler(webapp.RequestHandler):
     def get(self, owner_name, schema_name):
+
+        schema = Schema.retrieve_by_names(owner_name, schema_name)
+        if not schema:
+            self.redirect('/')
+
         template_values = {
             'owner_name': owner_name,
             'schema_name': schema_name,
-            'schema': None,        # TODO
+            'schema': schema,
             'schema_url': self.request.path # TODO = shema.url
-            }
+        }
         self.response.out.write(ViewHelper.process('schema', template_values))
 
     def post(self, owner_name, schema_name):
