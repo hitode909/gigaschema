@@ -15,6 +15,9 @@ class Data(db.Model):
         data.put()
         return data
 
+    def url(self):
+        return self.schema.url() + '/' + str(self.key())
+
     def as_hash(self):
         return {
             'timestamp': str(self.datetime),
