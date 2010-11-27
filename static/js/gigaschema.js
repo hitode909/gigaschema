@@ -33,7 +33,10 @@ window.gigaschema.dispatcher('body#schema', function() {
     var to = [];
     from.data.forEach(function(row) {
         // TODO: validation
-        to.push([row.timestamp, parseInt(row.value, 10)]);
+        var value = parseInt(row.value, 10);
+        if (! isNaN(value)) {
+            to.push([row.timestamp, value]);
+        }
     });
     window.gigaschema.plotGraph('chartdiv', from.name, [to]);
 });
