@@ -63,6 +63,12 @@ class Schema(db.Model):
         data = q.fetch(100)
         return data
 
+    def data_has_number(self):
+        for item in self.data():
+            if item.is_number_item():
+                return True
+        return False
+
     def url(self):
         return "/" + UserHelper.extract_user_name(self.owner) + "/" + self.name
 

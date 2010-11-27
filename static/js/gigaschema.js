@@ -29,6 +29,7 @@ window.gigaschema.plotGraph = function(id, title, data) {
 }
 
 window.gigaschema.dispatcher('body#schema', function() {
+    if ($('#chartdiv').length == 0) return;
     var from = window.gigaschema.currentSchema;
     var to = [];
     from.data.forEach(function(row) {
