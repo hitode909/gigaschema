@@ -6,20 +6,14 @@ from google.appengine.ext.db import BadKeyError
 from datetime import datetime
 from helper import *
 from model import *
+from handler.base import BaseHandler
+from handler.base import handle_error
 
-class DataHandler(webapp.RequestHandler):
+class DataHandler(BaseHandler):
+    @handle_error
     def get(self, owner_name, schema_name, data_key):
-        schema = Schema.retrieve_by_names(owner_name, schema_name)
-        if not schema:
-            logging.info("schema not found " + schema_name)
-            self.response.out.write(self.response.http_status_message(404))
-            return
-
-        data = Data.get(data_key)
-        if not data:
-            logging.info("data not found " + data_key)
-            self.response.out.write(self.response.http_status_message(404))
-            return
+        schema = self.get_schema(owner_name, schema_name)
+        data = self.get_data(data_key)
 
         template_values = {
             'owner_name': owner_name,
@@ -30,49 +24,25 @@ class DataHandler(webapp.RequestHandler):
             }
         self.response.out.write(ViewHelper.process('data', template_values))
 
+    @handle_error
     def delete(self, owner_name, schema_name, data_key):
-        schema = Schema.retrieve_by_names(owner_name, schema_name)
-        if not schema:
-            logging.info("schema not found " + schema_name)
-            self.response.out.write(self.response.http_status_message(404))
-            return
-
-        data = Data.get(data_key)
-        if not data:
-            logging.info("data not found " + data_key)
-            self.response.out.write(self.response.http_status_message(404))
-            return
-
+        schema = self.get_schema(owner_name, schema_name)
+        data = self.get_data(data_key)
         data.delete()
         self.redirect(schema.url())
 
+    @handle_error
     def post(self, owner_name, schema_name, data_key):
         if not self.request.get('delete'):
-            self.response.out.write(self.response.http_status_message(400))
-            return
+            self.error_response(400, log_msg="not delete mode")
 
         return self.delete(owner_name, schema_name, data_key)
 
-class DataJsonHandler(webapp.RequestHandler):
+class DataJsonHandler(BaseHandler):
+    @handle_error
     def get(self, owner_name, schema_name, data_key):
-        try:
-            schema = Schema.retrieve_by_names(owner_name, schema_name)
-            if not schema:
-                logging.info("schema not found " + schema_name)
-                self.response.out.write(self.response.http_status_message(404))
-                return
-
-            data = Data.get(data_key)
-            if not data:
-                logging.info("data not found " + data_key)
-                self.response.out.write(self.response.http_status_message(404))
-                return
-
-        except BadKeyError, message:
-            logging.info(message)
-            self.error(404)
-            self.response.out.write(self.response.http_status_message(404))
-            return
+        schema = self.get_schema(owner_name, schema_name)
+        data = self.get_data(data_key)
 
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write( ViewHelper.process_data(data.as_hash()))

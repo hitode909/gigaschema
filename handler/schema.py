@@ -5,12 +5,14 @@ from google.appengine.ext.webapp import util, template
 from datetime import datetime
 from helper import *
 from model import *
+from handler.base import BaseHandler
+from handler.base import handle_error
 
-class SchemaHandler(webapp.RequestHandler):
+class SchemaHandler(BaseHandler):
+
+    @handle_error
     def get(self, owner_name, schema_name):
-        schema = Schema.retrieve_by_names(owner_name, schema_name)
-        if not schema:
-            self.redirect('/')
+        schema = self.get_schema(owner_name, schema_name)
 
         template_values = {
             'schema': schema,
@@ -18,25 +20,27 @@ class SchemaHandler(webapp.RequestHandler):
         }
         self.response.out.write(ViewHelper.process('schema', template_values))
 
+    @handle_error
     def post(self, owner_name, schema_name):
-        schema = Schema.retrieve_by_names(owner_name, schema_name)
-        if not schema:
-            self.redirect('/')
+        schema = self.get_schema(owner_name, schema_name)
 
         value = self.request.get('value')
         data = Data.create(schema, value)
         self.redirect(schema.url())
 
-class SchemaSettingHandler(webapp.RequestHandler):
+class SchemaSettingHandler(BaseHandler):
+    @handle_error
     def get(self, owner_name, schema_name):
-        schema = Schema.retrieve_by_names(owner_name, schema_name)
+        schema = self.get_schema(owner_name, schema_name)
         template_values = {
             'schema': schema
         }
         self.response.out.write(ViewHelper.process('schema_setting', template_values))
 
+    @handle_error
     def post(self, owner_name, schema_name):
-        schema = Schema.retrieve_by_names(owner_name, schema_name)
+        schema = self.get_schema(owner_name, schema_name)
+
         # origin=*
         # digit_only=0|!
         # reset_api_key=0|1
@@ -51,9 +55,11 @@ class SchemaSettingHandler(webapp.RequestHandler):
 
         self.redirect(schema.url())
 
-class SchemaJsonHandler(webapp.RequestHandler):
+class SchemaJsonHandler(BaseHandler):
+    @handle_error
     def get(self, owner_name, schema_name):
-        schema = Schema.retrieve_by_names(owner_name, schema_name)
+        schema = self.get_schema(owner_name, schema_name)
+
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write( ViewHelper.process_data(schema.as_hash()) )
 
