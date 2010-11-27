@@ -24,7 +24,7 @@
 <ul class="data-list">
 {% for data in schema.data %}
 <li class="data">
-  {{ data.datetime }}: {{ data.value }}
+  <a href="{{ data.url }}">{{ data.datetime }}: {{ data.value }}</a>
 </li>
 {% endfor %}
 
