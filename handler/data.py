@@ -27,6 +27,9 @@ class DataHandler(BaseHandler):
     @handle_error
     def delete(self, owner_name, schema_name, data_key):
         schema = self.get_schema(owner_name, schema_name)
+        if schema.api_key and schema.api_key != self.request.get('api_key'):
+            self.error_response(403, log_msg="invlid api")
+
         data = self.get_data(data_key)
         data.delete()
         self.redirect(schema.url())

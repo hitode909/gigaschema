@@ -23,6 +23,8 @@ class SchemaHandler(BaseHandler):
     @handle_error
     def post(self, owner_name, schema_name):
         schema = self.get_schema(owner_name, schema_name)
+        if schema.api_key and schema.api_key != self.request.get('api_key'):
+            self.error_response(403, log_msg="invlid api")
 
         value = self.request.get('value')
         data = Data.create(schema, value)
@@ -31,7 +33,13 @@ class SchemaHandler(BaseHandler):
 class SchemaSettingHandler(BaseHandler):
     @handle_error
     def get(self, owner_name, schema_name):
+        user = users.get_current_user();
+        if not user:
+            self.error_response(403, log_msg="no user")
         schema = self.get_schema(owner_name, schema_name)
+        if user.user_id() != schema.owner.user_id():
+            self.error_response(403, log_msg="invalid user")
+
         template_values = {
             'schema': schema
         }
@@ -39,7 +47,12 @@ class SchemaSettingHandler(BaseHandler):
 
     @handle_error
     def post(self, owner_name, schema_name):
+        user = users.get_current_user();
+        if not user:
+            self.error_response(403, log_msg="no user")
         schema = self.get_schema(owner_name, schema_name)
+        if user.user_id() != schema.owner.user_id():
+            self.error_response(403, log_msg="invalid user")
 
         # origin=*
         # digit_only=0|!

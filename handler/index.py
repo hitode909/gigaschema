@@ -35,7 +35,7 @@ class IndexHandler(BaseHandler):
     def post(self):
         user = users.get_current_user()
         if not user:
-            self.error_response(400, log_msg="user not found")
+            self.error_response(403, log_msg="user not found")
 
         name = self.request.get('name')
         origin = self.request.get('origin')
@@ -52,4 +52,5 @@ class IndexHandler(BaseHandler):
             digit_only=digit_only
         )
         self.redirect(schema.url())
+
 
