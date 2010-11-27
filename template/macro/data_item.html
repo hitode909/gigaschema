@@ -10,10 +10,14 @@
       {% else %}
         {% if data.is_audio_item %}
         <div><audio src="{{ data.value }}" controls="controls"></div>
+        {% else %}
+          {% if data.is_url_item %}
+          <a href="{{ data.value }}">{{ data.value }}</a>
+          {% endif %}
         {% endif %}
       {% endif %}
     {% endif %}
   {% endif %}
   <br>
-  <a href="{{ data.url }}">{{ data.created_on|date:"Y-m-d H:i:s"}}</a>
+  ({{ data.item_type }}) <a href="{{ data.url }}">{{ data.created_on|date:"Y-m-d H:i:s"}}</a>
 </div>

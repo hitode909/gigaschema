@@ -27,13 +27,23 @@ class Data(db.Model):
 
 
     def item_type(self):
-        r_img = re.compile('^data:image/')
-        r_audio = re.compile('^data:audio/')
+        r_url = re.compile('^(https?)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)$')
+        r_url_img = re.compile('jpg|png|gif|bmp$', re.IGNORECASE)
+        r_url_audio = re.compile('wav|mp3|m4a$', re.IGNORECASE)
+        r_img = re.compile('^data:image/', re.IGNORECASE)
+        r_audio = re.compile('^data:audio/', re.IGNORECASE)
 
         if r_img.match(self.value):
             return 'image'
         if r_audio.match(self.value):
             return 'audio'
+
+        if r_url.match(self.value):
+            if r_url_img.search(self.value):
+                return 'image'
+            if r_url_audio.search(self.value):
+                return 'audio'
+            return 'url'
 
         try:
             float(self.value)
@@ -42,14 +52,17 @@ class Data(db.Model):
             return 'text'
 
     def is_text_item(self):
-        return self.item_type() == "text"
+        return self.item_type() == 'text'
 
     def is_number_item(self):
-        return self.item_type() == "number"
+        return self.item_type() == 'number'
 
     def is_image_item(self):
-        return self.item_type() == "image"
+        return self.item_type() == 'image'
 
     def is_audio_item(self):
-        return self.item_type() == "audio"
+        return self.item_type() == 'audio'
+
+    def is_url_item(self):
+        return self.item_type() == 'url'
 
