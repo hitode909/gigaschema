@@ -14,3 +14,9 @@ class Data(db.Model):
         )
         data.put()
         return data
+
+    def as_hash(self):
+        return {
+            'timestamp': str(self.datetime),
+            'value': self.value,
+        }

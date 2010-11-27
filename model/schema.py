@@ -49,6 +49,13 @@ class Schema(db.Model):
         key_name = klass.key_from_names(owner_name, schema_name)
         return klass.get_by_key_name(key_name)
 
+    def as_hash(self):
+        result = {
+            'name': self.name,
+            'data': [ data.as_hash() for data in self.data_set ]
+        }
+        return result
+
 
 
 
