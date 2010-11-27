@@ -7,5 +7,12 @@
   <body>
     <h1>スキーマページです</h1>
     <p>ここは<b>{{ owner_name }}</b>さんの<b>{{ schema_name }}</b>です〜</p>
+    <h2>データ作る</h2>
+    <form method="POST" action="{{ schema_url }}">
+      <input type="text" name="value" placeholder="value" />
+      <input type="text" name="api_key" placeholder="api_key" />
+      <input type="submit" value="作る">
+    </form>
+
   </body>
 </html>
