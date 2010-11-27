@@ -41,4 +41,27 @@ class DataHandler(webapp.RequestHandler):
 
 class DataJsonHandler(webapp.RequestHandler):
     def get(self, owner_name, schema_name, data_key):
-        self.response.out.write("data json get")
+        schema = Schema.retrieve_by_names(owner_name, schema_name)
+        if not schema:
+            logging.info("schema not found " + schema_name)
+            self.response.out.write(self.response.http_status_message(404))
+            return
+
+        data = Data.get(data_key)
+        if not data:
+            logging.info("data not found " + data_key)
+            self.response.out.write(self.response.http_status_message(404))
+            return
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write( ViewHelper.process_data(data.as_hash()) )
+
+
+
+
+
+
+
+
+
+
