@@ -45,3 +45,10 @@ class BaseHandler(webapp.RequestHandler):
             
         return data
 
+    def set_allow_header(self, schema):
+        origin = '*'
+        if schema.origin:
+            origin = schema.origin
+
+        self.response.headers['Access-Control-Allow-Origin'] = origin
+        self.response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'

@@ -73,6 +73,13 @@ class SchemaJsonHandler(BaseHandler):
     def get(self, owner_name, schema_name):
         schema = self.get_schema(owner_name, schema_name)
 
+        self.set_allow_header(schema)
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write( ViewHelper.process_data(schema.as_hash()) )
 
+    @handle_error
+    def options(self, owner_name, schema_name):
+        schema = self.get_schema(owner_name, schema_name)
+
+        self.set_allow_header(schema)
+        self.response.out.write('options')

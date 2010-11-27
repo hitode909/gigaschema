@@ -32,6 +32,7 @@ class DataHandler(BaseHandler):
 
         data = self.get_data(data_key)
         data.delete()
+        self.set_allow_header(schema)
         self.redirect(schema.url())
 
     @handle_error
@@ -41,12 +42,19 @@ class DataHandler(BaseHandler):
 
         return self.delete(owner_name, schema_name, data_key)
 
+    @handle_error
+    def options(self, owner_name, schema_name, data_key):
+        schema = self.get_schema(owner_name, schema_name)
+        self.set_allow_header(schema)
+        self.response.out.write('options')
+
 class DataJsonHandler(BaseHandler):
     @handle_error
     def get(self, owner_name, schema_name, data_key):
         schema = self.get_schema(owner_name, schema_name)
         data = self.get_data(data_key)
 
+        self.set_allow_header(schema)
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write( ViewHelper.process_data(data.as_hash()))
 
