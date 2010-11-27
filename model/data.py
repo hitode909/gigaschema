@@ -1,10 +1,11 @@
 from google.appengine.ext import db
 from model.schema import Schema
+import re
 
 class Data(db.Model):
     schema = db.ReferenceProperty(Schema, required=True)
     created_on = db.DateTimeProperty(auto_now=True)
-    value = db.StringProperty()
+    value = db.TextProperty()
 
     @classmethod
     def create(klass, schema=None, value=None):
