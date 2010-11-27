@@ -54,5 +54,6 @@ class SchemaSettingHandler(webapp.RequestHandler):
 class SchemaJsonHandler(webapp.RequestHandler):
     def get(self, owner_name, schema_name):
         schema = Schema.retrieve_by_names(owner_name, schema_name)
+        self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write( ViewHelper.process_data(schema.as_hash()) )
 
