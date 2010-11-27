@@ -13,8 +13,6 @@ class SchemaHandler(webapp.RequestHandler):
             self.redirect('/')
 
         template_values = {
-            'owner_name': owner_name,
-            'schema_name': schema_name,
             'schema': schema,
             'schema_url': self.request.path # TODO = shema.url
         }

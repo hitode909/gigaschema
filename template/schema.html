@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>スキーマページです</h1>
-<p>ここは<b>{{ owner_name }}</b>さんの<b>{{ schema_name }}</b>です〜</p>
+<p>ここは<b>{{ schema.owner.nickname }}</b>さんの<b>{{ schema.name }}</b>です〜</p>
 
 <h2>グラフ</h2>
 <div id="chartdiv" style="height:300px;width:500px; "></div>
@@ -15,4 +15,13 @@
   <input type="text" name="api_key" placeholder="api_key" />
   <input type="submit" value="作る">
 </form>
+
+<h2>データ</h2>
+<ul class="data-list">
+{% for data in schema.data_set %}
+<li class="data">
+  {{ data.datetime }}: {{ data.value }}
+</li>
+{% endfor %}
+
 {% endblock %}
