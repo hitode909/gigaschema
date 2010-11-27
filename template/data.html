@@ -4,7 +4,7 @@
 <h1>データページです</h1>
 <p>ここは<b>{{ owner_name }}</b>さんの<b>{{ schema_name }}</b>の<b>{{ data_key }}</b>です〜</p>
 
-<p id="value"><b>{{ data.value }}</b></p>
+{% include "macro/data_item.html" %}
 
 <h2>データ削除</h2>
 <form method="POST" action="{{ data_url }}" onsubmit="return confirm('delete?');">
