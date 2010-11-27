@@ -5,9 +5,10 @@
 
 <h2>スキーマ作る</h2>
 <form method="POST" action="/">
-  <input type="text" name="name" placeholder="名前" />
-  <input type="text" name="origin" placeholder="origin" />
-  <input type="text" name="rule" placeholder="rule" />
+  <label>名前<input type="text" name="name" placeholder="名前" /></label><br>
+  <label>origin<input type="text" name="origin" placeholder="origin" /></label><br>
+  <label><input type="checkbox" name="digit-only">数字だけ</label><br>
+  <label><input type="checkbox" name="with-api-key">APIキーを使う</label><br>
   <input type="submit" value="作る">
 </form>
 {% endblock %}

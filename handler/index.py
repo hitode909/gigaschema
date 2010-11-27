@@ -35,17 +35,17 @@ class IndexHandler(webapp.RequestHandler):
 
         name = self.request.get('name')
         origin = self.request.get('origin')
-        rule = self.request.get('rule')
-        with_api_key = self.request.get('with_api_key')
+        digit_only = self.request.get('digit-only') == 'on'
+        with_api_key = self.request.get('with-api-key') == 'on'
 
         # TODO このへんでバリデーション
 
         schema = Schema.create_with_key(
-            name=name, 
+            name=name,
             origin=origin,
-            rule=rule,
             owner=user,
-            with_api_key=with_api_key
+            with_api_key=with_api_key,
+            digit_only=digit_only
         )
 
         template_values = {
