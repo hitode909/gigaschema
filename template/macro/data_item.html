@@ -1,0 +1,19 @@
+<div class="data">
+  {% if item.is_text_item %}
+  <span class="body">{{ item.value }}</span>
+  {% else %}
+    {% if item.is_number_item %}
+      <span class="body">{{ item.value }}</span>
+    {% else %}
+      {% if item.is_image_item %}
+      <img src="{{ item.value }}">
+      {% else %}
+        {% if item.is_audio_item %}
+        <audio src="{{ item.value }}" controls="controls">
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+  <br>
+  <a href="{{ item.url }}">{{ item.created_on|date:"Y-m-d H:i:s"}}</a>
+</div>

@@ -22,9 +22,9 @@
 
 <h2>データ</h2>
 <ul class="data-list">
-{% for data in schema.data %}
-<li class="data">
-  <a href="{{ data.url }}">{{ data.created_on }}: {{ data.value }}</a>
+{% for item in schema.data %}
+<li>
+  {% include "macro/data_item.html" %}
 </li>
 {% endfor %}
 
