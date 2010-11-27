@@ -17,9 +17,9 @@ class IndexHandler(webapp.RequestHandler):
         logout_url = ''
 
         if user:
-            logout_url = users.create_logout_url("/intl/ja/")
+            logout_url = users.create_logout_url("/")
         else:
-            login_url = users.create_login_url("/intl/ja/")
+            login_url = users.create_login_url("/")
 
         template_values = {
             'today': datetime.now(),
