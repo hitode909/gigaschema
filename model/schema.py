@@ -51,9 +51,9 @@ class Schema(db.Model):
         self.api_key_value = s.hexdigest()
         self.put();
 
-    def data(self, reverse=True):
+    def data(self, newer_first=True):
         order_dir = 'ASC'
-        if reverse:
+        if newer_first:
             order_dir = 'DESC'
 
         q = db.GqlQuery("SELECT * FROM Data " + 
