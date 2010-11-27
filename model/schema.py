@@ -24,22 +24,16 @@ class Schema(db.Model):
             args['name']
         )
 
-        api_key_value = None
-        if args['with_api_key']:
-            s = hashlib.sha1()
-            s.update(str(time()))
-            s.update(args['name'].encode('utf-8'))
-            s.update(user.user_id())
-            api_key_value = s.hexdigest()
-
         schema = klass(
             key_name=key_name,
             name=args['name'],
             origin=args['origin'],
             owner=args['owner'],
-            api_key=api_key_value,
             digit_only=args['digit_only'],
         );
+        if args['with_api_key']:
+            schema.reset_api_key()
+
         schema.put()
 
         return schema
@@ -48,6 +42,20 @@ class Schema(db.Model):
     def retrieve_by_names(klass, owner_name, schema_name):
         key_name = klass.key_from_names(owner_name, schema_name)
         return klass.get_by_key_name(key_name)
+
+    def reset_api_key(self):
+        s = hashlib.sha1()
+        s.update(str(time()))
+        s.update(self.name.encode('utf-8'))
+        s.update(self.owener.user_id())
+        self.api_key_value = s.hexdigest()
+        self.put();
+
+    def url(self):
+        return "/" + UserHelper.extract_user_name(self.owner) + "/" + self.name
+
+    def setting_url(self):
+        return "/" + UserHelper.extract_user_name(self.owner) + "/" + self.name + ".setting"
 
     def as_hash(self):
         result = {

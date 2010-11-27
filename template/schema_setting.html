@@ -2,21 +2,25 @@
 
 {% block content %}
 <h1>スキーマページ設定ページです</h1>
-<p>ここは<b>{{ owner_name }}</b>さんの<b>{{ schema_name }}</b><b>の設定ページ</b>です〜</p>
+<p>ここは<b>{{ schema.owner.email }}</b>さんの<b>{{ schema.name }}</b><b>の設定ページ</b>です〜</p>
 
 <h2>公開設定</h2>
-<p>いま非公開です ← TODO</p>
-<form method="POST" action="{{ schema_setting_url }}">
+<form method="POST" action="{{ schema.setting_url }}">
   <input type="text" name="value" placeholder="origin" /><br>
-  <label><input type="radio" name="permission" value="public" checked="checked">公開</label>
-  <label><input type="radio" name="permission" value="private">非公開</label>
-  <input type="submit" name="permission" value="設定">
+  <label><input type="checkbox" name="digit-only">数字だけ</label><br>
+  <input type="submit" value="設定">
 </form>
 
 <h2>APIキーのリセット</h2>
-<form method="POST" action="{{ schema_setting_url }}">
+<form method="POST" action="{{ schema.setting_url }}">
   <input type="hidden" name="reset_api_key" value="1">
   <input type="submit" value="リセット">
+</form>
+
+<h2>APIキーの削除</h2>
+<form method="POST" action="{{ schema.setting_url }}">
+  <input type="hidden" name="remove_api_key" value="1">
+  <input type="submit" value="削除">
 </form>
 
 {% endblock %}

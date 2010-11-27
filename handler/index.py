@@ -47,5 +47,5 @@ class IndexHandler(webapp.RequestHandler):
             with_api_key=with_api_key,
             digit_only=digit_only
         )
-        self.redirect('/' + UserHelper.extract_user_name(user) + '/' + name)
+        self.redirect(schema.url())
 

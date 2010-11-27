@@ -14,7 +14,6 @@ class SchemaHandler(webapp.RequestHandler):
 
         template_values = {
             'schema': schema,
-            'schema_url': self.request.path, # TODO = shema.url
             'data': ViewHelper.process_data(schema.as_hash())
         }
         self.response.out.write(ViewHelper.process('schema', template_values))
@@ -26,23 +25,31 @@ class SchemaHandler(webapp.RequestHandler):
 
         value = self.request.get('value')
         data = Data.create(schema, value)
-        self.redirect(self.request.path)
+        self.redirect(data.url())
 
 class SchemaSettingHandler(webapp.RequestHandler):
     def get(self, owner_name, schema_name):
+        schema = Schema.retrieve_by_names(owner_name, schema_name)
         template_values = {
-            'owner_name': owner_name,
-            'schema_name': schema_name,
-            'schema': None,        # TODO
-            'schema_setting_url': self.request.path # TODO = shema.setting_url
-            }
+            'schema': schema
+        }
         self.response.out.write(ViewHelper.process('schema_setting', template_values))
 
     def post(self, owner_name, schema_name):
+        schema = Schema.retrieve_by_names(owner_name, schema_name)
         # origin=*
-        # permission=public|private
+        # digit_only=0|!
         # reset_api_key=0|1
-        self.response.out.write("setting changed")
+        if self.request.get('reset_api_key'):
+            schema.reset_api_key()
+        if self.request.get('remove_api_key'):
+            schema.api_key = None
+        if self.request.get('origin'):
+            schema.origin = self.request.get('origin')
+        if self.request.get('digit_only'):
+            schema.digit_only = self.request.get('digit_only')
+
+        self.redirect(schema.url())
 
 class SchemaJsonHandler(webapp.RequestHandler):
     def get(self, owner_name, schema_name):
