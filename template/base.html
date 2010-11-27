@@ -3,9 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title>GigaSchema</title>
-    <script src="/js/jquery-1.4.4.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/jquery.jqplot.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/gigaschema.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/jquery.jqplot.min.css" />
   </head>
-  <body>
+  <body id="{% block id %}{% endblock %}">
     <h1>ようこそ</h1>
     {% if user %}
         <a href="{{ logout_url }}">ログアウト</a>

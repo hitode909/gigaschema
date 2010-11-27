@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 
+{% block id %}schema{% endblock %}
+
 {% block content %}
 <h1>スキーマページです</h1>
 <p>ここは<b>{{ owner_name }}</b>さんの<b>{{ schema_name }}</b>です〜</p>
+
+<h2>グラフ</h2>
+<div id="chartdiv" style="height:400px;width:300px; "></div>
 
 <h2>データ作る</h2>
 <form method="POST" action="{{ schema_url }}">
