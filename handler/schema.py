@@ -2,6 +2,7 @@ import os
 import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util, template
+from google.appengine.api import users
 from datetime import datetime
 from helper import *
 from model import *
@@ -65,6 +66,7 @@ class SchemaSettingHandler(BaseHandler):
             schema.origin = self.request.get('origin')
         if self.request.get('digit_only'):
             schema.digit_only = self.request.get('digit_only')
+        schema.put()
 
         self.redirect(schema.url())
 

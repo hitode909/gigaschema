@@ -6,7 +6,7 @@
 
 <h2>公開設定</h2>
 <form method="POST" action="{{ schema.setting_url }}">
-  <input type="text" name="value" placeholder="origin" /><br>
+  <input type="text" value="{{ schema.origin }}" name="origin" placeholder="origin" /><br>
   <label><input type="checkbox" name="digit-only">数字だけ</label><br>
   <input type="submit" value="設定">
 </form>

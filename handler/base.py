@@ -13,7 +13,7 @@ def handle_error(orig):
     def decorator(self,*args):
         try:
             orig(self, *args)
-        except RequestError, e:
+        except HandlerError, e:
             logging.info(e.log_msg)
             self.error(e.code)
             self.response.out.write( self.response.http_status_message(e.code))
@@ -22,7 +22,7 @@ def handle_error(orig):
 class BaseHandler(webapp.RequestHandler):
 
     def error_response(self, code, log_msg=""):
-        raise HandleError(code, log_msg=log_msg)
+        raise HandlerError(code, log_msg=log_msg)
 
     def get_schema(self, owner_name, schema_name):
         schema = None
