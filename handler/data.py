@@ -25,3 +25,7 @@ class DataHandler(webapp.RequestHandler):
             return
 
         return self.delete(owner_name, schema_name, data_key)
+
+class DataJsonHandler(webapp.RequestHandler):
+    def get(self, owner_name, schema_name, data_key):
+        self.response.out.write("data json get")

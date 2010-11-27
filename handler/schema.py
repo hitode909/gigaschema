@@ -17,3 +17,24 @@ class SchemaHandler(webapp.RequestHandler):
 
     def post(self, owner_name, schema_name):
         self.response.out.write("data api_key=" + self.request.get('api_key') + ", value=" + self.request.get('value') + " was created")
+
+
+class SchemaSettingHandler(webapp.RequestHandler):
+    def get(self, owner_name, schema_name):
+        template_values = {
+            'owner_name': owner_name,
+            'schema_name': schema_name,
+            'schema': None,        # TODO
+            'schema_setting_url': self.request.path # TODO = shema.setting_url
+            }
+        self.response.out.write(ViewHelper.process('schema_setting', template_values))
+
+    def post(self, owner_name, schema_name):
+        # origin=*
+        # permission=public|private
+        # reset_api_key=0|1
+        self.response.out.write("setting changed")
+
+class SchemaJsonHandler(webapp.RequestHandler):
+    def get(self, owner_name, schema_name):
+        self.response.out.write("schema json get")
