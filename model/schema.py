@@ -10,7 +10,6 @@ import re
 class Schema(db.Model):
     name = db.StringProperty(required=True)
     origin = db.StringProperty()
-    digit_only = db.BooleanProperty(default = False)
     api_key = db.StringProperty()
     owner = db.UserProperty(required=True)
     created_at = db.DateTimeProperty(auto_now_add = True)
@@ -33,7 +32,6 @@ class Schema(db.Model):
             name=args['name'],
             origin=args['origin'],
             owner=args['owner'],
-            digit_only=args['digit_only'],
         );
         schema.put()
 
@@ -128,17 +126,7 @@ class Schema(db.Model):
         return self.current_user_can_post(user=user)
 
     def validate_value(self, value):
-        if len(value) > 1000 * 1000 * 1000:
-            return False
-
-        if not self.digit_only:
-            return True
-
-        try:
-            float(value)
-            return True
-        except ValueError:
-            return False
+        return len(value) < 1000 * 1000 * 1000
 
     @classmethod
     def validate_name(klass, value):
