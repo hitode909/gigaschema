@@ -87,3 +87,12 @@ class Data(db.Model):
     def is_url_item(self):
         return self.item_type() == 'url'
 
+    @classmethod
+    def validate_group(klass, value):
+        if not value:
+            return True
+
+        if len(value) > 500:
+            return False
+
+        return re.compile('^[^./]+$').match(value)

@@ -5,6 +5,7 @@ from helper import *
 import model
 import hashlib
 import urllib
+import re
 
 class Schema(db.Model):
     name = db.StringProperty(required=True)
@@ -129,12 +130,9 @@ class Schema(db.Model):
         except ValueError:
             return False
 
+    @classmethod
+    def validate_name(klass, value):
+        if len(value) > 500:
+            return False
 
-
-
-
-
-
-
-
-
+        return re.compile('^[^./]+$').match(value)

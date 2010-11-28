@@ -35,6 +35,10 @@ class SchemaHandler(BaseHandler):
             self.error_response(400, log_msg="bad value")
 
         group = self.request.get('group') or None
+        if not Data.validate_group(group):
+            self.error_response(400, log_msg="group must not include '.' or '/'")
+
+
         data = Data.create(schema, group=group, value=value)
         self.redirect(schema.url())
 

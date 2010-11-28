@@ -27,12 +27,13 @@ class IndexHandler(BaseHandler):
         digit_only = self.request.get('digit-only') == 'on'
         with_api_key = self.request.get('with-api-key') == 'on'
 
-        # TODO このへんでバリデーション
+        if not Schema.validate_name(name):
+            self.error_response(400, log_msg="name must not include '.' or '/'")
 
         schema = Schema.create_with_key(
             name=name,
             origin=origin,
-            owner=user,
+            owner=self.user,
             with_api_key=with_api_key,
             digit_only=digit_only
         )
