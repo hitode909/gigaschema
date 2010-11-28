@@ -14,6 +14,7 @@ class DataHandler(BaseHandler):
     def get(self, owner_name, schema_name, data_key):
         data = self.get_data(owner_name, schema_name, data_key)
         schema = data.schema
+        schema.current_user = self.user
 
         template_values = {
             'schema': schema,

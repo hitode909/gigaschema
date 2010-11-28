@@ -124,6 +124,9 @@ class Schema(db.Model):
 
         return self.owner.user_id() == user.user_id()
 
+    def current_user_can_delete(self, user = None):
+        return self.current_user_can_post(user=user)
+
     def validate_value(self, value):
         if len(value) > 1000 * 1000 * 1000:
             return False
