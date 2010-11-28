@@ -88,6 +88,10 @@ class Schema(db.Model):
         }
         return result
 
+    def current_user_is_owner(self):
+        return self.owner.user_id() == self.current_user.user_id()
+
+
     def current_user_can_post(self, user = None):
         if not user:
             user = self.current_user

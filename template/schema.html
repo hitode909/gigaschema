@@ -7,6 +7,11 @@
 <h1>スキーマページです</h1>
 <p>ここは<b>{{ schema.owner.nickname }}</b>さんの<b>{{ schema.name }}</b>です〜</p>
 
+{% if schema.current_user_is_owner %}
+<a href="{{ schema.setting_url }}">設定</a>
+{% endif %}
+
+
 {% if schema.data_has_number %}
 <h2>グラフ</h2>
 <div id="chartdiv" style="height:300px;width:500px; "></div>
