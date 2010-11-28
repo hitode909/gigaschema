@@ -25,6 +25,7 @@
 <ul class="data-list">
 {% for data in data_list %}
 <li>
+  <a href="{{ data.schema.url }}">{{ data.schema.slug }}</a>
   {% include "macro/data_item.html" %}
 </li>
 {% endfor %}
