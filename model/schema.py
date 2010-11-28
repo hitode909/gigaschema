@@ -101,6 +101,9 @@ class Schema(db.Model):
         return self.owner.user_id() == user.user_id()
 
     def validate_value(self, value):
+        if len(value) > 1000 * 1000 * 1000:
+            return False
+
         if not self.digit_only:
             return True
 
