@@ -16,6 +16,7 @@ class DataHandler(BaseHandler):
         data = self.get_data(data_key)
 
         template_values = {
+            'schema': schema,
             'owner_name': owner_name,
             'schema_name': schema_name,
             'data_key': data_key,
