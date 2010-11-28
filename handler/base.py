@@ -48,6 +48,6 @@ class BaseHandler(webapp.RequestHandler):
             self.error(exception.code)
             self.response.out.write( self.response.http_status_message(exception.code))
         else:
-            return super(BaseException, self).handle_exception(exception, debug_mode)
+            return webapp.RequestHandler.handle_exception(self,exception, debug_mode)
 
 
