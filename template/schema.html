@@ -8,7 +8,7 @@
 
 <div><a href="{{ schema.json_url }}">JSON</a></div>
 
-{% if schema.current_user_is_owner %}
+{% if schema.api_key and schema.current_user_is_owner %}
 <p>APIキー<input type="text" readonly="readonly" class="api_key" value="{{ schema.api_key }}" size="60" ></input></p>
 <a href="{{ schema.setting_url }}">設定</a>
 {% endif %}
