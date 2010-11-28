@@ -12,7 +12,7 @@
         <div><audio src="{{ data.value }}" controls="controls"></div>
         {% else %}
           {% if data.is_url_item %}
-          <a href="{{ data.value }}">{{ data.value }}</a>
+          <a href="{{ data.value }}"><img src="http://capture.heartrails.com/free?{{ data.value }}">{{ data.value }}</a>
           {% endif %}
         {% endif %}
       {% endif %}
