@@ -2,6 +2,7 @@ import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util, template
 from model import *
+from google.appengine.ext.db import BadKeyError
 
 class HandlerError(Exception):
     def __init__(self, code, log_msg=""):

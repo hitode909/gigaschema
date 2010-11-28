@@ -2,7 +2,6 @@ import os
 import logging
 from google.appengine.ext import webapp, db
 from google.appengine.ext.webapp import util, template
-from google.appengine.ext.db import BadKeyError
 from datetime import datetime
 from helper import *
 from model import *
