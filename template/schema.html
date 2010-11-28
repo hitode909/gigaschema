@@ -31,10 +31,15 @@
 
 <h2>データ</h2>
 <ul class="data-list">
-{% for data in schema_data %}
+{% for data in pager_data %}
 <li>
   {% include "macro/data_item.html" %}
 </li>
 {% endfor %}
+</ul>
+
+{% if pager_has_next %}
+<a href="{{ schema.url}}?page={{pager_next_page}}">next</a>
+{% endif %}
 
 {% endblock %}

@@ -99,8 +99,8 @@ class Schema(db.Model):
     def slug(self):
         return UserHelper.extract_user_name(self.owner) + "/" + self.name
 
-    def as_hash(self, group=None, page=1):
-        paged = self.data_at_page(page=page, group=group)
+    def as_hash(self, group=None, page=1, per_page=20):
+        paged = self.data_at_page(page=page, per_page=per_page, group=group)
         result = {
             'name': self.name,
             'data': [ data.as_hash() for data in paged['data'] ],

@@ -17,9 +17,15 @@ class SchemaHandler(BaseHandler):
         schema.current_user = self.user
 
         group = self.request.get('group') or None
+        page = int(self.request.get('page') or 1)
+        page = 1 if page < 1 else page
 
         self.stash['schema'] = schema
-        self.stash['schema_data'] = schema.data(group = group)
+        paged = schema.data_at_page(page=page, group = group, per_page=10)
+        self.stash['pager_data'] = paged['data']
+        self.stash['pager_page'] = paged['page']
+        self.stash['pager_has_next'] = paged['has_next']
+        self.stash['pager_next_page'] = paged['page'] + 1
 
         self.response.out.write(ViewHelper.process('schema', self.stash))
 
@@ -88,11 +94,12 @@ class SchemaJsonHandler(BaseHandler):
     def get(self, owner_name, schema_name):
         schema = self.get_schema(owner_name, schema_name)
         group = self.request.get('group') or None
-        page = int(self.request.get('page')) or 1
+        page = int(self.request.get('page') or 1)
+        page = 1 if pager < 1 else page
 
         self.set_allow_header(schema)
         self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write( ViewHelper.process_data(schema.as_hash(group=group, page=page)) )
+        self.response.out.write( ViewHelper.process_data(schema.as_hash(group=group, page=page, per_page=100)) )
 
     @hook_request
     def options(self, owner_name, schema_name):
