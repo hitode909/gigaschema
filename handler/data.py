@@ -12,8 +12,8 @@ class DataHandler(BaseHandler):
 
     @hook_request
     def get(self, owner_name, schema_name, data_key):
-        schema = self.get_schema(owner_name, schema_name)
-        data = self.get_data(data_key)
+        data = self.get_data(owner_name, schema_name, data_key)
+        schema = data.schema
 
         template_values = {
             'schema': schema,
@@ -28,11 +28,11 @@ class DataHandler(BaseHandler):
 
     @hook_request
     def delete(self, owner_name, schema_name, data_key):
-        schema = self.get_schema(owner_name, schema_name)
+        data = self.get_data(owner_name, schema_name, data_key)
+        schema = data.schema
         if schema.api_key and schema.api_key != self.request.get('api_key'):
             self.error_response(403, log_msg="invalid api")
 
-        data = self.get_data(data_key)
         data.delete()
         self.set_allow_header(schema)
         self.redirect(schema.url())
@@ -46,15 +46,16 @@ class DataHandler(BaseHandler):
 
     @hook_request
     def options(self, owner_name, schema_name, data_key):
-        schema = self.get_schema(owner_name, schema_name)
+        data = self.get_data(owner_name, schema_name, data_key)
+        schema = data.schema
         self.set_allow_header(schema)
         self.response.out.write('options')
 
 class DataJsonHandler(BaseHandler):
     @hook_request
     def get(self, owner_name, schema_name, data_key):
-        schema = self.get_schema(owner_name, schema_name)
-        data = self.get_data(data_key)
+        data = self.get_data(owner_name, schema_name, data_key)
+        schema = data.schema
 
         self.set_allow_header(schema)
         self.response.headers['Content-Type'] = 'application/json'

@@ -5,6 +5,7 @@ from google.appengine.api import users
 from model import *
 from google.appengine.ext.db import BadKeyError
 import urllib
+from helper.user import UserHelper
 
 class HandlerError(Exception):
     def __init__(self, code, log_msg=""):
@@ -51,10 +52,12 @@ class BaseHandler(webapp.RequestHandler):
             self.error_response(404, log_msg="schema not found: " + owner_name + "/" + schema_name)
         return schema
 
-    def get_data(self, data_key):
+    def get_data(self, owner_name, schema_name, data_key):
         data = None
         try:
             data = Data.get(data_key)
+            if data.schema and (UserHelper.extract_user_name(data.schema.owner)) != owner_name or (data.schema.name != schema_name):
+                self.error_response(400, log_msg="")
         except BadKeyError, message:
             data = None
         if not data:
