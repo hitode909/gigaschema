@@ -1,6 +1,7 @@
 from google.appengine.ext import db
 from model.schema import Schema
 import re
+import datetime
 
 class Data(db.Model):
     schema = db.ReferenceProperty(Schema, required=True)
@@ -17,6 +18,23 @@ class Data(db.Model):
         )
         data.put()
         return data
+
+    @classmethod
+    def create_multi(klass, schema=None, group=None, values=[]):
+        if len(values) == 0:
+            return
+
+        now = datetime.datetime.now()
+
+        values.reverse()
+        for value in values:
+            data = klass(
+                schema = schema,
+                group = group,
+                value = value,
+                created_on = now,
+            )
+            now = now.replace(micorsecond = now.micorsecond+1)
 
     def url(self):
         return self.schema.url() + '/' + str(self.key())
