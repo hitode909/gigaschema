@@ -54,7 +54,7 @@ class Schema(db.Model):
         self.api_key = s.hexdigest()
         self.put();
 
-    def data(self, newer_first=True, group=None, limit=50, offset=0):
+    def data(self, group=None, limit=50, offset=0, newer_first=True):
         q = model.Data.all()
         q.filter('schema = ', self.key())
         if group:
@@ -66,6 +66,21 @@ class Schema(db.Model):
 
         data = q.fetch(limit, offset=offset)
         return data
+
+    def data_at_page(self, group=None, page=0, per_page=50, newer_first=True):
+        limit = per_page
+        offset = pager * per_page
+        data = self.data(
+            group = group,
+            limit = limit + 1,
+            offset = offset,
+            newer_first = newer_first,
+        )
+        has_next = 1 if len(data) > limit else 0
+        return {
+            'data': data[0:limit+1],
+            'has_next': has_next,
+        }
 
     def data_has_number(self):
         for item in self.data():
