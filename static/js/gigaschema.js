@@ -44,7 +44,7 @@ window.gigaschema.dispatcher('body#schema', function() {
         data.data.forEach(function(row) {
             var created_on = row.timestamp;
             var value = row.value;
-            var value_num = parseInt(value, 10);
+            var num_value = parseInt(value, 10);
 
             var key = self.roundDateTime(created_on);
             post_at[key] = (post_at[key] || 0) + 1;
