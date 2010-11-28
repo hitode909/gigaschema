@@ -4,6 +4,7 @@ from google.appengine.ext.webapp import util, template
 from google.appengine.api import users
 from model import *
 from google.appengine.ext.db import BadKeyError
+import urllib
 
 class HandlerError(Exception):
     def __init__(self, code, log_msg=""):
@@ -41,6 +42,7 @@ class BaseHandler(webapp.RequestHandler):
 
     def get_schema(self, owner_name, schema_name):
         schema = None
+        schema_name = urllib.unquote(schema_name).decode('utf-8')
         try:
             schema = Schema.retrieve_by_names(owner_name, schema_name)
         except BadKeyError, message:

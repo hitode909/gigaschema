@@ -4,6 +4,7 @@ from time import time
 from helper import *
 import model
 import hashlib
+import urllib
 
 class Schema(db.Model):
     name = db.StringProperty(required=True)
@@ -73,10 +74,10 @@ class Schema(db.Model):
         return False
 
     def url(self):
-        return "/" + UserHelper.extract_user_name(self.owner) + "/" + self.name
+        return "/" + UserHelper.extract_user_name(self.owner) + "/" + urllib.quote(self.name.encode("utf-8"))
 
     def setting_url(self):
-        return "/" + UserHelper.extract_user_name(self.owner) + "/" + self.name + ".setting"
+        return "/" + UserHelper.extract_user_name(self.owner) + "/" + urllib.quote(self.name.encode("utf-8")) + ".setting"
 
     def slug(self):
         return UserHelper.extract_user_name(self.owner) + "/" + self.name
