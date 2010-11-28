@@ -39,3 +39,9 @@ indexes:
   - name: schema
   - name: value
     direction: desc
+
+- kind: Schema
+  properties:
+  - name: owner
+  - name: created_at
+    direction: desc

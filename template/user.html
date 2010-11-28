@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{owner_name}}さんのスキーマ</h2>
+<ul class="schema-list">
+{% for schema in schema_list %}
+<li class="schema">
+  <a href="{{ schema.url }}">{{ schema.slug }}</a>
+</li>
+{% endfor %}
+</ul>
+
+{% endblock %}
