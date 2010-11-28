@@ -92,7 +92,10 @@ class Schema(db.Model):
         return "/" + UserHelper.extract_user_name(self.owner) + "/" + urllib.quote(self.name.encode("utf-8"))
 
     def setting_url(self):
-        return "/" + UserHelper.extract_user_name(self.owner) + "/" + urllib.quote(self.name.encode("utf-8")) + ".setting"
+        return self.url() + ".setting"
+
+    def json_url(self):
+        return self.url() + ".json"
 
     def slug(self):
         return UserHelper.extract_user_name(self.owner) + "/" + self.name

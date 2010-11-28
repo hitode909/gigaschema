@@ -67,6 +67,12 @@ window.gigaschema.dispatcher('body', function() {
     $('.data-item:even').addClass('odd');
 });
 
+window.gigaschema.dispatcher('body#schema', function() {
+    $('.api_key').click(function() {
+        $(this).select();
+    });
+});
+
 $(function() {
     window.gigaschema.dispatcher();
 });

@@ -6,17 +6,18 @@
 
 <h1>{{ schema.slug }}</h1>
 
-<div><a href="{{ schema.slug }}">JSON</a></div
+<div><a href="{{ schema.json_url }}">JSON</a></div>
 
 {% if schema.current_user_is_owner %}
+<p>APIキー<input type="text" readonly="readonly" class="api_key" value="{{ schema.api_key }}" size="60" ></input></p>
 <a href="{{ schema.setting_url }}">設定</a>
 {% endif %}
 
 <h2>グラフ</h2>
 <div id="chartdiv" style="height:300px;width:500px; "></div>
 
+<h2>投稿</h2>
 {% if schema.current_user_can_post %}
-<h2>データ作る</h2>
 <form method="POST" action="{{ schema_url }}">
   <!-- <input type="text" name="group" placeholder="group" /> -->
   <textarea name="value" placeholder="value" rows="10" cols="80" ></textarea>
@@ -26,6 +27,8 @@
   <br>
   <input type="submit" value="作る">
 </form>
+{% else %}
+  <p>このスキーマに投稿するにはAPIキーが必要です．</p>
 {% endif %}
 
 <h2>データ</h2>
