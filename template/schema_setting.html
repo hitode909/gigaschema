@@ -23,16 +23,27 @@
   <input type="submit" value="設定">
 </form>
 
+{% if schema.api_key %}
 <h2>APIキーのリセット</h2>
 <form method="POST" action="{{ schema.setting_url }}">
   <input type="hidden" name="reset_api_key" value="1">
   <input type="submit" value="リセット">
 </form>
+{% else %}
+<h2>APIキーの作成</h2>
+<p>APIキーがなければデータの作成/削除ができなくなります</p>
+<form method="POST" action="{{ schema.setting_url }}">
+  <input type="hidden" name="reset_api_key" value="1">
+  <input type="submit" value="作成">
+</form>
+{% endif %}
 
+{% if schema.api_key %}
 <h2>APIキーの削除</h2>
 <form method="POST" action="{{ schema.setting_url }}">
   <input type="hidden" name="remove_api_key" value="1">
   <input type="submit" value="削除">
 </form>
+{% endif %}
 
 {% endblock %}
