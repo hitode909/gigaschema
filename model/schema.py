@@ -101,10 +101,13 @@ class Schema(db.Model):
 
     def as_hash(self, group=None, page=1, per_page=20):
         paged = self.data_at_page(page=page, per_page=per_page, group=group)
+
+        has_prev = 1  if page > 1 else 0 
         result = {
             'name': self.name,
             'data': [ data.as_hash() for data in paged['data'] ],
             'has_next': paged['has_next'],
+            'has_prev': has_prev,
             'page': paged['page'],
         }
         return result
