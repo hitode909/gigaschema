@@ -19,5 +19,8 @@
     {% endif %}
   {% endif %}
   <br>
-  group:{{ data.group }} type:{{ data.item_type }} <a href="{{ data.url }}">{{ data.created_on|date:"Y-m-d H:i:s"}}</a>
+  <!-- group:{{ data.group }} type:{{ data.item_type }} -->
+  <div class="info">
+    <a href="{{ data.schema.url }}">{{ data.schema.slug }}</a>
+    <a class="permalink" href="{{ data.url }}">{{ data.created_on|date:"Y-m-d H:i:s"}}</a>  </div>
 </div>

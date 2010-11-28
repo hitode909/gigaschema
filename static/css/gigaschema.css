@@ -1,0 +1,39 @@
+* {
+    font-family:"arial","helvetica",sans-serif;
+}
+
+div#whole {
+    margin:0 auto 0;
+    width: 80%;
+    max-width: 800px;
+}
+
+
+a {
+    border: 0;
+    color: #000;
+}
+
+ul.data-list {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+.data-item {
+    /* border: 1px solid; */
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.data-item.odd {
+    background: #eef;
+}
+
+.data-item .body {
+    font-size: 150%;
+    margin-left: 1em;
+}
+
+.data-item .info {
+    font-size: 80%;
+}

@@ -8,26 +8,20 @@
     <script type="text/javascript" language="javascript" src="/js/jqplot.dateAxisRenderer.min.js"></script>
     <script language="javascript" type="text/javascript" src="/js/gigaschema.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/jquery.jqplot.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/gigaschema.css" />
   </head>
   <body id="{% block id %}{% endblock %}">
-    <h1>ようこそ</h1>
-    {% if user %}
-        <a href="{{ logout_url }}">ログアウト</a>
-    {% else %}
-        <a href="{{ login_url }}">ログイン</a>
-    {% endif %}
+    <div id="whole">
+      <h1><a href="/">GigaSchema</a></h1>
+      {% if user %}
+      <a href="{{ logout_url }}">ログアウト</a>
+      {% else %}
+      <a href="{{ login_url }}">ログイン</a>
+      {% endif %}
 
-    <div id="content">
+      <div id="content">
         {% block content %}{% endblock %}
-    </div>
-
-    <div id="debug">
-      <h3>リンク集</h3>
-      <ul>
-        <li><a href="/">index</a></li>
-        <li><a href="/hakobe/money">schema</a></li>
-        <li><a href="/hakobe/money/33939">data</a></li>
-      </ul>
       </div>
+    </div>
   </body>
 </html>

@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>ただいまの時間は<b>{{ today|date:"Y-m-d H:i:s"}}</b>です〜</p>
 
 <h2>スキーマ作る</h2>
 <form method="POST" action="/">
@@ -25,7 +24,6 @@
 <ul class="data-list">
 {% for data in data_list %}
 <li>
-  <a href="{{ data.schema.url }}">{{ data.schema.slug }}</a>
   {% include "macro/data_item.html" %}
 </li>
 {% endfor %}

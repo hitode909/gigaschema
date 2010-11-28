@@ -63,6 +63,10 @@ window.gigaschema.dispatcher('body#schema', function() {
     });
 });
 
+window.gigaschema.dispatcher('body', function() {
+    $('.data-item:odd').addClass('odd');
+});
+
 $(function() {
     window.gigaschema.dispatcher();
 });
