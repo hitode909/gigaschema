@@ -29,17 +29,17 @@ class SchemaHandler(BaseHandler):
         if schema.api_key and schema.api_key != self.request.get('api_key'):
             self.error_response(403, log_msg="invlid api")
 
-
-        value = self.request.get('value') or ""
-        if not schema.validate_value(value):
-            self.error_response(400, log_msg="bad value")
+        values = self.request.get_all('value') or []
+        for value in values:
+            if not schema.validate_value(value):
+                self.error_response(400, log_msg="bad value")
 
         group = self.request.get('group') or None
         if not Data.validate_group(group):
             self.error_response(400, log_msg="group must not include '.' or '/'")
 
 
-        data = Data.create(schema, group=group, value=value)
+        data = Data.create_multi(schema, group=group, values=values)
         self.redirect(schema.url())
 
 class SchemaSettingHandler(BaseHandler):

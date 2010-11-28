@@ -26,7 +26,6 @@ class Data(db.Model):
 
         now = datetime.datetime.now()
 
-        values.reverse()
         for value in values:
             data = klass(
                 schema = schema,
@@ -34,7 +33,8 @@ class Data(db.Model):
                 value = value,
                 created_on = now,
             )
-            now = now.replace(micorsecond = now.micorsecond+1)
+            data.put()
+            now = now.replace(microsecond = now.microsecond+1)
 
     def url(self):
         return self.schema.url() + '/' + str(self.key())
