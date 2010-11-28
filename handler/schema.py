@@ -88,10 +88,11 @@ class SchemaJsonHandler(BaseHandler):
     def get(self, owner_name, schema_name):
         schema = self.get_schema(owner_name, schema_name)
         group = self.request.get('group') or None
+        page = int(self.request.get('page')) or 1
 
         self.set_allow_header(schema)
         self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write( ViewHelper.process_data(schema.as_hash(group=group)) )
+        self.response.out.write( ViewHelper.process_data(schema.as_hash(group=group, page=page)) )
 
     @hook_request
     def options(self, owner_name, schema_name):

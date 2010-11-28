@@ -68,9 +68,9 @@ class Schema(db.Model):
         data = q.fetch(limit, offset=offset)
         return data
 
-    def data_at_page(self, group=None, page=0, per_page=50, newer_first=True):
+    def data_at_page(self, group=None, page=1, per_page=100, newer_first=True):
         limit = per_page
-        offset = pager * per_page
+        offset = (page-1) * per_page
         data = self.data(
             group = group,
             limit = limit + 1,
@@ -81,6 +81,7 @@ class Schema(db.Model):
         return {
             'data': data[0:limit+1],
             'has_next': has_next,
+            'page': page,
         }
 
     def data_has_number(self):
@@ -98,10 +99,13 @@ class Schema(db.Model):
     def slug(self):
         return UserHelper.extract_user_name(self.owner) + "/" + self.name
 
-    def as_hash(self, group=None):
+    def as_hash(self, group=None, page=1):
+        paged = self.data_at_page(page=page, group=group)
         result = {
             'name': self.name,
-            'data': [ data.as_hash() for data in self.data(group=group) ]
+            'data': [ data.as_hash() for data in paged['data'] ],
+            'has_next': paged['has_next'],
+            'page': paged['page'],
         }
         return result
 
