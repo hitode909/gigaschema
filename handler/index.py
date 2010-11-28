@@ -8,30 +8,18 @@ from datetime import datetime
 from helper import *
 from model import *
 from handler.base import BaseHandler
+from handler.base import hook_request
 
 class IndexHandler(BaseHandler):
+
+    @hook_request
     def get(self):
-        user = users.get_current_user()
-        login_url = ''
-        logout_url = ''
+        self.stash['schema_list'] = Schema.all().order('-created_at').fetch(1000)
+        self.response.out.write(ViewHelper.process('index', self.stash))
 
-        if user:
-            logout_url = users.create_logout_url("/")
-        else:
-            login_url = users.create_login_url("/")
-
-        template_values = {
-            'today': datetime.now(),
-            'user': user,
-            'login_url': login_url,
-            'logout_url': logout_url,
-            'schema_list': Schema.all().order('-created_at').fetch(1000)
-        }
-        self.response.out.write(ViewHelper.process('index', template_values))
-
+    @hook_request
     def post(self):
-        user = users.get_current_user()
-        if not user:
+        if not self.user:
             self.error_response(403, log_msg="user not found")
 
         name = self.request.get('name')

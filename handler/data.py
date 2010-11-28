@@ -6,8 +6,11 @@ from datetime import datetime
 from helper import *
 from model import *
 from handler.base import BaseHandler
+from handler.base import hook_request
 
 class DataHandler(BaseHandler):
+
+    @hook_request
     def get(self, owner_name, schema_name, data_key):
         schema = self.get_schema(owner_name, schema_name)
         data = self.get_data(data_key)
@@ -18,9 +21,11 @@ class DataHandler(BaseHandler):
             'data_key': data_key,
             'data': data,       # TODO
             'data_url': self.request.path # TODO = data.url
-            }
-        self.response.out.write(ViewHelper.process('data', template_values))
+        }
+        self.stash.update(template_values)
+        self.response.out.write(ViewHelper.process('data', self.stash))
 
+    @hook_request
     def delete(self, owner_name, schema_name, data_key):
         schema = self.get_schema(owner_name, schema_name)
         if schema.api_key and schema.api_key != self.request.get('api_key'):
@@ -31,18 +36,21 @@ class DataHandler(BaseHandler):
         self.set_allow_header(schema)
         self.redirect(schema.url())
 
+    @hook_request
     def post(self, owner_name, schema_name, data_key):
         if not self.request.get('delete'):
             self.error_response(400, log_msg="not delete mode")
 
         return self.delete(owner_name, schema_name, data_key)
 
+    @hook_request
     def options(self, owner_name, schema_name, data_key):
         schema = self.get_schema(owner_name, schema_name)
         self.set_allow_header(schema)
         self.response.out.write('options')
 
 class DataJsonHandler(BaseHandler):
+    @hook_request
     def get(self, owner_name, schema_name, data_key):
         schema = self.get_schema(owner_name, schema_name)
         data = self.get_data(data_key)

@@ -7,22 +7,23 @@ from datetime import datetime
 from helper import *
 from model import *
 from handler.base import BaseHandler
+from handler.base import hook_request
 
 class SchemaHandler(BaseHandler):
 
+    @hook_request
     def get(self, owner_name, schema_name):
         schema = self.get_schema(owner_name, schema_name)
-        user = users.get_current_user();
-        schema.current_user = user
+        schema.current_user = self.user
 
         group = self.request.get('group') or None
 
-        template_values = {
-            'schema': schema,
-            'schema_data': schema.data(group = group),
-        }
-        self.response.out.write(ViewHelper.process('schema', template_values))
+        self.stash['schema'] = schema
+        self.stash['schema_data'] = schema.data(group = group)
 
+        self.response.out.write(ViewHelper.process('schema', self.stash))
+
+    @hook_request
     def post(self, owner_name, schema_name):
         schema = self.get_schema(owner_name, schema_name)
         if schema.api_key and schema.api_key != self.request.get('api_key'):
@@ -38,25 +39,24 @@ class SchemaHandler(BaseHandler):
         self.redirect(schema.url())
 
 class SchemaSettingHandler(BaseHandler):
+
+    @hook_request
     def get(self, owner_name, schema_name):
-        user = users.get_current_user();
-        if not user:
+        if not self.user:
             self.error_response(403, log_msg="no user")
         schema = self.get_schema(owner_name, schema_name)
-        if user.user_id() != schema.owner.user_id():
+        if self.user.user_id() != schema.owner.user_id():
             self.error_response(403, log_msg="invalid user")
 
-        template_values = {
-            'schema': schema
-        }
-        self.response.out.write(ViewHelper.process('schema_setting', template_values))
+        self.stash['schema'] = schema
+        self.response.out.write(ViewHelper.process('schema_setting', self.stash))
 
+    @hook_request
     def post(self, owner_name, schema_name):
-        user = users.get_current_user();
-        if not user:
+        if not self.user:
             self.error_response(403, log_msg="no user")
         schema = self.get_schema(owner_name, schema_name)
-        if user.user_id() != schema.owner.user_id():
+        if self.user.user_id() != schema.owner.user_id():
             self.error_response(403, log_msg="invalid user")
 
         # origin=*
@@ -76,6 +76,8 @@ class SchemaSettingHandler(BaseHandler):
         self.redirect(schema.setting_url())
 
 class SchemaJsonHandler(BaseHandler):
+
+    @hook_request
     def get(self, owner_name, schema_name):
         schema = self.get_schema(owner_name, schema_name)
         group = self.request.get('group') or None
@@ -84,6 +86,7 @@ class SchemaJsonHandler(BaseHandler):
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write( ViewHelper.process_data(schema.as_hash(group=group)) )
 
+    @hook_request
     def options(self, owner_name, schema_name):
         schema = self.get_schema(owner_name, schema_name)
 

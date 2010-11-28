@@ -1,6 +1,7 @@
 import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util, template
+from google.appengine.api import users
 from model import *
 from google.appengine.ext.db import BadKeyError
 
@@ -9,10 +10,34 @@ class HandlerError(Exception):
         self.code = code
         self.log_msg = log_msg
 
+def hook_request(orig):
+    def decorator(self, *args):
+        self.before_dispatch(*args)
+        orig(self,*args)
+    return decorator
+
 class BaseHandler(webapp.RequestHandler):
 
     def error_response(self, code, log_msg=""):
         raise HandlerError(code, log_msg=log_msg)
+
+    def before_dispatch(self, *args):
+        user = users.get_current_user()
+        self.user = user
+
+        login_url = ''
+        logout_url = ''
+
+        if user:
+            logout_url = users.create_logout_url("/")
+        else:
+            login_url = users.create_login_url("/")
+
+        self.stash = {
+            'user': user,
+            'login_url': login_url,
+            'logout_url': logout_url,
+        }
 
     def get_schema(self, owner_name, schema_name):
         schema = None
