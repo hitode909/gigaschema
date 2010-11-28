@@ -19,5 +19,5 @@
     {% endif %}
   {% endif %}
   <br>
-  ({{ data.item_type }}) <a href="{{ data.url }}">{{ data.created_on|date:"Y-m-d H:i:s"}}</a>
+  group:{{ data.group }} type:{{ data.item_type }} <a href="{{ data.url }}">{{ data.created_on|date:"Y-m-d H:i:s"}}</a>
 </div>

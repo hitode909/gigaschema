@@ -2,6 +2,7 @@ from google.appengine.api import users
 from google.appengine.ext import db
 from time import time
 from helper import *
+import model
 import hashlib
 
 class Schema(db.Model):
@@ -52,15 +53,17 @@ class Schema(db.Model):
         self.api_key_value = s.hexdigest()
         self.put();
 
-    def data(self, newer_first=True):
-        order_dir = 'ASC'
+    def data(self, newer_first=True, group=None, limit=50, offset=0):
+        q = model.Data.all()
+        q.filter('schema = ', self.key())
+        if group:
+            q.filter('group = ', group)
         if newer_first:
-            order_dir = 'DESC'
+            q.order('-created_on')
+        else:
+            q.order('created_on')
 
-        q = db.GqlQuery("SELECT * FROM Data " + 
-                        "WHERE schema = :1 " + 
-                        "ORDER BY created_on " + order_dir, self.key())
-        data = q.fetch(100)
+        data = q.fetch(limit, offset=offset)
         return data
 
     def data_has_number(self):

@@ -5,13 +5,15 @@ import re
 class Data(db.Model):
     schema = db.ReferenceProperty(Schema, required=True)
     created_on = db.DateTimeProperty(auto_now=True)
+    group = db.StringProperty()
     value = db.TextProperty()
 
     @classmethod
-    def create(klass, schema=None, value=None):
+    def create(klass, schema=None, group=None, value=None):
         data = klass(
             schema=schema,
-            value=value
+            group=group,
+            value=value,
         )
         data.put()
         return data
@@ -22,6 +24,7 @@ class Data(db.Model):
     def as_hash(self):
         return {
             'timestamp': str(self.created_on),
+            'group': self.group,
             'value': self.value,
         }
 
