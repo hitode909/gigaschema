@@ -136,3 +136,22 @@ class Schema(db.Model):
             return False
 
         return re.compile('^[^./]+$').match(value)
+
+    @classmethod
+    def validate_origin(klass, value):
+        r_url = re.compile('^(https?)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)$')
+        r_all = re.compile('^\\*$')
+
+        if len(value) == 0:
+            return True
+
+        if len(value) > 500:
+            return False
+
+        if r_all.match(value):
+            return True
+
+        if r_url.match(value):
+            return True
+
+        return False

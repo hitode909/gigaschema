@@ -30,6 +30,9 @@ class IndexHandler(BaseHandler):
         if not Schema.validate_name(name):
             self.error_response(400, log_msg="name must not include '.' or '/'")
 
+        if not Schema.validate_origin(origin):
+            self.error_response(400, log_msg="Access-Control-Allow-Origin: <origin> | *")
+
         schema = Schema.create_with_key(
             name=name,
             origin=origin,

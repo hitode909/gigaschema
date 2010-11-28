@@ -70,7 +70,10 @@ class SchemaSettingHandler(BaseHandler):
             schema.reset_api_key()
         if self.request.get('remove_api_key'):
             schema.api_key = None
-        if self.request.get('origin'):
+        if self.request.get('origin') != None:
+            origin = self.request.get('origin')
+            if not Schema.validate_origin(origin):
+                self.error_response(400, log_msg="Access-Control-Allow-Origin: <origin> | *")
             schema.origin = self.request.get('origin')
         if self.request.get('digit_only'):
             digit_only = (self.request.get('digit_only') == '1')
