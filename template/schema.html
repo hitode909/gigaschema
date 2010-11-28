@@ -4,8 +4,9 @@
 
 {% block content %}
 
-<h1>スキーマページです</h1>
-<p>ここは<b>{{ schema.owner.nickname }}</b>さんの<b>{{ schema.name }}</b>です〜</p>
+<h1>{{ schema.slug }}</h1>
+
+<div><a href="{{ schema.slug }}">JSON</a></div
 
 {% if schema.current_user_is_owner %}
 <a href="{{ schema.setting_url }}">設定</a>
@@ -17,11 +18,12 @@
 {% if schema.current_user_can_post %}
 <h2>データ作る</h2>
 <form method="POST" action="{{ schema_url }}">
-  <input type="text" name="group" placeholder="group" />
-  <input type="text" name="value" placeholder="value" />
+  <!-- <input type="text" name="group" placeholder="group" /> -->
+  <textarea name="value" placeholder="value" rows="10" cols="80" ></textarea>
   {% if schema.api_key %}
   <input type="hidden" name="api_key" value="{{ schema.api_key }}" />
   {% endif %}
+  <br>
   <input type="submit" value="作る">
 </form>
 {% endif %}

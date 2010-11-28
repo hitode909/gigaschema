@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>データページです</h1>
+<h1>{{ data.slug }}</h1>
 <p>ここは<b>{{ owner_name }}</b>さんの<b>{{ schema.name }}</b>の<b>{{ data.key }}</b>です〜</p>
 
 {% include "macro/data_item.html" %}

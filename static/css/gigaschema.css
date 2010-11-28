@@ -36,4 +36,18 @@ ul.data-list {
 
 .data-item .info {
     font-size: 80%;
+    text-align: right;
 }
+
+.data-item .info a {
+    color: #666;
+}
+
+
+
+
+
+
+
+
+

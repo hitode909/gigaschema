@@ -96,3 +96,6 @@ class Data(db.Model):
             return False
 
         return re.compile('^[^./]+$').match(value)
+
+    def slug(self):
+        return self.schema.slug + "/" + self.name
