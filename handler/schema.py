@@ -70,7 +70,7 @@ class SchemaSettingHandler(BaseHandler):
             schema.digit_only = self.request.get('digit_only')
         schema.put()
 
-        self.redirect(schema.url())
+        self.redirect(schema.setting_url())
 
 class SchemaJsonHandler(BaseHandler):
     @handle_error
