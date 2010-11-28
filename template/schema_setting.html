@@ -4,6 +4,17 @@
 <h1>スキーマページ設定ページです</h1>
 <p>ここは<b>{{ schema.owner.email }}</b>さんの<b>{{ schema.name }}</b><b>の設定ページ</b>です〜</p>
 
+<h2>スキーマ情報</h2>
+<dl>
+  <dt>名前</dt>
+  <dd>{{ schema.name }}</dd>
+  <dt>API Key</dt>
+  <dd>{{ schema.api_key }}</dd>
+  <dt>数字だけ?</dt>
+  <dd>{{ schema.digit_only }}</dd>
+  <dt>origin</dt>
+  <dd>{{ schema.origin }}</dd>
+
 <h2>公開設定</h2>
 <form method="POST" action="{{ schema.setting_url }}">
   <input type="text" value="{{ schema.origin }}" name="origin" placeholder="origin" /><br>
