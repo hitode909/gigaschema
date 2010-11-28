@@ -17,8 +17,11 @@ class SchemaHandler(BaseHandler):
         user = users.get_current_user();
         schema.current_user = user
 
+        group = self.request.get('group') or None
+
         template_values = {
             'schema': schema,
+            'schema_data': schema.data(group = group),
         }
         self.response.out.write(ViewHelper.process('schema', template_values))
 
