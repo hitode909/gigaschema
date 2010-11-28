@@ -8,10 +8,8 @@ from datetime import datetime
 from helper import *
 from model import *
 from handler.base import BaseHandler
-from handler.base import handle_error
 
 class IndexHandler(BaseHandler):
-    @handle_error
     def get(self):
         user = users.get_current_user()
         login_url = ''
@@ -31,7 +29,6 @@ class IndexHandler(BaseHandler):
         }
         self.response.out.write(ViewHelper.process('index', template_values))
 
-    @handle_error
     def post(self):
         user = users.get_current_user()
         if not user:

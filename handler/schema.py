@@ -7,11 +7,9 @@ from datetime import datetime
 from helper import *
 from model import *
 from handler.base import BaseHandler
-from handler.base import handle_error
 
 class SchemaHandler(BaseHandler):
 
-    @handle_error
     def get(self, owner_name, schema_name):
         schema = self.get_schema(owner_name, schema_name)
         user = users.get_current_user();
@@ -25,7 +23,6 @@ class SchemaHandler(BaseHandler):
         }
         self.response.out.write(ViewHelper.process('schema', template_values))
 
-    @handle_error
     def post(self, owner_name, schema_name):
         schema = self.get_schema(owner_name, schema_name)
         if schema.api_key and schema.api_key != self.request.get('api_key'):
@@ -41,7 +38,6 @@ class SchemaHandler(BaseHandler):
         self.redirect(schema.url())
 
 class SchemaSettingHandler(BaseHandler):
-    @handle_error
     def get(self, owner_name, schema_name):
         user = users.get_current_user();
         if not user:
@@ -55,7 +51,6 @@ class SchemaSettingHandler(BaseHandler):
         }
         self.response.out.write(ViewHelper.process('schema_setting', template_values))
 
-    @handle_error
     def post(self, owner_name, schema_name):
         user = users.get_current_user();
         if not user:
@@ -81,7 +76,6 @@ class SchemaSettingHandler(BaseHandler):
         self.redirect(schema.setting_url())
 
 class SchemaJsonHandler(BaseHandler):
-    @handle_error
     def get(self, owner_name, schema_name):
         schema = self.get_schema(owner_name, schema_name)
         group = self.request.get('group') or None
@@ -90,7 +84,6 @@ class SchemaJsonHandler(BaseHandler):
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write( ViewHelper.process_data(schema.as_hash(group=group)) )
 
-    @handle_error
     def options(self, owner_name, schema_name):
         schema = self.get_schema(owner_name, schema_name)
 

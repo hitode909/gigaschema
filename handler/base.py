@@ -7,17 +7,6 @@ class HandlerError(Exception):
     def __init__(self, code, log_msg=""):
         self.code = code
         self.log_msg = log_msg
-        
-
-def handle_error(orig):
-    def decorator(self,*args):
-        try:
-            orig(self, *args)
-        except HandlerError, e:
-            logging.info(e.log_msg)
-            self.error(e.code)
-            self.response.out.write( self.response.http_status_message(e.code))
-    return decorator
 
 class BaseHandler(webapp.RequestHandler):
 
@@ -52,3 +41,13 @@ class BaseHandler(webapp.RequestHandler):
 
         self.response.headers['Access-Control-Allow-Origin'] = origin
         self.response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
+
+    def handle_exception(self, exception, debug_mode):
+        if isinstance(exception, HandlerError):
+            logging.info(exception.log_msg)
+            self.error(exception.code)
+            self.response.out.write( self.response.http_status_message(exception.code))
+        else:
+            super(BaseException, self).handle_exception(exception, debug_mode)
+
+

@@ -7,10 +7,8 @@ from datetime import datetime
 from helper import *
 from model import *
 from handler.base import BaseHandler
-from handler.base import handle_error
 
 class DataHandler(BaseHandler):
-    @handle_error
     def get(self, owner_name, schema_name, data_key):
         schema = self.get_schema(owner_name, schema_name)
         data = self.get_data(data_key)
@@ -24,7 +22,6 @@ class DataHandler(BaseHandler):
             }
         self.response.out.write(ViewHelper.process('data', template_values))
 
-    @handle_error
     def delete(self, owner_name, schema_name, data_key):
         schema = self.get_schema(owner_name, schema_name)
         if schema.api_key and schema.api_key != self.request.get('api_key'):
@@ -35,21 +32,18 @@ class DataHandler(BaseHandler):
         self.set_allow_header(schema)
         self.redirect(schema.url())
 
-    @handle_error
     def post(self, owner_name, schema_name, data_key):
         if not self.request.get('delete'):
             self.error_response(400, log_msg="not delete mode")
 
         return self.delete(owner_name, schema_name, data_key)
 
-    @handle_error
     def options(self, owner_name, schema_name, data_key):
         schema = self.get_schema(owner_name, schema_name)
         self.set_allow_header(schema)
         self.response.out.write('options')
 
 class DataJsonHandler(BaseHandler):
-    @handle_error
     def get(self, owner_name, schema_name, data_key):
         schema = self.get_schema(owner_name, schema_name)
         data = self.get_data(data_key)
