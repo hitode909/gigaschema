@@ -12,12 +12,15 @@
   </head>
   <body id="{% block id %}{% endblock %}">
     <div id="whole">
+      <div id="login-logout">
+        {% if user %}
+        ようこそ，{{ user.nickname }}さん．<br>
+        <a href="{{ logout_url }}">ログアウト</a>
+        {% else %}
+        <a href="{{ login_url }}">ログイン</a>
+        {% endif %}
+      </div>
       <h1><a href="/"><img src="/image/logo.png"></a></h1>
-      {% if user %}
-      <a href="{{ logout_url }}">ログアウト</a>
-      {% else %}
-      <a href="{{ login_url }}">ログイン</a>
-      {% endif %}
 
       <div id="content">
         {% block content %}{% endblock %}

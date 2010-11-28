@@ -8,6 +8,13 @@ div#whole {
     max-width: 800px;
 }
 
+#login-logout {
+    font-size: 80%;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    text-align: right;
+}
 
 a {
     border: 0;
@@ -42,12 +49,3 @@ ul.data-list {
 .data-item .info a {
     color: #666;
 }
-
-
-
-
-
-
-
-
-
