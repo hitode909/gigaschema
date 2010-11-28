@@ -99,3 +99,23 @@ class Schema(db.Model):
             return True
 
         return self.owner.user_id() == user.user_id()
+
+    def validate_value(self, value):
+        if not self.digit_only:
+            return True
+
+        try:
+            float(value)
+            return True
+        except ValueError:
+            return False
+
+
+
+
+
+
+
+
+
+

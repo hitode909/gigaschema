@@ -28,7 +28,11 @@ class SchemaHandler(BaseHandler):
         if schema.api_key and schema.api_key != self.request.get('api_key'):
             self.error_response(403, log_msg="invlid api")
 
+
         value = self.request.get('value') or ""
+        if not schema.validate_value(value):
+            self.error_response(400, log_msg="bad value")
+
         group = self.request.get('group') or None
         data = Data.create(schema, group=group, value=value)
         self.redirect(schema.url())
