@@ -28,17 +28,39 @@ window.gigaschema.plotGraph = function(id, data) {
              });
 }
 
+window.gigaschema.roundDateTime = function(dtstr) {
+    var date = new Date(Date.parse(dtstr.split('.')[0]));
+    return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
+}
+
 window.gigaschema.dispatcher('body#schema', function() {
-    if ($('#chartdiv').length == 0) return;
-    var to = [];
-    $('.data-item').each(function() {
-        var created_on = $(this).attr('data-created-on');
-        var value = parseInt($(this).attr('data-value'), 10);
-        if (! isNaN(value)) {
-            to.push([created_on, value]);
+    var path = location.pathname + '.json';
+    $.getJSON(path, function(data) {
+        var self = window.gigaschema;
+
+        var nums = [];
+        var post_at = { };
+
+        data.data.forEach(function(row) {
+            var created_on = row.timestamp;
+            var value = row.value;
+            var value_num = parseInt(value);
+
+            var key = self.roundDateTime(created_on);
+            post_at[key] = (post_at[key] || 0) + 1;
+
+            if (! isNaN(value)) {
+                nums.push([created_on, value]);
+            }
+        });
+        if (nums.length == 0) {
+            for(var day in post_at) if (post_at.hasOwnProperty(day)) {
+                nums.push([day, post_at[day]]);
+            }
         }
+        console.log(nums);
+        window.gigaschema.plotGraph('chartdiv', [nums]);
     });
-    window.gigaschema.plotGraph('chartdiv', [to]);
 });
 
 $(function() {
