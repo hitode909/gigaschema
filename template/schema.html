@@ -13,8 +13,10 @@
 <a href="{{ schema.setting_url }}">設定</a>
 {% endif %}
 
+{% if schema.has_data %}
 <h2>グラフ</h2>
-<div id="chartdiv" style="height:300px;width:500px; "></div>
+<div id="chart" style="height:300px;width:500px; "></div>
+{% endif %}
 
 <h2>投稿</h2>
 {% if schema.current_user_can_post %}

@@ -156,3 +156,6 @@ class Schema(db.Model):
             return True
 
         return False
+
+    def has_data(self):
+        return len(self.data()) > 0

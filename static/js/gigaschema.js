@@ -17,7 +17,7 @@ window.gigaschema.dispatcher = function(guard, func) {
 
 // [['2009/07/01 18:00:00',2], ['2009/09/08 18:30:00',11], ['2009/09/08 18:40:00',15], ['2010/01/02',3],['2010/01/03',6],['2010/02/01',3]]
 window.gigaschema.plotGraph = function(id, data) {
-    $.jqplot('chartdiv',
+    $.jqplot(id,
              data, {
                  // title:title,
                  axes: {
@@ -33,7 +33,7 @@ window.gigaschema.roundDateTime = function(dtstr) {
     return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
 }
 
-window.gigaschema.dispatcher('body#schema', function() {
+window.gigaschema.dispatcher('#chart', function() {
     var path = location.pathname + '.json';
     $.getJSON(path, function(data) {
         var self = window.gigaschema;
@@ -59,7 +59,8 @@ window.gigaschema.dispatcher('body#schema', function() {
             }
         }
         console.log(nums);
-        window.gigaschema.plotGraph('chartdiv', [nums]);
+        if (nums.length == 0) return;
+        window.gigaschema.plotGraph('chart', [nums]);
     });
 });
 
