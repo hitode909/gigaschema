@@ -15,13 +15,17 @@
 <div id="chartdiv" style="height:300px;width:500px; "></div>
 {% endif %}
 
+{% if schema.current_user_can_post %}
 <h2>データ作る</h2>
 <form method="POST" action="{{ schema_url }}">
   <input type="text" name="group" placeholder="group" />
   <input type="text" name="value" placeholder="value" />
-  <!-- <input type="text" name="api_key" placeholder="api_key" /> -->
+  {% if schema.api_key %}
+  <input type="hidden" name="api_key" value="{{ schema.api_key }}" />
+  {% endif %}
   <input type="submit" value="作る">
 </form>
+{% endif %}
 
 <h2>データ</h2>
 <ul class="data-list">

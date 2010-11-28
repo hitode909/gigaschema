@@ -33,10 +33,10 @@ class Schema(db.Model):
             owner=args['owner'],
             digit_only=args['digit_only'],
         );
+        schema.put()
+
         if args['with_api_key']:
             schema.reset_api_key()
-
-        schema.put()
 
         return schema
 
@@ -49,8 +49,8 @@ class Schema(db.Model):
         s = hashlib.sha1()
         s.update(str(time()))
         s.update(self.name.encode('utf-8'))
-        s.update(self.owener.user_id())
-        self.api_key_value = s.hexdigest()
+        s.update(self.owner.user_id())
+        self.api_key = s.hexdigest()
         self.put();
 
     def data(self, newer_first=True, group=None, limit=50, offset=0):
@@ -88,6 +88,10 @@ class Schema(db.Model):
         }
         return result
 
+    def current_user_can_post(self, user = None):
+        if not user:
+            user = self.current_user
+        if not self.api_key:
+            return True
 
-
-
+        return self.owner.user_id() == user.user_id()

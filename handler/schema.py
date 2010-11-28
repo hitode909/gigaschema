@@ -14,6 +14,8 @@ class SchemaHandler(BaseHandler):
     @handle_error
     def get(self, owner_name, schema_name):
         schema = self.get_schema(owner_name, schema_name)
+        user = users.get_current_user();
+        schema.current_user = user
 
         template_values = {
             'schema': schema,
