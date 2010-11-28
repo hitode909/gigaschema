@@ -95,7 +95,7 @@ class SchemaJsonHandler(BaseHandler):
         schema = self.get_schema(owner_name, schema_name)
         group = self.request.get('group') or None
         page = int(self.request.get('page') or 1)
-        page = 1 if pager < 1 else page
+        page = 1 if page < 1 else page
 
         self.set_allow_header(schema)
         self.response.headers['Content-Type'] = 'application/json'
