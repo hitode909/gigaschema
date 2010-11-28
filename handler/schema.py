@@ -58,8 +58,8 @@ class SchemaSettingHandler(BaseHandler):
             self.error_response(403, log_msg="invalid user")
 
         # origin=*
-        # digit_only=0|!
-        # reset_api_key=0|1
+        # digit_only=''|on
+        # reset_api_key=''|1
         if self.request.get('reset_api_key'):
             schema.reset_api_key()
         if self.request.get('remove_api_key'):
@@ -67,7 +67,8 @@ class SchemaSettingHandler(BaseHandler):
         if self.request.get('origin'):
             schema.origin = self.request.get('origin')
         if self.request.get('digit_only'):
-            schema.digit_only = self.request.get('digit_only')
+            digit_only = (self.request.get('digit_only') == '1')
+            schema.digit_only = digit_only
         schema.put()
 
         self.redirect(schema.setting_url())

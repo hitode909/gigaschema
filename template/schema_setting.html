@@ -18,7 +18,8 @@
 <h2>公開設定</h2>
 <form method="POST" action="{{ schema.setting_url }}">
   <input type="text" value="{{ schema.origin }}" name="origin" placeholder="origin" /><br>
-  <label><input type="checkbox" name="digit-only">数字だけ</label><br>
+  <label><input type="radio" name="digit_only" value="0" {% if not schema.digit_only %}checked="checked"{% endif %}>なんでも</label>
+  <label><input type="radio" name="digit_only" value="1"{% if schema.digit_only %}checked="checked"{% endif %}>数字だけ</label>
   <input type="submit" value="設定">
 </form>
 
