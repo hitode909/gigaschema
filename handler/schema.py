@@ -27,6 +27,7 @@ class SchemaHandler(BaseHandler):
         self.stash['pager_has_next'] = paged['has_next']
         self.stash['pager_next_page'] = paged['page'] + 1
 
+        self.set_allow_header(schema)
         self.response.out.write(ViewHelper.process('schema', self.stash))
 
     @hook_request
@@ -44,9 +45,16 @@ class SchemaHandler(BaseHandler):
         if not Data.validate_group(group):
             self.error_response(400, log_msg="group must not include '.' or '/'")
 
-
         data = Data.create_multi(schema, group=group, values=values)
+        self.set_allow_header(schema)
         self.redirect(schema.url())
+
+    @hook_request
+    def options(self, owner_name, schema_name):
+        schema = self.get_schema(owner_name, schema_name)
+
+        self.set_allow_header(schema)
+        self.response.out.write('options')
 
 class SchemaSettingHandler(BaseHandler):
 
