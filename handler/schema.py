@@ -21,7 +21,7 @@ class SchemaHandler(BaseHandler):
         page = 1 if page < 1 else page
 
         self.stash['schema'] = schema
-        paged = schema.data_at_page(page=page, group = group, per_page=10)
+        paged = schema.data_at_page(page=page, group = group, per_page=100)
         self.stash['pager_data'] = paged['data']
         self.stash['pager_page'] = paged['page']
         self.stash['pager_has_next'] = paged['has_next']
