@@ -46,7 +46,7 @@ class BaseHandler(webapp.RequestHandler):
         if isinstance(exception, HandlerError):
             logging.info(exception.log_msg)
             self.error(exception.code)
-            self.response.out.write( self.response.http_status_message(exception.code))
+            self.response.out.write(exception.log_msg)
         else:
             return webapp.RequestHandler.handle_exception(self,exception, debug_mode)
 
