@@ -113,6 +113,13 @@ class Schema(db.Model):
         }
         return result
 
+    def as_hash_with_data(self, data=data):
+        result = {
+            'name': self.name,
+            'data': [ d.as_hash() for d in paged['data'] ],
+        }
+        return result
+
     def current_user_is_owner(self):
         return self.owner.user_id() == self.current_user.user_id()
 

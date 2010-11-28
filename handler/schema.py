@@ -27,7 +27,6 @@ class SchemaHandler(BaseHandler):
         self.stash['pager_has_next'] = paged['has_next']
         self.stash['pager_next_page'] = paged['page'] + 1
 
-        self.set_allow_header(schema)
         self.response.out.write(ViewHelper.process('schema', self.stash))
 
     @hook_request
@@ -46,15 +45,7 @@ class SchemaHandler(BaseHandler):
             self.error_response(400, log_msg="group must not include '.' or '/'")
 
         data = Data.create_multi(schema, group=group, values=values)
-        self.set_allow_header(schema)
         self.redirect(schema.url())
-
-    @hook_request
-    def options(self, owner_name, schema_name):
-        schema = self.get_schema(owner_name, schema_name)
-
-        self.set_allow_header(schema)
-        self.response.out.write('options')
 
 class SchemaSettingHandler(BaseHandler):
 
@@ -106,8 +97,30 @@ class SchemaJsonHandler(BaseHandler):
         self.response.out.write( ViewHelper.process_data(schema.as_hash(group=group, page=page, per_page=100)) )
 
     @hook_request
+    def post(self, owner_name, schema_name):
+        schema = self.get_schema(owner_name, schema_name)
+        if schema.api_key and schema.api_key != self.request.get('api_key'):
+            self.error_response(403, log_msg="invalid api")
+
+        values = self.request.get_all('value') or []
+        for value in values:
+            if not schema.validate_value(value):
+                self.error_response(400, log_msg="bad value")
+
+        group = self.request.get('group') or None
+        if not Data.validate_group(group):
+            self.error_response(400, log_msg="group must not include '.' or '/'")
+
+        data = Data.create_multi(schema, group=group, values=values)
+        self.set_allow_header(schema)
+        self.response.out.write( ViewHelper.process_data(schema.as_hash_with_data(data=data)) )
+
+    @hook_request
     def options(self, owner_name, schema_name):
         schema = self.get_schema(owner_name, schema_name)
 
         self.set_allow_header(schema)
         self.response.out.write('options')
+
+
+
