@@ -16,10 +16,10 @@ window.gigaschema.dispatcher = function(guard, func) {
 };
 
 // [['2009/07/01 18:00:00',2], ['2009/09/08 18:30:00',11], ['2009/09/08 18:40:00',15], ['2010/01/02',3],['2010/01/03',6],['2010/02/01',3]]
-window.gigaschema.plotGraph = function(id, title, data) {
+window.gigaschema.plotGraph = function(id, data) {
     $.jqplot('chartdiv',
              data, {
-                 title:title,
+                 // title:title,
                  axes: {
                      xaxis: {
                          renderer: $.jqplot.DateAxisRenderer
@@ -30,16 +30,15 @@ window.gigaschema.plotGraph = function(id, title, data) {
 
 window.gigaschema.dispatcher('body#schema', function() {
     if ($('#chartdiv').length == 0) return;
-    var from = window.gigaschema.currentSchema;
     var to = [];
-    from.data.forEach(function(row) {
-        // TODO: validation
-        var value = parseInt(row.value, 10);
+    $('.data-item').each(function() {
+        var created_on = $(this).attr('data-created-on');
+        var value = parseInt($(this).attr('data-value'), 10);
         if (! isNaN(value)) {
-            to.push([row.timestamp, value]);
+            to.push([created_on, value]);
         }
     });
-    window.gigaschema.plotGraph('chartdiv', from.name, [to]);
+    window.gigaschema.plotGraph('chartdiv', [to]);
 });
 
 $(function() {

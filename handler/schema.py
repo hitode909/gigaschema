@@ -19,7 +19,6 @@ class SchemaHandler(BaseHandler):
 
         template_values = {
             'schema': schema,
-            'data': ViewHelper.process_data(schema.as_hash())
         }
         self.response.out.write(ViewHelper.process('schema', template_values))
 
