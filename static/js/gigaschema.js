@@ -44,13 +44,13 @@ window.gigaschema.dispatcher('body#schema', function() {
         data.data.forEach(function(row) {
             var created_on = row.timestamp;
             var value = row.value;
-            var value_num = parseInt(value);
+            var value_num = parseInt(value, 10);
 
             var key = self.roundDateTime(created_on);
             post_at[key] = (post_at[key] || 0) + 1;
 
-            if (! isNaN(value)) {
-                nums.push([created_on, value]);
+            if (! isNaN(num_value)) {
+                nums.push([created_on, num_value]);
             }
         });
         if (nums.length == 0) {
