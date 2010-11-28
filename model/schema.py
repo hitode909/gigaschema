@@ -81,10 +81,10 @@ class Schema(db.Model):
     def slug(self):
         return UserHelper.extract_user_name(self.owner) + "/" + self.name
 
-    def as_hash(self):
+    def as_hash(self, group=None):
         result = {
             'name': self.name,
-            'data': [ data.as_hash() for data in self.data() ]
+            'data': [ data.as_hash() for data in self.data(group=group) ]
         }
         return result
 
