@@ -11,7 +11,9 @@ window.gigaschema.dispatcher = function(guard, func) {
         var func = pair[1];
 
         // TODO: when guard is a function
-        $(guard).length > 0 && func();
+        if (guard == true || $(guard).length > 0) {
+            func();
+        }
     });
 };
 
@@ -64,8 +66,14 @@ window.gigaschema.dispatcher('#chart', function() {
     });
 });
 
-window.gigaschema.dispatcher('body', function() {
+window.gigaschema.dispatcher(true, function() {
     $('.data-item:even').addClass('odd');
+});
+
+window.gigaschema.dispatcher(true, function() {
+    $('form').submit(function() {
+        $(this).find(':submit').attr('disabled', 'disabled');
+    });
 });
 
 window.gigaschema.dispatcher('body#schema', function() {
