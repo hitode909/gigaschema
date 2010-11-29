@@ -8,7 +8,7 @@
 
 {% if data.schema.current_user_can_delete %}
 <h2>データ削除</h2>
-<form method="POST" action="{{ data_url }}" onsubmit="return confirm('delete?');">
+<form method="POST" action="{{ data.url }}" onsubmit="return confirm('delete?');">
   <input type="hidden" name="delete" value="1">
   <input type="submit" value="削除">
 </form>

@@ -16,15 +16,8 @@ class DataHandler(BaseHandler):
         schema = data.schema
         schema.current_user = self.user
 
-        template_values = {
-            'schema': schema,
-            'owner_name': owner_name,
-            'schema_name': schema_name,
-            'data_key': data_key,
-            'data': data,       # TODO
-            'data_url': self.request.path # TODO = data.url
-        }
-        self.stash.update(template_values)
+        self.stash['schema'] = schema
+        self.stash['data'] = data
         self.response.out.write(ViewHelper.process('data', self.stash))
 
     @hook_request
