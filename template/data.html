@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{ data.slug }}</h1>
-<p>ここは<b>{{ owner_name }}</b>さんの<b>{{ schema.name }}</b>の<b>{{ data.key }}</b>です〜</p>
+<h2>{{ data.slug }}</h2>
+<div><a href="{{ data.json_url }}">JSON</a></div>
 
 {% include "macro/data_item.html" %}
 

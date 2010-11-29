@@ -42,6 +42,9 @@ class Data(db.Model):
     def url(self):
         return self.schema.url() + '/' + str(self.key())
 
+    def json_url(self):
+        return self.url() + '.json'
+
     def as_hash(self):
         return {
             'timestamp': str(self.created_on),
@@ -101,4 +104,4 @@ class Data(db.Model):
         return re.compile('^[^./]+$').match(value)
 
     def slug(self):
-        return self.schema.slug + "/" + self.name
+        return self.schema.slug() + '/' + str(self.key())
