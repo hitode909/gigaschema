@@ -34,19 +34,23 @@
 {% endif %}
 
 <h2>データ</h2>
-<ul class="data-list">
-{% for data in pager.data %}
-<li>
-  {% include "macro/data_item.html" %}
-</li>
-{% endfor %}
-</ul>
+<div class="autopagerize_page_element">
+  <ul class="data-list">
+    {% for data in pager.data %}
+    <li>
+      {% include "macro/data_item.html" %}
+    </li>
+    {% endfor %}
+  </ul>
 
-{% if pager.has_prev %}
-<a href="{{ schema.url}}?page={{pager.prev_page}}">prev</a>
-{% endif %}
-{% if pager.has_next %}
-<a href="{{ schema.url}}?page={{pager.next_page}}">next</a>
-{% endif %}
+  {% if pager.has_prev %}
+  <a href="{{ schema.url}}?page={{pager.prev_page}}" rel="prev" >prev</a>
+  {% endif %}
+  {% if pager.has_next %}
+  <a href="{{ schema.url}}?page={{pager.next_page}}" rel="next" >next</a>
+  {% endif %}
+</div>
+
+<div class="autopagerize_insert_before"></div>
 
 {% endblock %}
