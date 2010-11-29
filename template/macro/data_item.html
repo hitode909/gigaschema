@@ -1,6 +1,6 @@
 <div class="data-item" data-value="{{ data.value }}" data-created-on="{{ data.created_on }}">
   {% if data.is_text_item %}
-  <span class="body">{{ data.value }}</span>
+  <span class="body">{{ data.value |linebreaks }}</span>
   {% else %}
     {% if data.is_number_item %}
       <span class="body">{{ data.value }}</span>
