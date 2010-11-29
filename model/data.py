@@ -92,10 +92,6 @@ class Data(db.Model):
             return 'text'
 
     def is_text_item(self):
-        if not self.item_type:     # XXX
-            logging.warn("fill in item_type")
-            self.set_item_type()   # XXX
-
         return self.item_type == 'text'
 
     def is_number_item(self):
