@@ -52,8 +52,14 @@ class Data(db.Model):
             'value': self.value,
         }
 
-
     def item_type(self):
+        if self.item_type_cache:
+            return self.item_type_cache
+
+        self.item_type_cache = self.get_item_type()
+        return self.item_type_cache
+
+    def get_item_type(self):
         r_url = re.compile('^(https?)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)$')
         r_url_img = re.compile('jpg|png|gif|bmp$', re.IGNORECASE)
         r_url_audio = re.compile('wav|mp3|m4a$', re.IGNORECASE)
