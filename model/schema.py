@@ -2,7 +2,6 @@ from google.appengine.api import users
 from google.appengine.ext import db
 from time import time
 from helper import *
-import model
 import hashlib
 import urllib
 import re
@@ -54,7 +53,7 @@ class Schema(db.Model):
         self.put();
 
     def data(self, group=None, limit=50, offset=0, newer_first=True):
-        q = model.Data.all()
+        q = Data.all()
         q.filter('schema = ', self.key())
         if group:
             q.filter('group = ', group)
@@ -166,3 +165,5 @@ class Schema(db.Model):
 
     def has_data(self):
         return len(self.data()) > 0
+
+from model.data import Data
