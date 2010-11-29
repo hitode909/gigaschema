@@ -18,7 +18,7 @@ class UserHandler(BaseHandler):
 
         q = Schema.all()
         q.filter('owner = ', owner)
-        q.order('-created_at')
+        q.order('-created_on')
 
         self.stash['schema_list'] = q.fetch(1000)
         self.stash['owner_name'] = owner_name

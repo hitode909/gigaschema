@@ -14,7 +14,7 @@ class IndexHandler(BaseHandler):
 
     @hook_request
     def get(self):
-        self.stash['schema_list'] = Schema.all().order('-created_at').fetch(100)
+        self.stash['schema_list'] = Schema.all().order('-created_on').fetch(100)
         self.stash['data_list'] = Data.all().order('-created_on').fetch(100)
         self.response.out.write(ViewHelper.process('index', self.stash))
 

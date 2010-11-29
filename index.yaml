@@ -43,5 +43,5 @@ indexes:
 - kind: Schema
   properties:
   - name: owner
-  - name: created_at
+  - name: created_on
     direction: desc

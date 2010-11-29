@@ -11,7 +11,7 @@ class Schema(db.Model):
     origin = db.StringProperty()
     api_key = db.StringProperty()
     owner = db.UserProperty(required=True)
-    created_at = db.DateTimeProperty(auto_now_add = True)
+    created_on = db.DateTimeProperty(auto_now_add = True)
 
     @classmethod
     def key_from_names(klass, owner_name, schema_name):
