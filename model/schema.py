@@ -74,11 +74,14 @@ class Schema(db.Model):
             offset = offset,
             newer_first = newer_first,
         )
-        has_next = 1 if len(data) > limit else 0
+
         return {
             'data': data[0:limit+1],
-            'has_next': has_next,
             'page': page,
+            'has_next': len(data) > limit,
+            'next_page': page + 1,
+            'has_prev': page > 1,
+            'prev_page': page - 1,
         }
 
     def data_has_number(self):

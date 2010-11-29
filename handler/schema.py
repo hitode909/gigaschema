@@ -21,12 +21,7 @@ class SchemaHandler(BaseHandler):
         page = 1 if page < 1 else page
 
         self.stash['schema'] = schema
-        paged = schema.data_at_page(page=page, group = group, per_page=50)
-        self.stash['pager_data'] = paged['data']
-        self.stash['pager_page'] = paged['page']
-        self.stash['pager_has_next'] = paged['has_next']
-        self.stash['pager_next_page'] = paged['page'] + 1
-
+        self.stash['pager'] = schema.data_at_page(page=page, group = group, per_page=50)
         self.response.out.write(ViewHelper.process('schema', self.stash))
 
     @hook_request
