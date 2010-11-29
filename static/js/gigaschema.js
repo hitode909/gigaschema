@@ -61,7 +61,7 @@ window.gigaschema.dispatcher('#chart', function() {
                 nums.push([day, post_at[day]]);
             }
         }
-        console.log(nums);
+        // console.log(nums);
         if (nums.length == 0) return;
         window.gigaschema.plotGraph('chart', [nums]);
     });
