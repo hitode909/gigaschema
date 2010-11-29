@@ -35,6 +35,7 @@ window.gigaschema.roundDateTime = function(dtstr) {
     return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
 }
 
+
 window.gigaschema.dispatcher('#chart', function() {
     var path = location.pathname + '.json';
     $.getJSON(path, function(data) {
@@ -67,10 +68,6 @@ window.gigaschema.dispatcher('#chart', function() {
 });
 
 window.gigaschema.dispatcher(true, function() {
-    $('.data-item:even').addClass('odd');
-});
-
-window.gigaschema.dispatcher(true, function() {
     $('form').submit(function() {
         $(this).find(':submit').attr('disabled', 'disabled');
     });
@@ -85,3 +82,4 @@ window.gigaschema.dispatcher('body#schema', function() {
 $(function() {
     window.gigaschema.dispatcher();
 });
+

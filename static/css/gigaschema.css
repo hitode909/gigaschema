@@ -30,6 +30,8 @@ ul.data-list {
     /* border: 1px solid; */
     padding: 5px;
     margin-bottom: 5px;
+
+    border-bottom: 1px solid #666;
 }
 
 .data-item.odd {
@@ -38,7 +40,6 @@ ul.data-list {
 
 .data-item .body {
     font-size: 150%;
-    margin-left: 1em;
 }
 
 .data-item .info {
