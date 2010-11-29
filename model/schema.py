@@ -116,7 +116,7 @@ class Schema(db.Model):
     def as_hash_with_data(self, data=data):
         result = {
             'name': self.name,
-            'data': [ d.as_hash() for d in paged['data'] ],
+            'data': [ d.as_hash() for d in data ],
         }
         return result
 
