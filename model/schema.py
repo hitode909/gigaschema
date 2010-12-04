@@ -115,8 +115,9 @@ class Schema(db.Model):
         data = []
 
         if use_cache :
+            cache_enabled = memcache.get(key=self.data_cache_all_key())
             json = memcache.get(key=key)
-            if (json) :
+            if (cache_enabled and json) :
                 data_key_list = simplejson.loads(json);
                 for data_key in data_key_list:
                     data.append(Data.retrieve(UserHelper.extract_user_name(self.owner), self.name, data_key, use_cache=True))
