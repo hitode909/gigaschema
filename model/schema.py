@@ -95,11 +95,14 @@ class Schema(db.Model):
         key = self.data_cache_all_key()
         json = memcache.get(key)
         data_cache_key_dict = {}
+        logging.info('adding cache...')
         if json:
             data_cache_key_dict = simplejson.loads(json)
 
         data_cache_key_dict[addkey] = 1
-        memcache.set(key=key, value=simplejson.dumps(data_cache_key_dict), time=60*60*24*30)
+        logging.info(simplejson.dumps(data_cache_key_dict))
+
+        memcache.set(key=key, value=simplejson.dumps(data_cache_key_dict), time=60*60*24*14)
 
     def clear_data_cache_all(self):
         logging.info('clearing..')
