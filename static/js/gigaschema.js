@@ -120,7 +120,7 @@ google.setOnLoadCallback(function() {
         return list;
     }
 
-    $.getJSON('/test/keyword.json', function(schema) {
+    $.getJSON('/hitode909/keyword.json', function(schema) {
         var keywords = shuffle(schema.data).map(function(data) { return data.value });
 
         results = [];
