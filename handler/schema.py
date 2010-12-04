@@ -124,3 +124,11 @@ class SchemaJsonHandler(BaseHandler):
 
 
 
+
+# /schema
+class RecentSchemaHandler(BaseHandler):
+
+    @hook_request
+    def get(self):
+        self.stash['schema_list'] = Schema.all().order('-created_on').fetch(40)
+        self.response.out.write(ViewHelper.process('recent_schema', self.stash))

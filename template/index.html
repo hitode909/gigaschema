@@ -7,35 +7,12 @@
   <div id="copy"></div>
 </div>
 
+<div id="create-schema">
 {% if user %}
-<h2>スキーマ作る</h2>
-<form method="POST" action="/">
-  <label>名前<input type="text" name="name" placeholder="名前" /></label><br>
-  <!-- <label>origin<input type="text" name="origin" placeholder="origin=*" /></label><br> -->
-  <label><input type="checkbox" name="with-api-key">APIキーを使う</label><br>
-  <input type="submit" value="作る">
-</form>
+<a href="/create">新しいスキーマ</a>
 {% else %}
-<p>↑スキーマを作るにはログインしてください．</p>
+<a href="{{ login_url }}">ログインしてスキーマを作る</a>
 {% endif %}
-
-<h2>新着スキーマ</h2>
-<ul class="schema-list">
-{% for schema in schema_list %}
-<li class="schema">
-  <a href="{{ schema.url }}">{{ schema.slug }}</a>
-</li>
-{% endfor %}
-</ul>
-
-<h2>新着データ</h2>
-<ul class="data-list">
-{% for data in data_list %}
-<li>
-  {% include "macro/data_item.html" %}
-</li>
-{% endfor %}
-</ul>
-
+</div>
 
 {% endblock %}

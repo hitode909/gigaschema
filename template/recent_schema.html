@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block id %}recent_data{% endblock %}
+
+{% block content %}
+
+<h2>新着スキーマ</h2>
+<ul class="schema-list">
+{% for schema in schema_list %}
+<li class="schema">
+  <a href="{{ schema.url }}">{{ schema.slug }}</a>
+</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

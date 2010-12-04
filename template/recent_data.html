@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block id %}recent_data{% endblock %}
+
+{% block content %}
+
+<h2>新着データ</h2>
+<ul class="data-list">
+{% for data in data_list %}
+<li>
+  {% include "macro/data_item.html" %}
+</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

@@ -94,3 +94,11 @@ class DataValueHandler(BaseHandler):
         self.set_allow_header(schema)
         self.response.out.write('options')
 
+
+# /data
+class RecentDataHandler(BaseHandler):
+
+    @hook_request
+    def get(self):
+        self.stash['data_list'] = Data.all().order('-created_on').fetch(40)
+        self.response.out.write(ViewHelper.process('recent_data', self.stash))

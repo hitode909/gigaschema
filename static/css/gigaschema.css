@@ -46,6 +46,11 @@ h1 {
     margin: 5px;
 }
 
+/* index */
+#create-schema {
+    font-size: 30px;
+}
+
 /* data-item */
 
 ul.data-list {

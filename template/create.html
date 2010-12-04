@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block id %}create{% endblock %}
+
+{% block content %}
+
+{% if user %}
+<h2>新しいスキーマ</h2>
+<form method="POST" action="/">
+  <label>名前<input type="text" name="name" placeholder="名前" /></label><br>
+  <!-- <label>origin<input type="text" name="origin" placeholder="origin=*" /></label><br> -->
+  <label><input type="checkbox" name="with-api-key">APIキーを使う</label><br>
+  <input type="submit" value="作る">
+</form>
+{% else %}
+<p>↑スキーマを作るにはログインしてください．</p>
+{% endif %}
+
+{% endblock %}
