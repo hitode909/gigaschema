@@ -114,7 +114,8 @@ class RecentDataHandler(BaseHandler):
             if json:
                 data_keys_list = simplejson.loads(json)
                 for data_keys in data_keys_list:
-                    data_list.append(Data.retrieve(*data_keys, use_cache=True))
+                    data_keys.append(True)
+                    data_list.append(Data.retrieve(*data_keys))
 
         if len(data_list) == 0:
             data_list = Data.all().order('-created_on').fetch(limit+1, offset)
