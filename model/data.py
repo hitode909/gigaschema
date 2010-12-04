@@ -21,6 +21,8 @@ class Data(db.Model):
 
         if use_cache:
             json = memcache.get(key=key)
+            logging.info(key)
+            logging.info(json)
             if (json) :
                 data_hash = simplejson.loads(json);
                 schema = Schema.retrieve(owner_name = owner_name, schema_name = schema_name, use_cache=True)

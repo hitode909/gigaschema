@@ -1,7 +1,9 @@
 import os
 import logging
+from google.appengine.api import memcache
 from google.appengine.ext import webapp, db
 from google.appengine.ext.webapp import util, template
+from django.utils import simplejson
 from datetime import datetime
 from helper import *
 from model import *
@@ -104,7 +106,28 @@ class RecentDataHandler(BaseHandler):
         page = int(self.request.get('page') or 1)
         page = 1 if page < 1 else page
         offset = limit * (page - 1)
-        data_list = Data.all().order('-created_on').fetch(limit+1, offset)
+
+        data_list = []
+        key = "/".join(['data', 'recent', str(page)])
+        if page == 1:
+            json = memcache.get(key)
+            if json:
+                data_keys_list = simplejson.loads(json)
+                for data_keys in data_keys_list:
+                    data_list.append(Data.retrieve(*data_keys, use_cache=True))
+
+        if len(data_list) == 0:
+            data_list = Data.all().order('-created_on').fetch(limit+1, offset)
+            data_keys_list = []
+            for data in data_list:
+                data_keys_list.append([
+                    UserHelper.extract_user_name(data.schema.owner),
+                    data.schema.name,
+                    str(data.key()),
+                ])
+            json = simplejson.dumps(data_keys_list)
+            if page == 1:
+                memcache.set(key=key, value=json, time=60*60*1)
 
         self.stash['pager'] = {
             'url': '/data',
