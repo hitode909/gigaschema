@@ -3,6 +3,12 @@
 {% block content %}
 <h2>{{ data.slug }}</h2>
 <div><a href="{{ data.json_url }}">JSON</a></div>
+<div><a href="{{ data.value_url }}">value</a></div>
+
+{% if data.media_url %}
+<div><a href="{{ data.media_url }}">{{ data.blob_info.extname }}</a></div>
+{% endif %}
+
 
 {% include "macro/data_item.html" %}
 

@@ -12,6 +12,8 @@ def main():
             ('/([^./]+)/([^./]+).json', SchemaJsonHandler),
             ('/([^./]+)/([^./]+)/?', SchemaHandler),
             ('/([^./]+)/([^./]+)/([^./]+).json', DataJsonHandler),
+            ('/([^./]+)/([^./]+)/([^./]+).value', DataValueHandler),
+            ('/([^./]+)/([^./]+)/([^./]+)\.([^./]+)', DataMediaHandler),
             ('/([^./]+)/([^./]+)/([^./]+)/?', DataHandler),
             ],
         debug=True)

@@ -55,3 +55,41 @@ class DataJsonHandler(BaseHandler):
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write( ViewHelper.process_data(data.as_hash()))
 
+class DataMediaHandler(BaseHandler):
+    @hook_request
+    def get(self, owner_name, schema_name, data_key, data_type):
+        data = self.get_data(owner_name, schema_name, data_key)
+        schema = data.schema
+        self.set_allow_header(schema)
+
+        info = data.blob_info()
+        if not info:
+            self.error_response(400, log_msg="not blob")
+
+        self.response.headers['Content-Type'] = info['content-type']
+        self.response.out.write(info['blob'])
+
+    @hook_request
+    def options(self, owner_name, schema_name, data_key, data_type):
+        data = self.get_data(owner_name, schema_name, data_key)
+        schema = data.schema
+        self.set_allow_header(schema)
+        self.response.out.write('options')
+
+class DataValueHandler(BaseHandler):
+    @hook_request
+    def get(self, owner_name, schema_name, data_key):
+        data = self.get_data(owner_name, schema_name, data_key)
+        schema = data.schema
+        self.set_allow_header(schema)
+
+        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.out.write(data.value)
+
+    @hook_request
+    def options(self, owner_name, schema_name, data_key):
+        data = self.get_data(owner_name, schema_name, data_key)
+        schema = data.schema
+        self.set_allow_header(schema)
+        self.response.out.write('options')
+

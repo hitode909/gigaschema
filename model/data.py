@@ -1,5 +1,6 @@
 from google.appengine.ext import db
 from model.schema import Schema
+import base64
 import re
 import datetime
 import logging
@@ -48,6 +49,9 @@ class Data(db.Model):
 
     def json_url(self):
         return self.url() + '.json'
+
+    def value_url(self):
+        return self.url() + '.value'
 
     def as_hash(self):
         return {
@@ -106,6 +110,12 @@ class Data(db.Model):
     def is_url_item(self):
         return self.item_type == 'url'
 
+    def output_value(self):
+        if self.media_url():
+            return self.media_url()
+        else:
+            return self.value
+
     @classmethod
     def validate_group(klass, value):
         if not value:
@@ -118,3 +128,30 @@ class Data(db.Model):
 
     def slug(self):
         return self.schema.slug() + '/' + str(self.key())
+
+    def media_url(self):
+        blob_info = self.blob_info()
+        if blob_info:
+            return self.url() + '.' + blob_info['extname']
+
+        return None
+
+    def blob_info(self):
+        if getattr(self, 'blob_info_cache', 'undef') != 'undef':
+            return getattr(self, 'blob_info_cache')
+
+        r = re.compile('^data:(.+)/(.+);base64,(.*)$', re.S)
+        matched = r.match(self.value)
+        if matched:
+            b64 = matched.group(3)
+            blob = base64.standard_b64decode(b64)
+            self.blob_info_cache = {
+                'blob': blob,
+                'content-type': matched.group(1) + '/' + matched.group(2),
+                'extname': matched.group(2)
+                }
+        else:
+            self.blob_info_cache = None
+
+        return self.blob_info_cache
+

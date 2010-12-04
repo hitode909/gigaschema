@@ -1,18 +1,18 @@
-<div class="data-item" data-value="{{ data.value }}" data-created-on="{{ data.created_on }}">
+<div class="data-item" data-value="{{ data.output_value }}" data-created-on="{{ data.created_on }}">
   {% if data.is_text_item %}
-  <span class="body">{{ data.value|linebreaksbr }}</span>
+  <span class="body">{{ data.output_value|linebreaksbr }}</span>
   {% else %}
     {% if data.is_number_item %}
-      <span class="body">{{ data.value }}</span>
+      <span class="body">{{ data.output_value }}</span>
     {% else %}
       {% if data.is_image_item %}
-      <img src="{{ data.value }}">
+      <img src="{{ data.output_value }}">
       {% else %}
         {% if data.is_audio_item %}
-        <div><audio src="{{ data.value }}" controls="controls"></div>
+        <div><audio src="{{ data.output_value }}" controls="controls"></div>
         {% else %}
           {% if data.is_url_item %}
-          <a href="{{ data.value }}"><img src="http://capture.heartrails.com/free?{{ data.value }}">{{ data.value }}</a>
+          <a href="{{ data.output_value }}"><img src="http://capture.heartrails.com/free?{{ data.output_value }}">{{ data.output_value }}</a>
           {% endif %}
         {% endif %}
       {% endif %}
