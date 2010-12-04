@@ -8,6 +8,7 @@ from helper import *
 from model import *
 from handler.base import BaseHandler
 from handler.base import hook_request
+import logging
 
 class SchemaHandler(BaseHandler):
 
@@ -40,7 +41,9 @@ class SchemaHandler(BaseHandler):
             self.error_response(400, log_msg="group must not include '.' or '/'")
 
         data = Data.create_multi(schema, group=group, values=values)
+        logging.info('before clear')
         schema.clear_data_cache_all();
+        logging.info('after clear')
         self.redirect(schema.url())
 
 class SchemaSettingHandler(BaseHandler):

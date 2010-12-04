@@ -102,10 +102,12 @@ class Schema(db.Model):
         memcache.set(key=key, value=simplejson.dumps(data_cache_key_dict), time=60*60*24*30)
 
     def clear_data_cache_all(self):
+        logging.info('clearing..')
         key = self.data_cache_all_key()
         json = memcache.get(key)
         if json:
             data_cache_key_list = simplejson.loads(json)
+            logging.info('clearing these: ' + json)
             memcache.delete_multi(data_cache_key_list.keys())
 
     def data(self, group=None, limit=50, offset=0, newer_first=True, use_cache=False):
