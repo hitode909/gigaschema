@@ -40,7 +40,7 @@ h1 {
 }
 
 #welcome img {
-    width: 230px;
+    max-width: 230px;
     max-height: 200px;
     -webkit-border-radius: 10px;
     margin: 5px;
