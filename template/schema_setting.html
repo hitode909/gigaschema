@@ -44,4 +44,10 @@
 </form>
 {% endif %}
 
+<h2>スキーマの削除</h2>
+<form method="POST" action="{{ schema.url }}" onsubmit="return confirm('delete?');">
+    <input type="hidden" name="delete" value="1">
+    <input type="submit" value="削除">
+</form>
+
 {% endblock %}

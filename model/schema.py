@@ -44,8 +44,9 @@ class Schema(db.Model):
 
         if not schema:
             schema = Schema.retrieve_by_names(owner_name, schema_name)
-            json = simplejson.dumps(schema.as_dumpable_hash())
-            memcache.set(key=key, value=json, time=60*60*24*10)
+            if schema:
+                json = simplejson.dumps(schema.as_dumpable_hash())
+                memcache.set(key=key, value=json, time=60*60*24*10)
 
         return schema
 
@@ -79,6 +80,11 @@ class Schema(db.Model):
     def retrieve_by_names(klass, owner_name, schema_name):
         key_name = klass.key_from_names(owner_name, schema_name)
         return klass.get_by_key_name(key_name)
+
+    def delete_with_data(self):
+        for data in self.data_set:
+            data.delete()
+        self.delete()
 
     def reset_api_key(self):
         s = hashlib.sha1()

@@ -40,8 +40,9 @@ class Data(db.Model):
                 logging.info('cach hit(data): ' + key)
         if not data:
             data = Data.get(data_key)
-            json = simplejson.dumps(data.as_dumpable_hash())
-            memcache.set(key=key, value=json, time=60*60*24*10)
+            if data:
+                json = simplejson.dumps(data.as_dumpable_hash())
+                memcache.set(key=key, value=json, time=60*60*24*10)
 
         return data
 

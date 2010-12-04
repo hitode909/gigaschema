@@ -26,7 +26,23 @@ class SchemaHandler(BaseHandler):
         self.response.out.write(ViewHelper.process('schema', self.stash))
 
     @hook_request
+    def delete(self, owner_name, schema_name):
+        if not self.user:
+            self.error_response(403, log_msg="no user")
+        schema = self.get_schema(owner_name, schema_name)
+        if self.user.user_id() != schema.owner.user_id():
+            self.error_response(403, log_msg="invalid user")
+
+
+        schema.clear_data_cache_all()
+        schema.delete_with_data()
+        self.redirect('/')
+
+    @hook_request
     def post(self, owner_name, schema_name):
+        if self.request.get('delete'):
+            return self.delete(owner_name, schema_name);
+
         schema = self.get_schema(owner_name, schema_name)
         if schema.api_key and schema.api_key != self.request.get('api_key'):
             self.error_response(403, log_msg="invlid api")
