@@ -2,6 +2,7 @@
 /*     font-family:"arial","helvetica",sans-serif; */
 /* } */
 
+
 div#whole {
     margin:0 auto 0;
     width: 80%;
@@ -20,6 +21,32 @@ a {
     border: 0;
     color: #000;
 }
+
+h1 {
+    height: 360px;
+    margin-bottom: 50px;
+}
+
+/* welcome */
+
+#welcome {
+    height: 300px;
+    margin-bottom: 50px;
+}
+
+#welcome #copy {
+    font-weight: bold;
+    font-size: 40px;
+}
+
+#welcome img {
+    width: 230px;
+    max-height: 200px;
+    -webkit-border-radius: 10px;
+    margin: 5px;
+}
+
+/* data-item */
 
 ul.data-list {
     list-style-type: none;
