@@ -8,6 +8,7 @@ import hashlib
 import urllib
 import re
 import datetime
+import logging
 
 class Schema(db.Model):
     name = db.StringProperty(required=True)
@@ -39,6 +40,7 @@ class Schema(db.Model):
                     owner=owner,
                     created_on=created_on,
                 )
+                logging.info('cache hit(schema): ' + key)
 
         if not schema:
             schema = Schema.retrieve_by_names(owner_name, schema_name)
@@ -86,20 +88,60 @@ class Schema(db.Model):
         self.api_key = s.hexdigest()
         self.put();
 
-    def data(self, group=None, limit=50, offset=0, newer_first=True):
-        q = Data.all()
-        q.filter('schema = ', self.key())
-        if group:
-            q.filter('group = ', group)
-        if newer_first:
-            q.order('-created_on')
-        else:
-            q.order('created_on')
+    def data_cache_all_key(self):
+        return '/'.join([self.key().name(), 'data_cache_all'])
 
-        data = q.fetch(limit, offset=offset)
+    def add_data_cache_all_key(self, addkey):
+        key = self.data_cache_all_key()
+        json = memcache.get(key)
+        data_cache_key_dict = {}
+        if json:
+            data_cache_key_dict = simplejson.loads(json)
+
+        data_cache_key_dict[addkey] = 1
+        memcache.set(key=key, value=simplejson.dumps(data_cache_key_dict), time=60*60*24*30)
+
+    def clear_data_cache_all(self):
+        key = self.data_cache_all_key()
+        json = memcache.get(key)
+        if json:
+            data_cache_key_list = simplejson.loads(json)
+            memcache.delete_multi(data_cache_key_list.keys())
+
+    def data(self, group=None, limit=50, offset=0, newer_first=True, use_cache=False):
+        key = '/'.join([self.key().name(), 'data', str(group), str(limit), str(offset), str(newer_first)])
+        data = []
+
+        if use_cache :
+            json = memcache.get(key=key)
+            if (json) :
+                data_key_list = simplejson.loads(json);
+                for data_key in data_key_list:
+                    data.append(Data.retrieve(UserHelper.extract_user_name(self.owner), self.name, data_key, use_cache=True))
+                logging.info('cache hit(schema_data): ' + key)
+
+        if len(data) == 0:
+            q = Data.all()
+            q.filter('schema = ', self.key())
+            if group:
+                q.filter('group = ', group)
+            if newer_first:
+                q.order('-created_on')
+            else:
+                q.order('created_on')
+
+            data = q.fetch(limit, offset=offset)
+
+            data_key_list = []
+            for d in data:
+                data_key_list.append(str(d.key()))
+            json = simplejson.dumps(data_key_list)
+            memcache.set(key=key, value=json, time=60*60*24*10)
+            self.add_data_cache_all_key(key)
+
         return data
 
-    def data_at_page(self, group=None, page=1, per_page=100, newer_first=True):
+    def data_at_page(self, group=None, page=1, per_page=100, newer_first=True, use_cache=False):
         limit = per_page
         offset = (page-1) * per_page
         data = self.data(
@@ -107,6 +149,7 @@ class Schema(db.Model):
             limit = limit + 1,
             offset = offset,
             newer_first = newer_first,
+            use_cache = use_cache
         )
 
         return {
@@ -136,8 +179,8 @@ class Schema(db.Model):
     def slug(self):
         return UserHelper.extract_user_name(self.owner) + "/" + self.name
 
-    def as_hash(self, group=None, page=1, per_page=20):
-        paged = self.data_at_page(page=page, per_page=per_page, group=group)
+    def as_hash(self, group=None, page=1, per_page=20,use_cache=False):
+        paged = self.data_at_page(page=page, per_page=per_page, group=group, use_cache=use_cache)
 
         has_prev = 1  if page > 1 else 0 
         result = {

@@ -37,6 +37,7 @@ class Data(db.Model):
                     value = value,
                     item_type = item_type,
                 )
+                logging.info('cach hit(data): ' + key)
         if not data:
             data = Data.get(data_key)
             json = simplejson.dumps(data.as_dumpable_hash())

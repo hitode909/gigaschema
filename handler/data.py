@@ -28,6 +28,7 @@ class DataHandler(BaseHandler):
             self.error_response(403, log_msg="invalid api")
 
         data.delete()
+        schema.clear_data_cache_all();
         self.set_allow_header(schema)
         self.redirect(schema.url())
 

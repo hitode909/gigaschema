@@ -21,7 +21,7 @@ class SchemaHandler(BaseHandler):
         page = 1 if page < 1 else page
 
         self.stash['schema'] = schema
-        self.stash['pager'] = schema.data_at_page(page=page, group = group, per_page=50)
+        self.stash['pager'] = schema.data_at_page(page=page, group = group, per_page=50, use_cache=True)
         self.response.out.write(ViewHelper.process('schema', self.stash))
 
     @hook_request
@@ -40,6 +40,7 @@ class SchemaHandler(BaseHandler):
             self.error_response(400, log_msg="group must not include '.' or '/'")
 
         data = Data.create_multi(schema, group=group, values=values)
+        schema.clear_data_cache_all();
         self.redirect(schema.url())
 
 class SchemaSettingHandler(BaseHandler):
@@ -89,7 +90,7 @@ class SchemaJsonHandler(BaseHandler):
 
         self.set_allow_header(schema)
         self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write( ViewHelper.process_data(schema.as_hash(group=group, page=page, per_page=200)) )
+        self.response.out.write( ViewHelper.process_data(schema.as_hash(group=group, page=page, per_page=200, use_cache=True)) )
 
     @hook_request
     def post(self, owner_name, schema_name):
@@ -107,6 +108,7 @@ class SchemaJsonHandler(BaseHandler):
             self.error_response(400, log_msg="group must not include '.' or '/'")
 
         data = Data.create_multi(schema, group=group, values=values)
+        schema.clear_data_cache_all();
         self.set_allow_header(schema)
         self.response.out.write( ViewHelper.process_data(schema.as_hash_with_data(data=data)) )
 
