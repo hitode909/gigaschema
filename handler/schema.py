@@ -130,5 +130,20 @@ class RecentSchemaHandler(BaseHandler):
 
     @hook_request
     def get(self):
-        self.stash['schema_list'] = Schema.all().order('-created_on').fetch(40)
+        limit = 50
+        page = int(self.request.get('page') or 1)
+        page = 1 if page < 1 else page
+        offset = limit * (page - 1)
+        schema_list = Schema.all().order('-created_on').fetch(limit+1, offset)
+
+        self.stash['pager'] = {
+            'url': '/schema',
+            'data': schema_list[0:limit],
+            'page': page,
+            'has_next': len(schema_list) > limit,
+            'next_page': page + 1,
+            'has_prev': page > 1,
+            'prev_page': page - 1,
+        }
+
         self.response.out.write(ViewHelper.process('recent_schema', self.stash))

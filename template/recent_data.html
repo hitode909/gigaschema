@@ -5,12 +5,22 @@
 {% block content %}
 
 <h2>新着データ</h2>
-<ul class="data-list">
-{% for data in data_list %}
-<li>
-  {% include "macro/data_item.html" %}
-</li>
-{% endfor %}
-</ul>
+<div class="autopagerize_page_element">
+  <ul class="data-list">
+    {% for data in pager.data %}
+    <li>
+      {% include "macro/data_item.html" %}
+    </li>
+    {% endfor %}
+  </ul>
+
+  {% if pager.has_prev %}
+  <a href="{{ pager.url}}?page={{pager.prev_page}}" rel="prev" >prev</a>
+  {% endif %}
+  {% if pager.has_next %}
+  <a href="{{ pager.url}}?page={{pager.next_page}}" rel="next" >next</a>
+  {% endif %}
+</div>
+
 
 {% endblock %}

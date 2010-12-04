@@ -159,7 +159,7 @@ class Schema(db.Model):
         )
 
         return {
-            'data': data[0:limit+1],
+            'data': data[0:limit],
             'page': page,
             'has_next': len(data) > limit,
             'next_page': page + 1,
