@@ -13,7 +13,7 @@ class SchemaHandler(BaseHandler):
 
     @hook_request
     def get(self, owner_name, schema_name):
-        schema = self.get_schema(owner_name, schema_name)
+        schema = self.get_schema(owner_name, schema_name, use_cache = True)
         schema.current_user = self.user
 
         group = self.request.get('group') or None
@@ -82,7 +82,7 @@ class SchemaJsonHandler(BaseHandler):
 
     @hook_request
     def get(self, owner_name, schema_name):
-        schema = self.get_schema(owner_name, schema_name)
+        schema = self.get_schema(owner_name, schema_name, use_cache = True)
         group = self.request.get('group') or None
         page = int(self.request.get('page') or 1)
         page = 1 if page < 1 else page

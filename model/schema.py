@@ -17,30 +17,34 @@ class Schema(db.Model):
     created_on = db.DateTimeProperty(auto_now_add = True)
 
     @classmethod
-    def retrieve(klass, owner_name, schema_name):
+    def retrieve(klass, owner_name, schema_name, use_cache=False):
         key = klass.key_from_names(owner_name, schema_name)
-        json = memcache.get(key=key)
         schema = None
-        if (json) :
-            schema_hash = simplejson.loads(json);
-            name = schema_hash['name']
-            origin = schema_hash['origin']
-            api_key = schema_hash['api_key']
-            owner = users.User(schema_hash['owner_mail'])
-            datestr = re.sub(r'\.\d*$', '',  schema_hash['created_on'])
-            created_on = datetime.datetime.strptime(datestr, '%Y-%m-%d %H:%M:%S')
-            schema = Schema(
-                key_name = key,
-                name=name,
-                origin=origin,
-                api_key=api_key,
-                owner=owner,
-                created_on=created_on,
-            )
-        else:
+
+        if use_cache :
+            json = memcache.get(key=key)
+            if (json) :
+                schema_hash = simplejson.loads(json);
+                name = schema_hash['name']
+                origin = schema_hash['origin']
+                api_key = schema_hash['api_key']
+                owner = users.User(schema_hash['owner_mail'])
+                datestr = re.sub(r'\.\d*$', '',  schema_hash['created_on'])
+                created_on = datetime.datetime.strptime(datestr, '%Y-%m-%d %H:%M:%S')
+                schema = Schema(
+                    key_name = key,
+                    name=name,
+                    origin=origin,
+                    api_key=api_key,
+                    owner=owner,
+                    created_on=created_on,
+                )
+
+        if not schema:
             schema = Schema.retrieve_by_names(owner_name, schema_name)
             json = simplejson.dumps(schema.as_dumpable_hash())
             memcache.set(key=key, value=json, time=60*60*24*10)
+
         return schema
 
     @classmethod

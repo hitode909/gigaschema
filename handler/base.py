@@ -41,21 +41,21 @@ class BaseHandler(webapp.RequestHandler):
             'logout_url': logout_url,
         }
 
-    def get_schema(self, owner_name, schema_name):
+    def get_schema(self, owner_name, schema_name, use_cache=False):
         schema = None
         schema_name = urllib.unquote(schema_name).decode('utf-8')
         try:
-            schema = Schema.retrieve(owner_name, schema_name)
+            schema = Schema.retrieve(owner_name, schema_name, use_cache)
         except BadKeyError, message:
             schema = None
         if not schema:
             self.error_response(404, log_msg="schema not found: " + owner_name + "/" + schema_name)
         return schema
 
-    def get_data(self, owner_name, schema_name, data_key):
+    def get_data(self, owner_name, schema_name, data_key, use_cache=False):
         data = None
         try:
-            data = Data.retrieve(owner_name, schema_name, data_key)
+            data = Data.retrieve(owner_name, schema_name, data_key, use_cache)
             if data.schema and (UserHelper.extract_user_name(data.schema.owner)) != owner_name or (data.schema.name != schema_name):
                 self.error_response(400, log_msg="")
         except BadKeyError, message:

@@ -12,7 +12,7 @@ class DataHandler(BaseHandler):
 
     @hook_request
     def get(self, owner_name, schema_name, data_key):
-        data = self.get_data(owner_name, schema_name, data_key)
+        data = self.get_data(owner_name, schema_name, data_key, use_cache = True)
         schema = data.schema
         schema.current_user = self.user
 
@@ -48,7 +48,7 @@ class DataHandler(BaseHandler):
 class DataJsonHandler(BaseHandler):
     @hook_request
     def get(self, owner_name, schema_name, data_key):
-        data = self.get_data(owner_name, schema_name, data_key)
+        data = self.get_data(owner_name, schema_name, data_key, use_cache = True)
         schema = data.schema
 
         self.set_allow_header(schema)
