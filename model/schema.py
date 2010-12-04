@@ -1,10 +1,13 @@
 from google.appengine.api import users
 from google.appengine.ext import db
+from google.appengine.api import memcache
+from django.utils import simplejson
 from time import time
 from helper import *
 import hashlib
 import urllib
 import re
+import datetime
 
 class Schema(db.Model):
     name = db.StringProperty(required=True)
@@ -12,6 +15,33 @@ class Schema(db.Model):
     api_key = db.StringProperty()
     owner = db.UserProperty(required=True)
     created_on = db.DateTimeProperty(auto_now_add = True)
+
+    @classmethod
+    def retrieve(klass, owner_name, schema_name):
+        key = klass.key_from_names(owner_name, schema_name)
+        json = memcache.get(key=key)
+        schema = None
+        if (json) :
+            schema_hash = simplejson.loads(json);
+            name = schema_hash['name']
+            origin = schema_hash['origin']
+            api_key = schema_hash['api_key']
+            owner = users.User(schema_hash['owner_mail'])
+            datestr = re.sub(r'\.\d*$', '',  schema_hash['created_on'])
+            created_on = datetime.datetime.strptime(datestr, '%Y-%m-%d %H:%M:%S')
+            schema = Schema(
+                key_name = key,
+                name=name,
+                origin=origin,
+                api_key=api_key,
+                owner=owner,
+                created_on=created_on,
+            )
+        else:
+            schema = Schema.retrieve_by_names(owner_name, schema_name)
+            json = simplejson.dumps(schema.as_dumpable_hash())
+            memcache.set(key=key, value=json, time=60*60*24*10)
+        return schema
 
     @classmethod
     def key_from_names(klass, owner_name, schema_name):
@@ -119,6 +149,21 @@ class Schema(db.Model):
         result = {
             'name': self.name,
             'data': [ d.as_hash() for d in data ],
+        }
+        return result
+
+    def as_dumpable_hash(self) :
+        name = db.StringProperty(required=True)
+        origin = db.StringProperty()
+        api_key = db.StringProperty()
+        owner = db.UserProperty(required=True)
+        created_on = db.DateTimeProperty(auto_now_add = True)
+        result = {
+            'name': self.name,
+            'origin': self.origin,
+            'api_key': self.api_key,
+            'owner_mail': self.owner.email(),
+            'created_on': str(self.created_on),
         }
         return result
 

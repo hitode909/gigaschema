@@ -45,7 +45,7 @@ class BaseHandler(webapp.RequestHandler):
         schema = None
         schema_name = urllib.unquote(schema_name).decode('utf-8')
         try:
-            schema = Schema.retrieve_by_names(owner_name, schema_name)
+            schema = Schema.retrieve(owner_name, schema_name)
         except BadKeyError, message:
             schema = None
         if not schema:
@@ -55,7 +55,7 @@ class BaseHandler(webapp.RequestHandler):
     def get_data(self, owner_name, schema_name, data_key):
         data = None
         try:
-            data = Data.get(data_key)
+            data = Data.retrieve(owner_name, schema_name, data_key)
             if data.schema and (UserHelper.extract_user_name(data.schema.owner)) != owner_name or (data.schema.name != schema_name):
                 self.error_response(400, log_msg="")
         except BadKeyError, message:

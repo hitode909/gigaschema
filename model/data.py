@@ -1,9 +1,11 @@
 from google.appengine.ext import db
 from model.schema import Schema
 import base64
+from google.appengine.api import memcache
 import re
 import datetime
 import logging
+from django.utils import simplejson
 
 class Data(db.Model):
     schema = db.ReferenceProperty(Schema, required=True)
@@ -11,6 +13,36 @@ class Data(db.Model):
     group = db.StringProperty()
     value = db.TextProperty()
     item_type = db.TextProperty()
+
+    @classmethod
+    def retrieve(klass, owner_name, schema_name, data_key):
+        key = '/'.join([owner_name,schema_name,data_key])
+        json = memcache.get(key=key)
+        data = None
+        if (json) :
+            data_hash = simplejson.loads(json);
+            schema = Schema.retrieve(owner_name = owner_name, schema_name = schema_name)
+            datestr = re.sub(r'\.\d*$', '',  data_hash['created_on'])
+            created_on = datetime.datetime.strptime(datestr, '%Y-%m-%d %H:%M:%S')
+            group = data_hash['group']
+            value = data_hash['value']
+            item_type = data_hash['item_type']
+            data = Data(
+                key = data_key,
+                schema = schema,
+                created_on = created_on,
+                group = group,
+                value = value,
+                item_type = item_type,
+            )
+        else:
+            data = Data.get(data_key)
+            json = simplejson.dumps(data.as_dumpable_hash())
+            memcache.set(key=key, value=json, time=60*60*24*10)
+        return data
+
+    def retrieve_all(klass):
+        pass
 
     @classmethod
     def create(klass, schema=None, group=None, value=None):
@@ -55,11 +87,15 @@ class Data(db.Model):
 
     def as_hash(self):
         return {
-            'timestamp': str(self.created_on),
+            'created_on': str(self.created_on),
             'group': self.group,
             'value': self.value,
             'item_type': self.item_type,
         }
+
+    def as_dumpable_hash(self):
+        result = self.as_hash()
+        return result;
 
     def set_item_type(self):
         if self.item_type:
