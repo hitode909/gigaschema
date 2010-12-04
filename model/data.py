@@ -94,14 +94,17 @@ class Data(db.Model):
         return {
             'created_on': str(self.created_on),
             'group': self.group,
-            'value': self.value,
+            'value': self.output_value(),
             'item_type': self.item_type,
         }
 
     def as_dumpable_hash(self):
-        result = self.as_hash()
-        return result;
-
+        return {
+            'created_on': str(self.created_on),
+            'group': self.group,
+            'value': self.value,
+            'item_type': self.item_type,
+        }
     def set_item_type(self):
         if self.item_type:
             return
