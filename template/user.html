@@ -3,10 +3,10 @@
 {% block content %}
 <h2><img src="{{ owner.avatar_url }}" >{{ owner.name }}さん</h2>
 
-{% if owner.is_current_user and not schema_list %}
-<p><a href="/create">新しいスキーマを作りましょう．</a></p>
-{% endif %}
+<p><a href="/create">新しいスキーマを作る</a></p>
 
+{% if schema_list %}
+<h2>スキーマ一覧</h2>
 <ul class="schema-list">
 {% for schema in schema_list %}
 <li class="schema">
@@ -14,5 +14,6 @@
 </li>
 {% endfor %}
 </ul>
+{% endif %}
 
 {% endblock %}

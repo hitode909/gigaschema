@@ -116,3 +116,11 @@ ul.data-list {
     font-size: 30px;
 }
 
+/* ------create------ */
+body#create form#create {
+    margin: 40px;
+    line-height: 1.5em;
+}
+body#create form#create, body#create form#create input {
+    font-size: 30px;
+}
