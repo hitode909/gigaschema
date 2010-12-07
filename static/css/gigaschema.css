@@ -131,3 +131,19 @@ body#schema #chart {
     height: 250px;
     margin: 10px;
 }
+
+
+/* schema-item */
+
+ul.schema-list {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+.schema-item {
+    font-size: 150%;
+    padding: 5px;
+    margin-bottom: 5px;
+
+    border-bottom: 1px solid #666;
+}
