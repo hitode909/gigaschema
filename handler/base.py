@@ -25,6 +25,8 @@ class BaseHandler(webapp.RequestHandler):
 
     def before_dispatch(self, *args):
         user = users.get_current_user()
+        if user:
+            UserHelper.inject_params(user)
         self.user = user
 
         login_url = ''

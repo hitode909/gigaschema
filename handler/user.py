@@ -16,12 +16,18 @@ class UserHandler(BaseHandler):
         if not owner_name:
             self.error_response(404, log_msg="user not found")
 
+        if self.stash['user']:
+            owner.is_current_user = self.stash['user'].email() == owner.email()
+        else:
+            owner.is_current_user = True
+
+        UserHelper.inject_params(owner)
+        self.stash['owner'] = owner
         q = Schema.all()
         q.filter('owner = ', owner)
         q.order('-created_on')
 
         self.stash['schema_list'] = q.fetch(1000)
-        self.stash['owner_name'] = owner_name
         self.response.out.write(ViewHelper.process('user', self.stash))
 
 class UserRedirectHandler(BaseHandler):

@@ -18,9 +18,9 @@
       <div id="header">
         <h1><a href="/"><img src="http://music-islands.com/blog/image_8/sataniccorpse.jpg"></a></h1>
         <ul>
-          <li><a href="/create">作る</a></li>
+          {% if user %}<li><a href="/create">作る</a></li>{% endif %}
           <li><a href="/data">データ</a></li>
-          <li><a href="/user">{{ user.nickname }}</a></li>
+          {% if user %}<li><a href="/user"><img src="{{ user.small_avatar_url }}">{{ user.name }}</a></li>{% endif %}
           <li>{% if user %}<a href="{{ logout_url }}">ログアウト</a>{% else %}<a href="{{ login_url }}">ログイン</a></li>{% endif %}
         </ul>
       </div>

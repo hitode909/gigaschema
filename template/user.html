@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>{{owner_name}}さんのスキーマ</h2>
+<h2><img src="{{ owner.avatar_url }}" >{{ owner.name }}さん</h2>
+
+{% if owner.is_current_user and not schema_list %}
+<p><a href="/create">新しいスキーマを作りましょう．</a></p>
+{% endif %}
+
 <ul class="schema-list">
 {% for schema in schema_list %}
 <li class="schema">
