@@ -45,7 +45,7 @@ window.gigaschema.dispatcher('#chart', function() {
         var post_at = { };
 
         data.data.forEach(function(row) {
-            var created_on = row.timestamp;
+            var created_on = row.created_on;
             var value = row.value;
             var num_value = parseFloat(value, 10);
 
