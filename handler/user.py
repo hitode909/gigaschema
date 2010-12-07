@@ -24,5 +24,11 @@ class UserHandler(BaseHandler):
         self.stash['owner_name'] = owner_name
         self.response.out.write(ViewHelper.process('user', self.stash))
 
+class UserRedirectHandler(BaseHandler):
 
+    @hook_request
+    def get(self):
+        if not self.stash['user']:
+            self.error_response(403, log_msg="please login")
 
+        self.redirect('/' + UserHelper.extract_user_name(self.stash['user']))

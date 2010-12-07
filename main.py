@@ -10,6 +10,7 @@ def main():
             ('/create/?', CreateHandler),
             ('/data/?', RecentDataHandler),
             ('/schema/?', RecentSchemaHandler),
+            ('/user/?', UserRedirectHandler),
             ('/([^./]+)/?', UserHandler),
             ('/([^./]+)/([^./]+).setting', SchemaSettingHandler),
             ('/([^./]+)/([^./]+).json', SchemaJsonHandler),
