@@ -14,7 +14,19 @@ class IndexHandler(BaseHandler):
 
     @hook_request
     def get(self):
-        self.response.out.write(ViewHelper.process('index', self.stash))
+        if not self.stash['user']:
+            self.response.out.write(ViewHelper.process('index', self.stash))
+            return
+
+        user = self.stash['user']
+        self.stash['owner'] = user
+
+        q = Schema.all()
+        q.filter('owner = ', user)
+        q.order('-created_on')
+
+        self.stash['schema_list'] = q.fetch(1000)
+        self.response.out.write(ViewHelper.process('user', self.stash))
 
     @hook_request
     def post(self):

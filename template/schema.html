@@ -14,20 +14,18 @@
 {% endif %}
 
 {% if schema.has_data %}
-<h2>グラフ</h2>
-<div id="chart" style="height:300px;width:500px; "></div>
+<div id="chart"></div>
 {% endif %}
 
-<h2>投稿</h2>
+<h2>データを投稿</h2>
 {% if schema.current_user_can_post %}
-<form method="POST" action="{{ schema_url }}">
+<form id="new-data" method="POST" action="{{ schema_url }}">
   <!-- <input type="text" name="group" placeholder="group" /> -->
-  <textarea name="value" placeholder="value" rows="10" cols="80" ></textarea>
+  <textarea name="value" placeholder="value" rows="3" cols="20" ></textarea>
   {% if schema.api_key %}
   <input type="hidden" name="api_key" value="{{ schema.api_key }}" />
   {% endif %}
-  <br>
-  <input type="submit" value="作る">
+  <input type="submit" value="作る" disabled="disabled">
 </form>
 {% else %}
   <p>このスキーマに投稿するにはAPIキーが必要です．</p>

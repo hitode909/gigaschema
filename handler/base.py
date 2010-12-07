@@ -27,6 +27,7 @@ class BaseHandler(webapp.RequestHandler):
         user = users.get_current_user()
         if user:
             UserHelper.inject_params(user)
+            user.is_current_user = True
         self.user = user
 
         login_url = ''
@@ -35,7 +36,7 @@ class BaseHandler(webapp.RequestHandler):
         if user:
             logout_url = users.create_logout_url("/")
         else:
-            login_url = users.create_login_url("/user/")
+            login_url = users.create_login_url("/")
 
         self.stash = {
             'user': user,

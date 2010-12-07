@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2><img src="{{ owner.avatar_url }}" >{{ owner.name }}さん</h2>
+<h2><img src="{{ owner.avatar_url }}" >{{ owner.name }}さん{% if owner.is_current_user %}のホーム{% endif %}</h2>
 
 {% if owner.is_current_user %}
 <p><a href="/create">新しいスキーマを作る</a></p>
