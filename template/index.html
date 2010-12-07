@@ -3,18 +3,9 @@
 {% block id %}index{% endblock %}
 
 {% block content %}
+
 <div id="welcome">
   <div id="copy"></div>
 </div>
-
-<div id="create-schema">
-{% if user %}
-<a href="/create">新しいスキーマ</a>
-{% else %}
-<a href="{{ login_url }}">ログインしてスキーマを作る</a>
-{% endif %}
-</div>
-
-<a href="/data">新着データ</a>
 
 {% endblock %}

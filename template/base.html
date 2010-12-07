@@ -13,16 +13,17 @@
     <link rel="stylesheet" type="text/css" href="/css/gigaschema.css" />
   </head>
   <body id="{% block id %}{% endblock %}">
+
     <div id="whole">
-      <div id="login-logout">
-        {% if user %}
-        ようこそ，{{ user.nickname }}さん．<br>
-        <a href="{{ logout_url }}">ログアウト</a>
-        {% else %}
-        <a href="{{ login_url }}">ログイン</a>
-        {% endif %}
+      <div id="header">
+        <h1><a href="/"><img src="http://music-islands.com/blog/image_8/sataniccorpse.jpg"></a></h1>
+        <ul>
+          <li><a href="/create">作る</a></li>
+          <li><a href="/data">データ</a></li>
+          <li><a href="/user">{{ user.nickname }}</a></li>
+          <li>{% if user %}<a href="{{ logout_url }}">ログアウト</a>{% else %}<a href="{{ login_url }}">ログイン</a></li>{% endif %}
+        </ul>
       </div>
-      <h1><a href="/"><img src="/image/logo.png"></a></h1>
 
       <div id="content">
         {% block content %}{% endblock %}
