@@ -5,6 +5,7 @@
 
 {% if owner.is_current_user %}
 <p><a href="/create">新しいスキーマを作る</a></p>
+<p><a href="{{ logout_url }}">ログアウト</a></p>
 {% endif %}
 
 {% if schema_list %}

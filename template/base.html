@@ -20,7 +20,7 @@
         <ul>
           {% if user %}<li><a href="/"><img src="{{ user.small_avatar_url }}">ホーム</a></li>{% endif %}
           <li><a href="/data">みんなのデータ</a></li>
-          <li>{% if user %}<a href="{{ logout_url }}">ログアウト</a>{% else %}<a href="{{ login_url }}">ログイン</a></li>{% endif %}
+          <li>{% if not user %}<a href="{{ login_url }}">ログイン</a></li>{% endif %}
           <li><a href="/help">ヘルプ</a></li>
         </ul>
       </div>
