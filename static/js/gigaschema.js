@@ -120,7 +120,7 @@ google.setOnLoadCallback(function() {
         return list;
     }
 
-    $.getJSON('/hitode909/keyword.json', function(schema) {
+    $.getJSON('http://gigaschema.appspot.com/hitode909/keyword.json', function(schema) {
         var keywords = shuffle(schema.data).map(function(data) { return data.value });
 
         results = [];
