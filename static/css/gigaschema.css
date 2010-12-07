@@ -82,3 +82,12 @@ ul.data-list {
 .data-item .info a {
     color: #666;
 }
+
+/* page content */
+.navigation {
+    font-size: 30px;
+}
+
+.navigation a {
+  text-decoration: none;
+}
