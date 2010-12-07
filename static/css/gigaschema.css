@@ -20,6 +20,11 @@ a {
     color: #303030;
 }
 
+h2 {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
 h1 img {
     width: 100%;
     height: 100%;
@@ -27,8 +32,8 @@ h1 img {
 
 #header {
     position: relative;
-    height: 140px;
-    margin-bottom: 50px;
+    height: 70px;
+    margin-bottom: 20px;
     background: yellow;
 
 }
