@@ -77,6 +77,20 @@ window.gigaschema.dispatcher('body#schema', function() {
     $('.api_key').click(function() {
         $(this).select();
     });
+
+    $('#new-data textarea').focus(function() {
+        $(this).attr({ rows: 6, cols: 80 });
+    });
+
+    var submit = $("#new-data :submit");
+    console.log(submit);
+    $('#new-data textarea').bind("keydown keyup click", function() {
+        if ($(this).val().length > 0) {
+            submit.attr('disabled', '');
+        } else {
+            submit.attr('disabled', 'disabled');
+        }
+    });
 });
 
 $(function() {
