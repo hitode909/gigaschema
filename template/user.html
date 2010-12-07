@@ -3,7 +3,9 @@
 {% block content %}
 <h2><img src="{{ owner.avatar_url }}" >{{ owner.name }}さん</h2>
 
+{% if owner.is_current_user %}
 <p><a href="/create">新しいスキーマを作る</a></p>
+{% endif %}
 
 {% if schema_list %}
 <h2>スキーマ一覧</h2>
