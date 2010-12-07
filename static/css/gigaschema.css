@@ -30,6 +30,10 @@ h1 img {
     height: 100%;
 }
 
+form,input {
+    font-size: 30px;
+}
+
 #header {
     position: relative;
     height: 70px;
@@ -120,7 +124,4 @@ ul.data-list {
 body#create form#create {
     margin: 40px;
     line-height: 1.5em;
-}
-body#create form#create, body#create form#create input {
-    font-size: 30px;
 }
