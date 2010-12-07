@@ -125,3 +125,9 @@ body#create form#create {
     margin: 40px;
     line-height: 1.5em;
 }
+
+/* schema page */
+body#schema #chart {
+    height: 250px;
+    margin: 10px;
+}
