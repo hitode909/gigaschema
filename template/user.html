@@ -19,4 +19,15 @@
 </ul>
 {% endif %}
 
+{% if h.owner.data %}
+<h2>データ</h2>
+  <ul class="data-list">
+    {% for data in h.owner.data %}
+    <li>
+      {% include "macro/data_item.html" %}
+    </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
 {% endblock %}

@@ -21,11 +21,11 @@ class IndexHandler(BaseHandler):
         user = self.stash['user']
         self.stash['owner'] = user
 
-        q = Schema.all()
+        q = Data.all();
         q.filter('owner = ', user)
         q.order('-created_on')
+        user.data = q.fetch(1000)
 
-        self.stash['schema_list'] = q.fetch(1000)
         self.response.out.write(ViewHelper.process('user', self.stash))
 
     @hook_request

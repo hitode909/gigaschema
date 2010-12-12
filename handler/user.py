@@ -21,7 +21,13 @@ class UserHandler(BaseHandler):
         else:
             owner.is_current_user = True
 
+        q = Data.all();
+        q.filter('owner = ', owner)
+        q.order('-created_on')
+        owner.data = q.fetch(1000)
+
         self.stash['owner'] = owner
+
         self.response.out.write(ViewHelper.process('user', self.stash))
 
 class UserRedirectHandler(BaseHandler):
