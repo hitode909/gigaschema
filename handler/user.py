@@ -21,13 +21,7 @@ class UserHandler(BaseHandler):
         else:
             owner.is_current_user = True
 
-        UserHelper.inject_params(owner)
         self.stash['owner'] = owner
-        q = Schema.all()
-        q.filter('owner = ', owner)
-        q.order('-created_on')
-
-        self.stash['schema_list'] = q.fetch(1000)
         self.response.out.write(ViewHelper.process('user', self.stash))
 
 class UserRedirectHandler(BaseHandler):

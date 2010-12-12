@@ -75,19 +75,21 @@ class BaseHandler(webapp.RequestHandler):
         self.schema = data.schema
         self.stash['schema'] = data.schema
 
-    def owner_user(self):
-        owner_user = None
+    def owner(self):
+        owner = None
         if self.data:
-            owner_user = self.data.owner
-            UserHelper.inject_params(owner_user)
+            owner = self.data.owner
+            UserHelper.inject_params(owner)
         elif self.schema:
-            owner_user = self.schema.owner
-            UserHelper.inject_params(owner_user)
+            owner = self.schema.owner
+            UserHelper.inject_params(owner)
+        elif self.stash.has_key('owner'):
+            owner = self.stash['owner']
+            UserHelper.inject_params(owner)
         else:
-            owner_user = self.user
+            owner = self.user
 
-
-        return owner_user
+        return owner
 
     def set_allow_header(self, schema):
         origin = '*'

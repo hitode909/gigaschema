@@ -1,6 +1,7 @@
 import re
 import urllib, hashlib
 from google.appengine.api import users
+import model
 
 class UserHelper:
     @classmethod
@@ -16,6 +17,12 @@ class UserHelper:
         user.name = klass.extract_user_name(user)
         user.avatar_url = klass.avatar_url(user)
         user.small_avatar_url = klass.avatar_url(user) + "&s=16"
+
+        q = model.schema.Schema.all()
+        q.filter('owner = ', user)
+        q.order('-created_on')
+        user.schemas = q.fetch(1000)
+
         return user
 
     @classmethod
