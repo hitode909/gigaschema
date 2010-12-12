@@ -163,7 +163,7 @@ google.setOnLoadCallback(function() {
                 results.forEach(function(pair) {
                     var keyword = pair[0];
                     var img = pair[1];
-                    $('#welcome').append(img);
+                    $('#welcome #images').append(img);
                     img.show();
                     copy.push(keyword);
                 });
