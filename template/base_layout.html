@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>GIGA SCHEMA</title>
+    <script language="javascript" type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/jquery.jqplot.min.js"></script>
+    <script type="text/javascript" language="javascript" src="/js/jqplot.dateAxisRenderer.min.js"></script>
+    <script type="text/javascript" language="javascript" src="http://www.google.com/jsapi?key=ABQIAAAA9zo6gDv1qbSijhp-laO8LhRtaEV2mWm6DEXnHoUWVBgk6yYnABTg47uTTr3vdw6iH57JplZ7uAlbDg"></script>
+    <script language="javascript" type="text/javascript" src="/js/jsdeferred.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/gigaschema.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/jquery.jqplot.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/gigaschema.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="/css/reset.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="/css/text.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="/css/960.css" />
+  </head>
+  <body id="{% block id %}{% endblock %}">
+    <div class="container_12">
+
+      <div id="header" class="prefix_7">
+        <ul>
+          {% if user %}<li><a href="/"><img class="user-icon" src="{{ user.small_avatar_url }}">ホーム</a></li>{% endif %}
+          <li><a href="/data">みんなのデータ</a></li>
+          <li>{% if not user %}<a href="{{ login_url }}">ログイン</a></li>{% endif %}
+          <li>{% if user %}<a href="{{ logout_url }}">ログアウト</a></li>{% endif %}
+          <li><a href="/help">ヘルプ</a></li>
+        </ul>
+      </div>
+      <div class="clear"></div>
+
+      <h1 id="logo" class="grid_12">
+        <a href="/">
+          <img class="fill" src="/image/logo.png">
+        </a>
+      </h1>
+      <div class="clear"></div>
+
+      {% block content_layout %}{% endblock %}
+
+  </body>
+</html>

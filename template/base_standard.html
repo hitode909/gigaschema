@@ -1,0 +1,52 @@
+{% extends "base_layout.html" %}
+
+{% block content_layout %}
+      <div class="grid_9" id="left-pane">
+        <h2 class="grid_8 page-title banner-container">
+          <img class="banner-top" src="http://chart.apis.google.com/chart?chst=d_text_outline&chld=00FF00|20|h|FF0000|b|{% block page_title %}ようこそ{% endblock %}">
+          <img class="banner-bg" src="{% block page_title_bg %}/image/bg.png{% endblock %}">
+        </h2>
+        <div class="clear"></div>
+
+        {% block content %}{% endblock %}
+      </div>
+
+      <div class="grid_3" id="right-pane">
+        {% if h.owner %}
+
+        {% if h.owner.is_current_user %}
+        <div class="new-schema">
+          <form action="/create" method="get">
+            <input type="submit" value="新しいスキーマ" />
+            </form>
+        </div>
+        <div class="clear"></div>
+        {% endif %}
+
+        <div class="user">
+          <a href="{{ h.owner.url }}">
+            <img class="user-icon" src="{{ h.owner.small_avatar_url }}">
+            {{ h.owner.name }}
+          </a>
+        </div>
+        <div class="clear"></div>
+
+        {% if h.owner.schemas %}
+        <div class="schemas">
+          {% for schema in h.owner.schemas %}
+          <div class="schema">
+            <a href="{{ schema.url }}">
+              <img class="user-icon" src="{{ h.owner.small_avatar_url }}">
+              {{ schema.slug }}
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      <div class="clear"></div>
+      {% endif %}
+
+    </div>
+
+{% endblock %}
