@@ -19,6 +19,12 @@ indexes:
 
 - kind: Data
   properties:
+  - name: owner
+  - name: created_on
+    direction: desc
+
+- kind: Data
+  properties:
   - name: schema
   - name: created_on
 
