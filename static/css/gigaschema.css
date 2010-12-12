@@ -19,6 +19,15 @@ img.user-icon {
     margin-right: 1px;
 }
 
+img.big-user-icon {
+    width: 48px;
+    height: 48px;
+    vertical-align: middle;
+    margin-bottom: 3px;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
 .banner-container {
     position: relative;
 }
@@ -62,6 +71,7 @@ img.fill {
 
 h1 {
     height: 90px;
+    margin-bottom: 30px;
 }
 
 /* welcome */
@@ -129,7 +139,7 @@ ul.data-list li {
 .data-item .info a {
     color: #666;
     text-decoration: none;
-p}
+}
 
 /* right-pane */
 /* user */
@@ -148,12 +158,17 @@ p}
 }
 
 /* schemas */
-#right-pane .schemas {
+.schemas {
     /* margin-top: 30px; */
 }
 
-#right-pane .schemas .schema {
+.schemas .schema {
     height: 30px;
+}
+
+.schemas .schema a {
+    text-decoration: none;
+    color: #333;
 }
 
 
@@ -173,6 +188,10 @@ body#schema #new-data {
     margin-bottom: 30px;
 }
 
+body#recent_schema .schema {
+    min-height: 60px;
+    font-size: 30px;
+}
 
 /* * { */
 /*     margin: 0px; */

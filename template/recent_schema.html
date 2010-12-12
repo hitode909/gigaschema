@@ -1,18 +1,18 @@
 {% extends "base_standard.html" %}
 
-{% block id %}recent_data{% endblock %}
+{% block id %}recent_schema{% endblock %}
 
 {% block content %}
 
-<h2>新着スキーマ</h2>
-<div class="autopagerize_page_element">
-  <ul class="schema-list">
-    {% for schema in pager.data %}
-    <li>
-      <a href="{{ schema.url }}">{{ schema.slug }}</a>
-    </li>
-    {% endfor %}
-  </ul>
+<div class="autopagerize_page_element schemas">
+  {% for schema in pager.data %}
+  <div class="schema">
+    <a href="{{ schema.url }}">
+      <img class="big-user-icon" src="{{ schema.avatar_url }}">
+      {{ schema.slug }}
+    </a>
+  </div>
+  {% endfor %}
 
   {% if pager.has_prev %}
   <a href="{{ pager.url}}?page={{pager.prev_page}}" rel="prev" >prev</a>
