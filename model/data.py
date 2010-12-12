@@ -32,7 +32,7 @@ class Data(db.Model):
                 group = data_hash['group']
                 value = data_hash['value']
                 item_type = data_hash['item_type']
-                owner = schmema.owner
+                owner = schema.owner
                 data = Data(
                     key = data_key,
                     schema = schema,
