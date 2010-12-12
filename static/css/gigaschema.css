@@ -166,7 +166,7 @@ ul.data-list li {
     height: 30px;
 }
 
-.schemas .schema a {
+#right-pane a, .schemas .schema a {
     text-decoration: none;
     color: #333;
 }

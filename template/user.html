@@ -1,32 +1,20 @@
 {% extends "base_standard.html" %}
 
 {% block content %}
-{% if not h.owner.schemas %}
-  {% if h.owner.is_current_user %}
-    ヘイ，新しいスキーマを作りましょう．
+
+{% if h.owner.is_current_user %}
+  {% if not h.owner.schemas %}
+    <p>ヘイ，新しいスキーマを作りましょう．</p>
     <div class="new-schema">
       <form action="/create" method="get">
         <input type="submit" value="新しいスキーマ" />
       </form>
     </div>
-    <div class="clear"></div>
   {% endif %}
-{% endif %}
 
-
-{% if h.owner.schemas %}
-<h2>データ一覧</h2>
-<ul class="schema-list">
-{% for schema in h.owner.schemas %}
-<li class="schema-item">
-  <a href="{{ schema.url }}">{{ schema.slug }}</a>
-</li>
-{% endfor %}
-</ul>
 {% endif %}
 
 {% if h.owner.data %}
-<h2>データ</h2>
   <ul class="data-list">
     {% for data in h.owner.data %}
     <li>
