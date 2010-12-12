@@ -1,9 +1,18 @@
 {% extends "base_standard.html" %}
 
-{% block page_title %}{{ h.owner.name }}{% endblock %}
-{% block page_title_bg %}{{ h.owner.avatar_url }}{% endblock %}
-
 {% block content %}
+{% if not h.owner.schemas %}
+  {% if h.owner.is_current_user %}
+    ヘイ，新しいスキーマを作りましょう．
+    <div class="new-schema">
+      <form action="/create" method="get">
+        <input type="submit" value="新しいスキーマ" />
+      </form>
+    </div>
+    <div class="clear"></div>
+  {% endif %}
+{% endif %}
+
 
 {% if h.owner.schemas %}
 <h2>データ一覧</h2>
@@ -27,4 +36,5 @@
   </ul>
 {% endif %}
 
+<div class="clear"></div>
 {% endblock %}
