@@ -14,25 +14,21 @@ class DataHandler(BaseHandler):
 
     @hook_request
     def get(self, owner_name, schema_name, data_key):
-        data = self.get_data(owner_name, schema_name, data_key, use_cache = True)
-        schema = data.schema
-        schema.current_user = self.user
+        self.load_data(owner_name, schema_name, data_key, use_cache = True)
+        self.schema.current_user = self.user
 
-        self.stash['schema'] = schema
-        self.stash['data'] = data
         self.response.out.write(ViewHelper.process('data', self.stash))
 
     @hook_request
     def delete(self, owner_name, schema_name, data_key):
-        data = self.get_data(owner_name, schema_name, data_key)
-        schema = data.schema
-        if schema.api_key and schema.api_key != self.request.get('api_key'):
+        self.load_data(owner_name, schema_name, data_key)
+        if self.schema.api_key and self.schema.api_key != self.request.get('api_key'):
             self.error_response(403, log_msg="invalid api")
 
-        data.delete()
-        schema.clear_data_cache_all();
-        self.set_allow_header(schema)
-        self.redirect(schema.url())
+        self.data.delete()
+        self.schema.clear_data_cache_all();
+        self.set_allow_header(self.schema)
+        self.redirect(self.schema.url())
 
     @hook_request
     def post(self, owner_name, schema_name, data_key):
@@ -43,29 +39,26 @@ class DataHandler(BaseHandler):
 
     @hook_request
     def options(self, owner_name, schema_name, data_key):
-        data = self.get_data(owner_name, schema_name, data_key)
-        schema = data.schema
-        self.set_allow_header(schema)
+        self.load_data(owner_name, schema_name, data_key)
+        self.set_allow_header(self.schema)
         self.response.out.write('options')
 
 class DataJsonHandler(BaseHandler):
     @hook_request
     def get(self, owner_name, schema_name, data_key):
-        data = self.get_data(owner_name, schema_name, data_key, use_cache = True)
-        schema = data.schema
+        self.load_data(owner_name, schema_name, data_key, use_cache = True)
 
-        self.set_allow_header(schema)
+        self.set_allow_header(self.schema)
         self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write( ViewHelper.process_data(data.as_hash()))
+        self.response.out.write( ViewHelper.process_data(self.data.as_hash()))
 
 class DataMediaHandler(BaseHandler):
     @hook_request
     def get(self, owner_name, schema_name, data_key, data_type):
-        data = self.get_data(owner_name, schema_name, data_key)
-        schema = data.schema
-        self.set_allow_header(schema)
+        self.load_data(owner_name, schema_name, data_key)
+        self.set_allow_header(self.schema)
 
-        info = data.blob_info()
+        info = self.data.blob_info()
         if not info:
             self.error_response(400, log_msg="not blob")
 
@@ -74,26 +67,23 @@ class DataMediaHandler(BaseHandler):
 
     @hook_request
     def options(self, owner_name, schema_name, data_key, data_type):
-        data = self.get_data(owner_name, schema_name, data_key)
-        schema = data.schema
-        self.set_allow_header(schema)
+        self.load_data(owner_name, schema_name, data_key)
+        self.set_allow_header(self.schema)
         self.response.out.write('options')
 
 class DataValueHandler(BaseHandler):
     @hook_request
     def get(self, owner_name, schema_name, data_key):
-        data = self.get_data(owner_name, schema_name, data_key)
-        schema = data.schema
-        self.set_allow_header(schema)
+        self.load_data(owner_name, schema_name, data_key)
+        self.set_allow_header(self.schema)
 
         self.response.headers['Content-Type'] = 'text/plain'
-        self.response.out.write(data.value)
+        self.response.out.write(self.data.value)
 
     @hook_request
     def options(self, owner_name, schema_name, data_key):
-        data = self.get_data(owner_name, schema_name, data_key)
-        schema = data.schema
-        self.set_allow_header(schema)
+        self.load_data(owner_name, schema_name, data_key)
+        self.set_allow_header(self.schema)
         self.response.out.write('options')
 
 

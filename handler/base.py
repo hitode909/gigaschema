@@ -39,12 +39,16 @@ class BaseHandler(webapp.RequestHandler):
             login_url = users.create_login_url("/")
 
         self.stash = {
+            'h': self,
             'user': user,
             'login_url': login_url,
             'logout_url': logout_url,
         }
 
-    def get_schema(self, owner_name, schema_name, use_cache=False):
+        self.data = None
+        self.schema = None
+
+    def load_schema(self, owner_name, schema_name, use_cache=False):
         schema = None
         schema_name = urllib.unquote(schema_name).decode('utf-8')
         try:
@@ -53,9 +57,10 @@ class BaseHandler(webapp.RequestHandler):
             schema = None
         if not schema:
             self.error_response(404, log_msg="schema not found: " + owner_name + "/" + schema_name)
-        return schema
+        self.schema = schema
+        self.stash['schema'] = schema
 
-    def get_data(self, owner_name, schema_name, data_key, use_cache=False):
+    def load_data(self, owner_name, schema_name, data_key, use_cache=False):
         data = None
         try:
             data = Data.retrieve(owner_name, schema_name, data_key, use_cache)
@@ -65,8 +70,21 @@ class BaseHandler(webapp.RequestHandler):
             data = None
         if not data:
             self.error_response(404, log_msg="data not found: " + data_key)
-            
-        return data
+        self.data = data
+        self.stash['data'] = data
+        self.schema = data.schema
+        self.stash['schema'] = data.schema
+
+    def owner_user(self):
+        owner_user = None
+        if self.data:
+            owner_user = self.data.owner
+        elif self.schema:
+            owner_user = self.schema.owner
+        else:
+            owner_user = self.user
+
+        return owner_user
 
     def set_allow_header(self, schema):
         origin = '*'
