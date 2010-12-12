@@ -16,7 +16,7 @@ img.user-icon {
     vertical-align: middle;
     margin-bottom: 3px;
     margin-left: 1px;
-    margin-right: 3px;
+    margin-right: 1px;
 }
 
 .banner-container {
@@ -64,6 +64,31 @@ h1 {
     height: 90px;
 }
 
+/* welcome */
+
+#welcome {
+    margin-bottom: 30px;
+    min-height: 350px;
+}
+
+#welcome #images {
+    margin:0 auto 0;
+}
+
+#welcome #copy {
+    font-weight: bold;
+    font-size: 30px;
+    font-family: serif;
+}
+
+#welcome img {
+    min-width: 250px;
+    max-width: 250px;
+    max-height: 250px;
+    -webkit-border-radius: 10px;
+    margin: 10px;
+}
+
 /* pane */
 #left-pane {
 }
@@ -101,8 +126,10 @@ ul.data-list li {
     font-size: 150%;
 }
 
-.data-item .info {
+.data-item .info a {
     color: #666;
+    font-size: 80%;
+    text-decoration: none;
 }
 
 /* right-pane */

@@ -6,6 +6,7 @@ import re
 import datetime
 import logging
 from django.utils import simplejson
+from helper import *
 
 class Data(db.Model):
     schema = db.ReferenceProperty(Schema, required=True)
@@ -90,6 +91,19 @@ class Data(db.Model):
 
     def url(self):
         return self.schema.url() + '/' + str(self.key())
+
+    def small_avatar_url(self):
+        user = self.owner
+        UserHelper.inject_params(user)
+        return user.small_avatar_url
+
+    def avatar_url(self):
+        user = self.owner
+        UserHelper.inject_params(user)
+        return user.avatar_url
+
+    def schema_name(self):
+        return self.schema.name
 
     def json_url(self):
         return self.url() + '.json'

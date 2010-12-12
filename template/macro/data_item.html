@@ -21,8 +21,10 @@
   <br>
   <!-- group:{{ data.group }} type:{{ data.item_type }} -->
   <div class="info">
-    <a href="{{ data.schema.url }}">{{ data.schema.slug }}</a>
-    <a class="permalink" href="{{ data.url }}">permalink</a>
+    <a href="{{ data.url }}">
+      <img class="user-icon" src="{{ data.small_avatar_url }}">
+      {{ data.schema_name }}
+    </a>
   </div>
   <div class="clear"></div>
 </div>

@@ -107,22 +107,31 @@ google.setOnLoadCallback(function() {
         var deferred = new Deferred();
         search.setSearchCompleteCallback(this, function(sc, searcher) {
             var offset = Math.floor(Math.random() * searcher.results.length - 3);
-            var urls = [];
+            var results = [];
             for (var i = 0; i < 3; i++) if (searcher.results[offset + i]) {
-                urls.push(searcher.results[offset + i].url);
+                results.push(searcher.results[offset + i]);
             }
-            urls.forEach(function(url) {
+            results.forEach(function(result) {
                 var img = $('<img>');
-                img.attr( {src: url });
+                img.attr( {src: result.url, title: keyword });
                 img.hide();
                 img.bind('load', function() {
+                    console.log('load', this);
                     if (deferred) {
                         deferred.call($(this));
                         deferred = null;
                     }
                 });
-
             });
+            setTimeout(function() {
+                if (deferred) {
+                    var img = $('<img>');
+                    img.attr({src: searcher.results[0].tbUrl, title: keyword });
+                    img.hide();
+                    deferred.call(img);
+                    deferred = null;
+                }
+            }, 1000);
         });
 
         search.execute(keyword);

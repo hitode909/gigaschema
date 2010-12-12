@@ -15,6 +15,9 @@ class IndexHandler(BaseHandler):
     @hook_request
     def get(self):
         if not self.stash['user']:
+            q = Data.all();
+            q.order('-created_on')
+            self.stash['data_list'] = q.fetch(20)
             self.response.out.write(ViewHelper.process('index', self.stash))
             return
 
@@ -24,7 +27,7 @@ class IndexHandler(BaseHandler):
         q = Data.all();
         q.filter('owner = ', user)
         q.order('-created_on')
-        user.data = q.fetch(1000)
+        user.data = q.fetch(20)
 
         self.response.out.write(ViewHelper.process('user', self.stash))
 
