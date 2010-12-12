@@ -21,8 +21,13 @@ handlers:
   static_files: static/css/\1
   upload: static/css/(.*)
 
+- url: /admin/.*
+  script: $PYTHON_LIB/google/appengine/ext/admin
+  login: admin
+
 - url: .*
   script: main.py
+
 
 builtins:
 - datastore_admin: on
