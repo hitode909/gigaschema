@@ -103,7 +103,7 @@ google.load("search", "1");
 google.setOnLoadCallback(function() {
     if ($('body#index').length == 0) return;
 
-    function getImageUrl(keyword, d) {
+    function getImage(keyword, d) {
         var search = new google.search.SearchControl();
         search.setResultSetSize(google.search.Search.LARGE_RESULTSET);
         search.addSearcher(new google.search.ImageSearch());
@@ -111,8 +111,23 @@ google.setOnLoadCallback(function() {
 
         var deferred = new Deferred();
         search.setSearchCompleteCallback(this, function(sc, searcher) {
-            var result = searcher.results[Math.floor(Math.random() * searcher.results.length)];
-            deferred.call(result.url);
+            var offset = Math.floor(Math.random() * searcher.results.length - 3);
+            var urls = [];
+            for (var i = 0; i < 3; i++) if (searcher.results[offset + i]) {
+                urls.push(searcher.results[offset + i].url);
+            }
+            urls.forEach(function(url) {
+                var img = $('<img>');
+                img.attr( {src: url });
+                img.hide();
+                img.bind('load', function() {
+                    if (deferred) {
+                        deferred.call($(this));
+                        deferred = null;
+                    }
+                });
+
+            });
         });
 
         search.execute(keyword);
@@ -139,7 +154,7 @@ google.setOnLoadCallback(function() {
 
         results = [];
         loop(3, function (i) {
-            return getImageUrl(keywords[i]).next(function(url) {
+            return getImage(keywords[i]).next(function(url) {
                 results.push([keywords[i], url]);
             });
         }).
@@ -147,12 +162,12 @@ google.setOnLoadCallback(function() {
                 var copy = [];
                 results.forEach(function(pair) {
                     var keyword = pair[0];
-                    var url = pair[1];
-                    var img = $('<img>');
-                    img.attr( {src: url });
+                    var img = pair[1];
                     $('#welcome').append(img);
+                    img.show();
                     copy.push(keyword);
                 });
+                $('#welcome #dummy').remove();
                 $('#welcome').css({opacity: 0.1}).animate({opacity: 1.0}, 1000);
                 $('#welcome #copy').text(copy.join('、') + '。');
             });
