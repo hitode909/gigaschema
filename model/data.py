@@ -13,6 +13,7 @@ class Data(db.Model):
     group = db.StringProperty()
     value = db.TextProperty()
     item_type = db.TextProperty()
+    owner = db.UserProperty(required=True)
 
     @classmethod
     def retrieve(klass, owner_name, schema_name, data_key, use_cache=False):
@@ -31,6 +32,7 @@ class Data(db.Model):
                 group = data_hash['group']
                 value = data_hash['value']
                 item_type = data_hash['item_type']
+                owner = schmema.owner
                 data = Data(
                     key = data_key,
                     schema = schema,
@@ -38,6 +40,7 @@ class Data(db.Model):
                     group = group,
                     value = value,
                     item_type = item_type,
+                    owner = schema.owner
                 )
                 logging.info('cach hit(data): ' + key)
         if not data:
@@ -57,6 +60,7 @@ class Data(db.Model):
             schema=schema,
             group=group,
             value=value,
+            owner=schema.owner,
         )
         data.put()
         data.set_item_type()
@@ -76,6 +80,7 @@ class Data(db.Model):
                 group = group,
                 value = value,
                 created_on = now,
+                owner=schema.owner,
             )
             data.put()
             data.set_item_type()
