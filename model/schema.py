@@ -273,4 +273,14 @@ class Schema(db.Model):
     def has_data(self):
         return len(self.data()) > 0
 
+    def small_avatar_url(self):
+        user = self.owner
+        UserHelper.inject_params(user)
+        return user.small_avatar_url
+
+    def avatar_url(self):
+        user = self.owner
+        UserHelper.inject_params(user)
+        return user.avatar_url
+
 from model.data import Data

@@ -14,22 +14,17 @@ class IndexHandler(BaseHandler):
 
     @hook_request
     def get(self):
-        if not self.stash['user']:
-            q = Data.all();
-            q.order('-created_on')
-            self.stash['data_list'] = q.fetch(20)
-            self.response.out.write(ViewHelper.process('index', self.stash))
-            return
-
-        user = self.stash['user']
-        self.stash['owner'] = user
-
         q = Data.all();
-        q.filter('owner = ', user)
         q.order('-created_on')
-        user.data = q.fetch(20)
+        self.stash['data_list'] = q.fetch(20)
 
-        self.response.out.write(ViewHelper.process('user', self.stash))
+        q = Schema.all();
+        q.order('-created_on')
+        self.stash['schema_list'] = q.fetch(20)
+
+        self.response.out.write(ViewHelper.process('index', self.stash))
+        return
+
 
     @hook_request
     def post(self):

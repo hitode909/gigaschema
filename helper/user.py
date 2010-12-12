@@ -15,6 +15,7 @@ class UserHelper:
     @classmethod
     def inject_params(klass, user):
         user.name = klass.extract_user_name(user)
+        user.url = '/' + user.name
         user.avatar_url = klass.avatar_url(user)
         user.small_avatar_url = klass.avatar_url(user) + "&s=16"
 

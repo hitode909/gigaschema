@@ -10,20 +10,30 @@
   <div id="dummy"></div>
   <div id="images"></div>
 </div>
+<div class="clear"></div>
 
-<p>
-  ギガスキーマは，便利なスキーマです．<br>
-  <a href="{{ login_url }}">Gmailアカウントでログイン</a><br>
-  <a href="/data">新着データを見る</a><br>
-</p>
-
-<ul class="data-list">
-  {% for data in data_list %}
-  <li>
-    {% include "macro/data_item.html" %}
-  </li>
-  {% endfor %}
-</ul>
+<div id="lef-pane" class="grid_9">
+  <ul class="data-list">
+    {% for data in data_list %}
+    <li>
+      {% include "macro/data_item.html" %}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+<div id="right-pane" class="grid_3">
+  <div class="schemas">
+    {% for schema in schema_list %}
+    <div class="schema">
+      <a href="{{ schema.url }}">
+        <img class="user-icon" src="{{ schema.small_avatar_url }}">
+        {{ schema.slug }}
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="clear"></div>
 
 
 {% endblock %}
