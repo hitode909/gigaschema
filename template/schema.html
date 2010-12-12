@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 
 {% block id %}schema{% endblock %}
+{% block page_title %}{{ schema.slug }}{% endblock %}
+{% block page_title_bg %}{{ h.owner.avatar_url }}{% endblock %}
 
 {% block content %}
-
-<h2>{{ schema.slug }}</h2>
-
-<div><a href="{{ schema.json_url }}">JSON</a></div>
 
 {% if schema.api_key and schema.current_user_is_owner %}
 <p>APIキー<input type="text" readonly="readonly" class="api_key" value="{{ schema.api_key }}" size="60" ></input></p>
@@ -14,24 +12,26 @@
 {% endif %}
 
 {% if schema.has_data %}
-<div id="chart"></div>
+<div id="chart" class="grid_8"></div>
+<div class="clear"></div>
 {% endif %}
 
-<h2>データを投稿</h2>
 {% if schema.current_user_can_post %}
 <form id="new-data" method="POST" action="{{ schema_url }}">
   <!-- <input type="text" name="group" placeholder="group" /> -->
-  <textarea name="value" placeholder="value" rows="3" cols="20" ></textarea>
+  <textarea class="grid_8" name="value" placeholder="なにか書くと値を追加できます．"></textarea>
   {% if schema.api_key %}
   <input type="hidden" name="api_key" value="{{ schema.api_key }}" />
   {% endif %}
-  <input type="submit" value="作る" disabled="disabled">
+  <div class="clear"></div>
+  <input type="submit" value="値を追加" disabled="disabled">
 </form>
+<div class="clear"></div>
 {% else %}
   <p>このスキーマに投稿するにはAPIキーが必要です．</p>
 {% endif %}
 
-<h2>データ</h2>
+
 {% include "macro/data_pager.html" %}
 
 {% endblock %}

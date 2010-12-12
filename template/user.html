@@ -1,15 +1,12 @@
 {% extends "base.html" %}
 
-{% block content %}
-<h2><img src="{{ h.owner.avatar_url }}" >{{ h.owner.name }}さん{% if h.owner.is_current_user %}のホーム{% endif %}</h2>
+{% block page_title %}{{ h.owner.name }}{% endblock %}
+{% block page_title_bg %}{{ h.owner.avatar_url }}{% endblock %}
 
-{% if h.owner.is_current_user %}
-<p><a href="/create">新しいスキーマを作る</a></p>
-<p><a href="{{ logout_url }}">ログアウト</a></p>
-{% endif %}
+{% block content %}
 
 {% if h.owner.schemas %}
-<h2>スキーマ一覧</h2>
+<h2>データ一覧</h2>
 <ul class="schema-list">
 {% for schema in h.owner.schemas %}
 <li class="schema-item">

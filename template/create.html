@@ -1,15 +1,26 @@
 {% extends "base.html" %}
 
 {% block id %}create{% endblock %}
+{% block page_title %}CREATE{% endblock %}
 
 {% block content %}
 
-<h2>新しいスキーマ</h2>
 <form id="create" method="POST" action="/">
-  <label>スキーマ名<input type="text" name="name" placeholder="名前" /></label><br>
+  
+    <label>
+      <div class="grid_2">スキーマ名</div>
+      <input type="text" name="name" placeholder="名前" />
+    </label>
+    <div class="clear"></div>
   <!-- <label>origin<input type="text" name="origin" placeholder="origin=*" /></label><br> -->
-  <label><input type="checkbox" name="with-api-key">APIキーを使う</label><br>
-  <input type="submit" value="作る">
+  <div class="prefix_2">
+    <label><input type="checkbox" name="with-api-key">APIキーを使う</label><br>
+  </div>
+  <div class="clear"></div>
+    <div class="prefix_2">
+      <input type="submit" value="作る">
+    </div>
+    <div class="clear"></div>
 </form>
 
 {% endblock %}

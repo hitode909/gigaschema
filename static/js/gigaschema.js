@@ -67,29 +67,24 @@ window.gigaschema.dispatcher('#chart', function() {
     });
 });
 
-window.gigaschema.dispatcher(true, function() {
-    $('form').submit(function() {
-        $(this).find(':submit').attr('disabled', 'disabled');
-    });
-});
-
 window.gigaschema.dispatcher('body#schema', function() {
     $('.api_key').click(function() {
         $(this).select();
     });
 
-    $('#new-data textarea').focus(function() {
-        $(this).attr({ rows: 6, cols: 80 });
-    });
-
     var submit = $("#new-data :submit");
-    console.log(submit);
-    $('#new-data textarea').bind("keydown keyup click", function() {
+    $('#new-data textarea').bind("keydown keyup click touch", function() {
         if ($(this).val().length > 0) {
             submit.attr('disabled', '');
         } else {
             submit.attr('disabled', 'disabled');
         }
+    });
+});
+
+window.gigaschema.dispatcher(true, function() {
+    $('form').submit(function() {
+        $(this).find(':submit').attr('disabled', 'disabled');
     });
 });
 
