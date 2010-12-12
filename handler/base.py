@@ -79,10 +79,13 @@ class BaseHandler(webapp.RequestHandler):
         owner_user = None
         if self.data:
             owner_user = self.data.owner
+            UserHelper.inject_params(owner_user)
         elif self.schema:
             owner_user = self.schema.owner
+            UserHelper.inject_params(owner_user)
         else:
             owner_user = self.user
+
 
         return owner_user
 
