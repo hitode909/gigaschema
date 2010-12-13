@@ -188,9 +188,10 @@ body#schema #new-data {
     margin-bottom: 30px;
 }
 
-body#recent_schema .schema {
+body#recent_schema #left-pane .schema {
     min-height: 60px;
     font-size: 30px;
+    margin-bottom: 30px;
 }
 
 /* * { */
