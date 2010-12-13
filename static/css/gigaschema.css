@@ -141,12 +141,13 @@ ul.data-list li {
     text-decoration: none;
 }
 
-/* right-pane */
 /* user */
 
-#right-pane .user {
+.user {
     height: 30px;
 }
+
+/* right-pane */
 
 /* new-schema */
 #right-pane .new-schema {
@@ -164,6 +165,10 @@ ul.data-list li {
 
 .schemas .schema {
     height: 30px;
+}
+
+.schemas .schema.selected {
+    font-weight: bold;
 }
 
 #right-pane a, .schemas .schema a {

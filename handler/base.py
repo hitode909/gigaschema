@@ -58,6 +58,7 @@ class BaseHandler(webapp.RequestHandler):
             self.error_response(404, log_msg="schema not found: " + owner_name + "/" + schema_name)
         self.schema = schema
         self.stash['schema'] = schema
+        self.stash['page_schema'] = schema
 
     def load_data(self, owner_name, schema_name, data_key, use_cache=False):
         data = None
@@ -73,6 +74,7 @@ class BaseHandler(webapp.RequestHandler):
         self.stash['data'] = data
         self.schema = data.schema
         self.stash['schema'] = data.schema
+        self.stash['page_schema'] = data.schema
 
     def owner(self):
         owner = None

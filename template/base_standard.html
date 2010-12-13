@@ -33,7 +33,7 @@
           {% if h.owner.schemas %}
           <div class="schemas">
             {% for schema in h.owner.schemas %}
-            <div class="schema">
+            <div class="schema {% ifequal schema.slug page_schema.slug %}selected{% endifequal %}">
               <a href="{{ schema.url }}">
                 <img class="user-icon" src="{{ schema.small_avatar_url }}">
                 {{ schema.slug }}
