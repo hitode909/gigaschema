@@ -14,36 +14,36 @@
       <div class="grid_3" id="right-pane">
         {% if h.owner %}
 
-        <div class="user">
-          <a href="{{ h.owner.url }}">
-            <img class="user-icon" src="{{ h.owner.small_avatar_url }}">
-            {{ h.owner.name }}
-          </a>
-        </div>
-        <div class="clear"></div>
-
-        {% if h.owner.is_current_user %}
-        <div class="new-schema">
-          <form action="/create" method="get">
-            <input type="submit" value="新しいスキーマ" />
-          </form>
-        </div>
-        {% endif %}
-
-        {% if h.owner.schemas %}
-        <div class="schemas">
-          {% for schema in h.owner.schemas %}
-          <div class="schema">
-            <a href="{{ schema.url }}">
-              <img class="user-icon" src="{{ schema.small_avatar_url }}">
-              {{ schema.slug }}
+          <div class="user">
+            <a href="{{ h.owner.url }}">
+              <img class="user-icon" src="{{ h.owner.small_avatar_url }}">
+              {{ h.owner.name }}
             </a>
           </div>
-          {% endfor %}
+          <div class="clear"></div>
+
+          {% if h.owner.is_current_user %}
+          <div class="new-schema">
+            <form action="/create" method="get">
+              <input type="submit" value="新しいスキーマ" />
+            </form>
+          </div>
+          {% endif %}
+
+          {% if h.owner.schemas %}
+          <div class="schemas">
+            {% for schema in h.owner.schemas %}
+            <div class="schema">
+              <a href="{{ schema.url }}">
+                <img class="user-icon" src="{{ schema.small_avatar_url }}">
+                {{ schema.slug }}
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
         </div>
-        {% endif %}
-      </div>
-      <div class="clear"></div>
+        <div class="clear"></div>
       {% endif %}
 
     </div>
