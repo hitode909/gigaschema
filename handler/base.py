@@ -27,8 +27,7 @@ class BaseHandler(webapp.RequestHandler):
         user = users.get_current_user()
         if user:
             UserHelper.inject_params(user)
-            user.is_current_user = True
-        self.user = user
+            self.user = user
 
         login_url = ''
         logout_url = ''

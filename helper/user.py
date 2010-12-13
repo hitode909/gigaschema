@@ -14,6 +14,9 @@ class UserHelper:
 
     @classmethod
     def inject_params(klass, user):
+        if not user:
+            return
+
         user.name = klass.extract_user_name(user)
         user.url = '/' + user.name
         user.avatar_url = klass.avatar_url(user)
@@ -23,6 +26,10 @@ class UserHelper:
         q.filter('owner = ', user)
         q.order('-created_on')
         user.schemas = q.fetch(1000)
+
+        current_user = users.get_current_user()
+        if current_user and user == current_user:
+            user.is_current_user = True
 
         return user
 
