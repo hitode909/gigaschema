@@ -15,7 +15,6 @@ class DataHandler(BaseHandler):
     @hook_request
     def get(self, owner_name, schema_name, data_key):
         self.load_data(owner_name, schema_name, data_key, use_cache = True)
-        self.schema.current_user = self.user
 
         self.response.out.write(ViewHelper.process('data', self.stash))
 

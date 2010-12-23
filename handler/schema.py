@@ -15,8 +15,6 @@ class SchemaHandler(BaseHandler):
     @hook_request
     def get(self, owner_name, schema_name):
         self.load_schema(owner_name, schema_name, use_cache = True)
-        if self.schema and self.user:
-            self.schema.current_user = self.user
 
         group = self.request.get('group') or None
         page = int(self.request.get('page') or 1)
