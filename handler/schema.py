@@ -80,10 +80,12 @@ class SchemaSettingHandler(BaseHandler):
             self.error_response(403, log_msg="invalid user")
 
         # origin=*
-        # reset_api_key=''|1
-        if self.request.get('reset_api_key'):
+        # api_key_method=use|not_use|reset
+        if self.request.get('api_key_method') == 'use' and not self.schema.api_key:
             self.schema.reset_api_key()
-        if self.request.get('remove_api_key'):
+        if self.request.get('api_key_method') == 'reset':
+            self.schema.reset_api_key()
+        if self.request.get('api_key_method') == 'not_use':
             self.schema.api_key = None
         if self.request.get('origin') != None:
             origin = self.request.get('origin')

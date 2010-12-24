@@ -1,53 +1,58 @@
 {% extends "base_standard.html" %}
 
+{% block id %}schema-setting{% endblock %}
+
 {% block content %}
-<h1>スキーマページ設定ページです</h1>
-<p>ここは<b>{{ schema.owner.email }}</b>さんの<b>{{ schema.name }}</b><b>の設定ページ</b>です〜</p>
 
-<h2>スキーマ情報</h2>
-<dl>
-  <dt>名前</dt>
-  <dd>{{ schema.name }}</dd>
-  <dt>API Key</dt>
-  <dd>{{ schema.api_key }}</dd>
-  <dt>origin</dt>
-  <dd>{{ schema.origin }}</dd>
-
-<h2>公開設定</h2>
+<div class="schema-setting">
 <form method="POST" action="{{ schema.setting_url }}">
-  <input type="text" value="{{ schema.origin }}" name="origin" placeholder="origin" /><br>
-  <label><input type="radio" name="digit_only" value="0" {% if not schema.digit_only %}checked="checked"{% endif %}>なんでも</label>
-  <label><input type="radio" name="digit_only" value="1"{% if schema.digit_only %}checked="checked"{% endif %}>数字だけ</label>
-  <input type="submit" value="設定">
+  <table class="setting">
+  <tr>
+    <th>スキーマ</th>
+    <td>{{ schema.name }}</td>
+  </tr>
+  <tr>
+    <th>APIキー</th>
+    <td>
+      <label>
+        {% if schema.api_key %}
+        <div>{{ schema.api_key }}</div>
+        {% endif %}
+        <label><input type="radio" name="api_key_method" value="use" {% if schema.api_key %}checked="checked"{% endif %}>APIキーを使う</label>
+        <br>
+        <label><input type="radio" name="api_key_method" value="not_use"{% if not schema.api_key %}checked="checked"{% endif %}>APIキーを使わない</label>
+        {% if schema.api_key %}
+        <br>
+        <label><input type="radio" name="api_key_method" value="reset">APIキーをリセット</label>
+        {% endif %}
+        <div class="description">
+          APIキーを設定すると，{{ schema.owner.nickname }}さんと，APIキーを知っている人だけがこのスキーマに投稿できます．
+        </div>
+    </td>
+  </tr>
+  <tr>
+    <th>origin</th>
+    <td>
+      <input type="text" value="{{ schema.origin }}" name="origin" placeholder="*" size="60" />
+      <div class="description">
+        originを指定すると，このスキーマにアクセスできるドメインを制限することができます．通常は，全てのドメインからのアクセスを許可しています．
+      </div>
+    </td>
+  </tr>
+</table>
+  <input type="submit" value="設定を保存">
 </form>
+</div>
 
-{% if schema.api_key %}
-<h2>APIキーのリセット</h2>
-<form method="POST" action="{{ schema.setting_url }}">
-  <input type="hidden" name="reset_api_key" value="1">
-  <input type="submit" value="リセット">
-</form>
-{% else %}
-<h2>APIキーの作成</h2>
-<p>APIキーがなければデータの作成/削除ができなくなります</p>
-<form method="POST" action="{{ schema.setting_url }}">
-  <input type="hidden" name="reset_api_key" value="1">
-  <input type="submit" value="作成">
-</form>
-{% endif %}
-
-{% if schema.api_key %}
-<h2>APIキーの削除</h2>
-<form method="POST" action="{{ schema.setting_url }}">
-  <input type="hidden" name="remove_api_key" value="1">
-  <input type="submit" value="削除">
-</form>
-{% endif %}
-
-<h2>スキーマの削除</h2>
+<div class="schema-delete">
 <form method="POST" action="{{ schema.url }}" onsubmit="return confirm('delete?');">
-    <input type="hidden" name="delete" value="1">
-    <input type="submit" value="削除">
+  <input type="hidden" name="delete" value="1">
+  <input type="submit" value="スキーマの削除">
 </form>
+<div class="description">
+  スキーマを削除すると，このスキーマのデータも削除されます．
+</div>
+
+</div>
 
 {% endblock %}

@@ -5,9 +5,7 @@ img {
 }
 
 h2 {
-    font-family: "impact";
-    color: red;
-    background: green;
+    padding-top: 30px;
 }
 
 img.user-icon {
@@ -69,6 +67,10 @@ ul.inline-list form {
     display: inline;
 }
 
+div.description {
+    margin: 1em;
+    font-size: 80%;
+}
 
 /* header */
 
@@ -217,6 +219,24 @@ body#data #left-pane .data-item .body {
 body#data #left-pane .data-item .info {
     display: none;
 }
+
+/* schema setting page */
+body#schema-setting #left-pane .schema-setting {
+    margin-bottom: 120px;
+}
+body#schema-setting #left-pane table.setting th,table.setting td {
+    padding: 10px;
+    text-align: left;
+}
+body#schema-setting #left-pane table.setting th {
+    width: 100px;
+    font-weight: bold;
+}
+
+body#schema-seting #left-pane .delete-schema {
+    padding: 60px;
+}
+
 
 
 /* * { */
