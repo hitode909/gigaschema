@@ -33,7 +33,6 @@ class IndexHandler(BaseHandler):
 
         name = self.request.get('name')
         origin = self.request.get('origin')
-        digit_only = self.request.get('digit-only') == 'on'
         with_api_key = self.request.get('with-api-key') == 'on'
 
         if not Schema.validate_name(name):
@@ -46,8 +45,7 @@ class IndexHandler(BaseHandler):
             name=name,
             origin=origin,
             owner=self.user,
-            with_api_key=with_api_key,
-            digit_only=digit_only
+            with_api_key=with_api_key
         )
         self.redirect(schema.url())
 
