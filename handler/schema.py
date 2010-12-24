@@ -28,7 +28,7 @@ class SchemaHandler(BaseHandler):
         if not self.user:
             self.error_response(403, log_msg="no user")
         self.load_schema(owner_name, schema_name)
-        if self.user.user_id() != self.schema.owner.user_id():
+        if self.user != self.schema.owner:
             self.error_response(403, log_msg="invalid user")
 
         self.schema.clear_data_cache_all()
@@ -66,7 +66,7 @@ class SchemaSettingHandler(BaseHandler):
         if not self.user:
             self.error_response(403, log_msg="no user")
         self.load_schema(owner_name, schema_name)
-        if self.user.user_id() != self.schema.owner.user_id():
+        if self.user != self.schema.owner:
             self.error_response(403, log_msg="invalid user")
 
         self.response.out.write(ViewHelper.process('schema_setting', self.stash))
@@ -76,7 +76,7 @@ class SchemaSettingHandler(BaseHandler):
         if not self.user:
             self.error_response(403, log_msg="no user")
         self.load_schema(owner_name, schema_name)
-        if self.user.user_id() != self.schema.owner.user_id():
+        if self.user != self.schema.owner:
             self.error_response(403, log_msg="invalid user")
 
         # origin=*

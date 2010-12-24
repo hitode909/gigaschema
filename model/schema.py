@@ -230,8 +230,7 @@ class Schema(db.Model):
         return users.get_current_user()
 
     def current_user_is_owner(self):
-        return self.owner.user_id() == self.current_user().user_id()
-
+        return self.owner == self.current_user()
 
     def current_user_can_post(self, user = None):
         if not user:
@@ -239,7 +238,7 @@ class Schema(db.Model):
         if not self.api_key:
             return True
 
-        return self.owner.user_id() == user.user_id()
+        return self.owner == user
 
     def current_user_can_delete(self, user = None):
         return self.current_user_can_post(user=user)
