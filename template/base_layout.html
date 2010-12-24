@@ -19,7 +19,7 @@
     <div class="container_12">
 
       <div id="header" class="prefix_8">
-        <ul>
+        <ul class="inline-list">
           {% if user %}<li><a href="/user"><img class="user-icon" src="{{ user.small_avatar_url }}">ホーム</a></li>{% endif %}
           <li>{% if not user %}<a href="{{ login_url }}">ログイン</a></li>{% endif %}
           <li>{% if user %}<a href="{{ logout_url }}">ログアウト</a></li>{% endif %}

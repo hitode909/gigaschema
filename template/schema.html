@@ -7,7 +7,7 @@
 {% block content %}
 
 <div>
-<ul class="inline">
+<ul class="inline-list">
   {% if schema.api_key and schema.current_user_is_owner %}
   <li>
   <label>APIキー<input type="text" readonly="readonly" class="api_key" value="{{ schema.api_key }}" class="grid_4" ></input></label>

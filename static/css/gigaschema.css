@@ -55,28 +55,18 @@ img.fill {
     height: 100%;
 }
 
-ul.inline {
+ul.inline-list {
     padding-top: 5px;
     padding-bottom: 5px;
     margin-bottom: 5px;
 }
-ul.inline li {
+ul.inline-list li {
     display: inline;
     margin-left: 15px;
 }
 
 
 /* header */
-
-#header ul {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    margin-bottom: 5px;
-}
-#header li {
-    display: inline;
-    margin-left: 15px;
-}
 
 /* logo */
 
