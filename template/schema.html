@@ -6,10 +6,24 @@
 
 {% block content %}
 
-{% if schema.api_key and schema.current_user_is_owner %}
-<p>APIキー<input type="text" readonly="readonly" class="api_key" value="{{ schema.api_key }}" size="60" ></input></p>
-<a href="{{ schema.setting_url }}">設定</a>
-{% endif %}
+<div>
+<ul class="inline">
+  {% if schema.api_key and schema.current_user_is_owner %}
+  <li>
+  <label>APIキー<input type="text" readonly="readonly" class="api_key" value="{{ schema.api_key }}" class="grid_4" ></input></label>
+  </li>
+  {% endif %}
+  {% if schema.current_user_is_owner %}
+  <li>
+    <a href="{{ schema.setting_url }}">設定</a>
+  </li>
+  {% endif %}
+  <li>
+    <a href="{{ schema.json_url }}">JSON</a>
+  </li>
+</ul>
+</div>
+<div class="clear"></div>
 
 {% if schema.has_data %}
 <div id="chart" class="grid_8"></div>

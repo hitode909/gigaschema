@@ -55,6 +55,17 @@ img.fill {
     height: 100%;
 }
 
+ul.inline {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+ul.inline li {
+    display: inline;
+    margin-left: 15px;
+}
+
+
 /* header */
 
 #header ul {
