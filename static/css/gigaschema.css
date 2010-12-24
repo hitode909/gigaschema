@@ -65,6 +65,10 @@ ul.inline-list li {
     margin-left: 15px;
 }
 
+ul.inline-list form {
+    display: inline;
+}
+
 
 /* header */
 
@@ -199,6 +203,21 @@ body#recent_schema #left-pane .schema {
     font-size: 30px;
     margin-bottom: 30px;
 }
+
+/* data page */
+
+body#data #left-pane .data-item {
+    margin-top: 60px;
+}
+
+body#data #left-pane .data-item .body {
+    font-size: 400%;
+}
+
+body#data #left-pane .data-item .info {
+    display: none;
+}
+
 
 /* * { */
 /*     margin: 0px; */

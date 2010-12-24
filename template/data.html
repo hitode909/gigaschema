@@ -1,23 +1,27 @@
 {% extends "base_standard.html" %}
 
+{% block id %}data{% endblock %}
+
 {% block content %}
-<h2>{{ data.slug }}</h2>
-<div><a href="{{ data.json_url }}">JSON</a></div>
-<div><a href="{{ data.value_url }}">value</a></div>
+<ul class="inline-list">
+  <li><a href="{{ data.json_url }}">JSON</a></li>
+  <li><a href="{{ data.value_url }}">value</a></li>
 
-{% if data.media_url %}
-<div><a href="{{ data.media_url }}">{{ data.blob_info.extname }}</a></div>
-{% endif %}
+  {% if data.media_url %}
+  <li><a href="{{ data.media_url }}">{{ data.blob_info.extname }}</a></li>
+  {% endif %}
 
+  {% if data.schema.current_user_can_delete %}
+  <li>
+    <form method="POST" action="{{ data.url }}" onsubmit="return confirm('delete this value?');">
+      <input type="hidden" name="delete" value="1">
+      <input type="submit" value="delete">
+    </form>
+  </li>
+  {% endif %}
+
+</ul>
 
 {% include "macro/data_item.html" %}
-
-{% if data.schema.current_user_can_delete %}
-<h2>データ削除</h2>
-<form method="POST" action="{{ data.url }}" onsubmit="return confirm('delete?');">
-  <input type="hidden" name="delete" value="1">
-  <input type="submit" value="削除">
-</form>
-{% endif %}
 
 {% endblock %}
