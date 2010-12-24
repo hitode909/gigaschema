@@ -7,6 +7,7 @@ def main():
     application = webapp.WSGIApplication(
         [
             ('/', IndexHandler),
+            ('/help/?', HelpHandler),
             ('/create/?', CreateHandler),
             ('/data/?', RecentDataHandler),
             ('/schema/?', RecentSchemaHandler),

@@ -49,9 +49,15 @@ class IndexHandler(BaseHandler):
         )
         self.redirect(schema.url())
 
-class CreateHandler(BaseHandler): # create.py......
+class CreateHandler(BaseHandler):
 
     @hook_request
     def get(self):
         self.response.out.write(ViewHelper.process('create', self.stash))
+
+class HelpHandler(BaseHandler):
+
+    @hook_request
+    def get(self):
+        self.response.out.write(ViewHelper.process('help', self.stash))
 
