@@ -24,9 +24,7 @@
 
           {% if h.owner.is_current_user %}
           <div class="new-schema">
-            <form action="/create" method="get">
-              <input type="submit" value="新しいスキーマ" />
-            </form>
+            <a href="/create">新しいスキーマ</a>
           </div>
           {% endif %}
 

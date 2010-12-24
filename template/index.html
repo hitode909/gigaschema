@@ -26,6 +26,12 @@
 </div>
 <div id="right-pane" class="grid_3">
   <div class="schemas">
+    {% if user %}
+    <div class="new-schema">
+      <a href="/create">新しいスキーマ</a>
+    </div>
+    {% endif %}
+
     {% for schema in schema_list %}
     <div class="schema">
       <a href="{{ schema.url }}">

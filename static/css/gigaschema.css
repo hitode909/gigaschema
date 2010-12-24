@@ -1,5 +1,13 @@
 /* common */
 
+a {
+    color: #666;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
 img {
     max-width: 100%;
 }
@@ -143,11 +151,6 @@ ul.data-list li {
     font-size: 150%;
 }
 
-.data-item .info a {
-    color: #666;
-    text-decoration: none;
-}
-
 /* user */
 
 .user {
@@ -159,10 +162,6 @@ ul.data-list li {
 /* new-schema */
 #right-pane .new-schema {
     height: 30px;
-}
-
-#right-pane .new-schema input {
-    font-size: 150%;
 }
 
 /* schemas */
@@ -181,6 +180,10 @@ ul.data-list li {
 #right-pane a, .schemas .schema a {
     text-decoration: none;
     color: #333;
+}
+
+#right-pane a:hover, .schemas .schema a:hover {
+    text-decoration: underline;
 }
 
 
