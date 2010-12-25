@@ -30,9 +30,9 @@ window.gigaschema.plotGraph = function(id, data) {
              });
 }
 
-window.gigaschema.roundDateTime = function(dtstr) {
-    var date = new Date(Date.parse(dtstr.split('.')[0]));
-    return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
+window.gigaschema.roundDateTime = function(dt) {
+    var round = 60 * 60 * 24;
+    return Math.floor(dt / round) * round;
 }
 
 
@@ -53,12 +53,12 @@ window.gigaschema.dispatcher('#chart', function() {
             post_at[key] = (post_at[key] || 0) + 1;
 
             if (! isNaN(num_value)) {
-                nums.push([created_on, num_value]);
+                nums.push([created_on * 1000, num_value]);
             }
         });
         if (nums.length == 0) {
             for(var day in post_at) if (post_at.hasOwnProperty(day)) {
-                nums.push([day, post_at[day]]);
+                nums.push([day * 1000, post_at[day]]);
             }
         }
         if (nums.length == 0) return;
