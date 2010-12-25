@@ -64,7 +64,7 @@ class BaseHandler(webapp.RequestHandler):
         data = None
         try:
             data = Data.retrieve(owner_name, schema_name, data_key, use_cache)
-            if data.schema and (UserHelper.extract_user_name(data.schema.owner)) != owner_name or (data.schema.name != schema_name):
+            if data and data.schema and (UserHelper.extract_user_name(data.schema.owner)) != owner_name or (data.schema.name != schema_name):
                 self.error_response(400, log_msg="")
         except BadKeyError, message:
             data = None
