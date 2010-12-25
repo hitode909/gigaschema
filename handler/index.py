@@ -17,23 +17,21 @@ class IndexHandler(BaseHandler):
     def get(self):
         data_list_key = '/'.join(['index', 'data_list']);
         data_list = memcache.get(key=data_list_key)
-        logging.info(data_list_key)
         if not data_list :
             q = Data.all();
             q.order('-created_on')
             data_list = q.fetch(20)
-            memcache.set(key=data_list_key, value=data_list, time=60*60*1)
+            memcache.set(key=data_list_key, value=data_list, time=60*1)
 
         self.stash['data_list'] = data_list
 
         schema_list_key = '/'.join(['index', 'schema_list']);
         schema_list = memcache.get(key=schema_list_key)
-        logging.info(schema_list_key)
         if not schema_list :
             q = Schema.all();
             q.order('-updated_on')
             schema_list = q.fetch(20)
-            memcache.set(key=schema_list_key, value=schema_list, time=60*60*1)
+            memcache.set(key=schema_list_key, value=schema_list, time=60*1)
 
 
         self.stash['schema_list'] = schema_list
