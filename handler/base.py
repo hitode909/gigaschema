@@ -20,6 +20,12 @@ def hook_request(orig):
 
 class BaseHandler(webapp.RequestHandler):
 
+    @hook_request
+    def head (self,*args, **keywords):
+        self.get(*args,**keywords)
+        sef.response.clear()
+        return
+
     def error_response(self, code, log_msg=""):
         raise HandlerError(code, log_msg=log_msg)
 
