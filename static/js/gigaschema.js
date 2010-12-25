@@ -184,5 +184,14 @@ google.setOnLoadCallback(function() {
     });
 
 });
+Hatena.Star.SiteConfig = {
+  entryNodes: {
+    'div.data-item': {
+      uri: '.info .star-permalink',
+      title: '.info .star-title',
+      container: '.info .star-container'
+    }
+  }
+};
 
 
