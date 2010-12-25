@@ -286,4 +286,8 @@ class Schema(db.Model):
         UserHelper.inject_params(user)
         return user.avatar_url
 
+    def updated_now(self):
+        self.updated_on = datetime.datetime.today()
+        self.put();
+
 from model.data import Data

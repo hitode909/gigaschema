@@ -55,8 +55,9 @@ class SchemaHandler(BaseHandler):
 
         data = Data.create_multi(self.schema, group=group, values=values)
         logging.info('before clear')
-        self.schema.clear_data_cache_all();
+        self.schema.clear_data_cache_all()
         logging.info('after clear')
+        self.schema.updated_now()
         self.redirect(self.schema.url())
 
 class SchemaSettingHandler(BaseHandler):
