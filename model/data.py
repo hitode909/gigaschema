@@ -220,3 +220,7 @@ class Data(db.Model):
 
         return self.blob_info_cache
 
+    def log(self):
+        logging.info('log(data) ' + str(self.key()))
+        return ""
+

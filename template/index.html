@@ -15,6 +15,7 @@
 <div id="lef-pane" class="grid_9">
   <ul class="data-list">
     {% for data in data_list %}
+    {{ data.log }}
     <li>
       {% include "macro/data_item.html" %}
     </li>
@@ -33,6 +34,7 @@
     {% endif %}
 
     {% for schema in schema_list %}
+    {{ schema.log }}
     <div class="schema">
       <a href="{{ schema.url }}">
         <img class="user-icon" src="{{ schema.small_avatar_url }}">

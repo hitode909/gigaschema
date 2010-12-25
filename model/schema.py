@@ -290,4 +290,8 @@ class Schema(db.Model):
         self.updated_on = datetime.datetime.today()
         self.put();
 
+    def log(self):
+        logging.info('log(schema): ' + str(self.key()))
+        return ""
+
 from model.data import Data
