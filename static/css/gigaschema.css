@@ -195,7 +195,7 @@ ul.data-list li {
 
 /* schema page */
 body#schema #left-pane #chart {
-    heighth: 240px;
+    height: 240px;
 }
 
 body#schema form#new-data textarea {
