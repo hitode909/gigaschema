@@ -6,6 +6,8 @@
 
 {% block content %}
 
+<link rel="alternate" type="application/atom+xml" href="{{ schema.feed_url }}"/>
+
 <div>
 <ul class="inline-list">
   {% if schema.api_key and schema.current_user_is_owner %}

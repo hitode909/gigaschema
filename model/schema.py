@@ -190,6 +190,9 @@ class Schema(db.Model):
     def json_url(self):
         return self.url() + ".json"
 
+    def feed_url(self):
+        return self.url() + ".feed"
+
     def random_json_value_url(self):
         return self.url() + "/random.json"
 
