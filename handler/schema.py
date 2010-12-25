@@ -151,7 +151,7 @@ class SchemaFeedHandler(BaseHandler):
         pager = self.schema.data_at_page(page=page, group = group, per_page=50, use_cache=True)
 
         feed = feedgenerator.Atom1Feed(
-            title = self.schema.name,
+            title = 'GIGA SCHEMA - ' + ('/'.join([owner_name, self.schema.name])),
             link = 'http://gigaschema.appspot.com' + self.schema.url(),
             description = "",
             language = 'ja',
@@ -160,7 +160,7 @@ class SchemaFeedHandler(BaseHandler):
 
         for data in pager['data']:
             feed.add_item(
-                title = '/'.join([owner_name, schema_name, str(data.key())]),
+                title ='GIGA SCHEMA - ' +  ('/'.join([owner_name, schema_name, str(data.key())])),
                 unique_id = '/'.join([owner_name, schema_name, str(data.key())]),
                 link = 'http://gigaschema.appspot.com' + data.url(),
                 description = data.as_html(),
