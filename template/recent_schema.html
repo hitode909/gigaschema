@@ -15,10 +15,10 @@
   {% endfor %}
 
   {% if pager.has_prev %}
-  <a href="{{ pager.url}}?page={{pager.prev_page}}" rel="prev" >prev</a>
+  <a href="{{ pager.url}}?page={{pager.prev_page}}" rel="prev" >☜</a>
   {% endif %}
   {% if pager.has_next %}
-  <a href="{{ pager.url}}?page={{pager.next_page}}" rel="next" >next</a>
+  <a href="{{ pager.url}}?page={{pager.next_page}}" rel="next" >☞</a>
   {% endif %}
 </div>
 
