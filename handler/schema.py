@@ -166,6 +166,7 @@ class SchemaFeedHandler(BaseHandler):
                 description = data.as_html(),
                 pubdate = data.created_on,
             )
+        self.response.headers['Content-Type'] = 'application/atom+xml;type=feed;charset="utf-8"'
         self.response.out.write(feed.writeString('utf-8'))
 
 class SchemaRandomJsonHandler(BaseHandler):
