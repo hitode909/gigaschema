@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<link rel="alternate" type="application/atom+xml" href="{{ h.owner.nickname }}.feed"/>
+<link rel="alternate" type="application/atom+xml" href="{{ h.owner.nickname }}/feed"/>
 
 {% if h.owner.is_current_user %}
   {% if not h.owner.schemas %}
