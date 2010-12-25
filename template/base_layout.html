@@ -22,10 +22,10 @@
         <ul class="inline-list">
           {% if user %}
           <li><a href="/user"><img class="user-icon" src="{{ user.small_avatar_url }}">ホーム</a></li>
-          <li><a href="/create">新しいスキーマ</a></li>
           {% endif %}
-          <li>{% if not user %}<a href="{{ login_url }}">ログイン</a></li>{% endif %}
-          <li>{% if user %}<a href="{{ logout_url }}">ログアウト</a></li>{% endif %}
+          <li><a href="/create">新しいスキーマ</a></li>
+          {% if not user %}<li><a href="{{ login_url }}">ログイン</a></li>{% endif %}
+          {% if user %}<li><a href="{{ logout_url }}">ログアウト</a></li>{% endif %}
           <li><a href="/help">ヘルプ</a></li>
         </ul>
       </div>

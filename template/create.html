@@ -5,8 +5,9 @@
 
 {% block content %}
 
+{% if user %}
+
 <form id="create" method="POST" action="/">
-  
     <label>
       <div class="grid_2">スキーマ名</div>
       <input type="text" name="name" placeholder="名前" />
@@ -22,5 +23,12 @@
     </div>
     <div class="clear"></div>
 </form>
+
+{% else %}
+
+<p>ログインすると，新しいスキーマを作ることができます．</p>
+<p><a href="{{ login_url }}">☞Googleアカウントでログイン</a></p>
+
+{% endif %}
 
 {% endblock %}
