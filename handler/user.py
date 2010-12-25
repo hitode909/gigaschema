@@ -21,10 +21,21 @@ class UserHandler(BaseHandler):
         else:
             owner.is_current_user = True
 
-        q = Data.all();
-        q.filter('owner = ', owner)
-        q.order('-created_on')
-        owner.data = q.fetch(1000)
+        limit = 20
+        page = int(self.request.get('page') or 1)
+        page = 1 if page < 1 else page
+        offset = limit * (page - 1)
+        data_list = Data.all().filter('owner = ', owner).order('-created_on').fetch(limit+1, offset)
+
+        self.stash['pager'] = {
+            'url': '/' + owner_name + '/',
+            'data': data_list[0:limit],
+            'page': page,
+            'has_next': len(data_list) > limit,
+            'next_page': page + 1,
+            'has_prev': page > 1,
+            'prev_page': page - 1,
+        }
 
         self.stash['owner'] = owner
 

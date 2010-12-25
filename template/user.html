@@ -14,15 +14,6 @@
 
 {% endif %}
 
-{% if h.owner.data %}
-  <ul class="data-list">
-    {% for data in h.owner.data %}
-    <li>
-        {{ data.as_html }}
-    </li>
-    {% endfor %}
-  </ul>
-{% endif %}
+{% include "macro/data_pager.html" %}
 
-<div class="clear"></div>
 {% endblock %}
