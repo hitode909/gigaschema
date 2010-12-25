@@ -19,7 +19,7 @@ class IndexHandler(BaseHandler):
         self.stash['data_list'] = q.fetch(20)
 
         q = Schema.all();
-        q.order('-created_on')
+        q.order('-updated_on')
         self.stash['schema_list'] = q.fetch(20)
 
         self.response.out.write(ViewHelper.process('index', self.stash))
