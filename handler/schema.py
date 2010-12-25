@@ -183,6 +183,7 @@ class SchemaRandomJsonHandler(BaseHandler):
         self.load_schema(owner_name, schema_name, use_cache = True)
         q = Data.all()
         q.filter('schema = ', self.schema.key())
+        q.filter('is_deleted = ', False)
 
         group = self.request.get('group') or None
         if group:

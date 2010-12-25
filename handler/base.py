@@ -68,7 +68,7 @@ class BaseHandler(webapp.RequestHandler):
                 self.error_response(400, log_msg="")
         except BadKeyError, message:
             data = None
-        if not data:
+        if not data or data.is_deleted:
             self.error_response(404, log_msg="data not found: " + data_key)
         self.data = data
         self.stash['data'] = data

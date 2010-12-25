@@ -16,25 +16,15 @@ class IndexHandler(BaseHandler):
 
     @hook_request
     def get(self):
-        data_list_key = '/'.join(['index', 'data_list']);
-        data_list = memcache.get(key=data_list_key)
-        if not data_list :
-            q = Data.all();
-            q.order('-created_on')
-            data_list = q.fetch(20)
-            memcache.set(key=data_list_key, value=data_list, time=60*1)
-
+        q = Data.all();
+        q.filter('is_deleted =', False)
+        q.order('-created_on')
+        data_list = q.fetch(20)
         self.stash['data_list'] = data_list
 
-        schema_list_key = '/'.join(['index', 'schema_list']);
-        schema_list = memcache.get(key=schema_list_key)
-        if not schema_list :
-            q = Schema.all();
-            q.order('-updated_on')
-            schema_list = q.fetch(20)
-            memcache.set(key=schema_list_key, value=schema_list, time=60*1)
-
-
+        q = Schema.all();
+        q.order('-updated_on')
+        schema_list = q.fetch(20)
         self.stash['schema_list'] = schema_list
 
         self.response.out.write(ViewHelper.process('index', self.stash))
@@ -72,13 +62,10 @@ class FeedHandler(BaseHandler):
         if recent_feed:
             logging.info('cache hit(recent_feed)')
         else:
-            data_list_key = '/'.join(['index', 'data_list']);
-            data_list = memcache.get(key=data_list_key)
-            if not data_list :
-                q = Data.all();
-                q.order('-created_on')
-                data_list = q.fetch(20)
-                memcache.set(key=data_list_key, value=data_list, time=60*1)
+            q = Data.all();
+            q.filter('is_deleted =', False)
+            q.order('-created_on')
+            data_list = q.fetch(20)
 
             feed = feedgenerator.Atom1Feed(
                 title = 'GIGA SCHEMA - recent data',

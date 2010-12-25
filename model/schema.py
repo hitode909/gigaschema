@@ -136,6 +136,7 @@ class Schema(db.Model):
         if len(data) == 0:
             q = Data.all()
             q.filter('schema = ', self.key())
+            q.filter('is_deleted =', False)
             if group:
                 q.filter('group = ', group)
             if newer_first:

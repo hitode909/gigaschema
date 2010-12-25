@@ -16,6 +16,7 @@ class Data(db.Model):
     value = db.TextProperty()
     item_type = db.TextProperty()
     owner = db.UserProperty(required=True)
+    is_deleted = db.BooleanProperty(default=False)
 
     @classmethod
     def retrieve(klass, owner_name, schema_name, data_key, use_cache=False):
@@ -48,6 +49,8 @@ class Data(db.Model):
         if not data:
             data = Data.get(data_key)
             if data:
+                if data.is_deleted:
+                    return None
                 json = simplejson.dumps(data.as_dumpable_hash())
                 memcache.set(key=key, value=json, time=60*60*24*10)
 

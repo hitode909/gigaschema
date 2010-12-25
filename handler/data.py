@@ -23,8 +23,10 @@ class DataHandler(BaseHandler):
         self.load_data(owner_name, schema_name, data_key)
         if self.schema.api_key and self.schema.api_key != self.request.get('api_key'):
             self.error_response(403, log_msg="invalid api")
+        self.data.is_deleted = True
+        self.data.put()
 
-        self.data.delete()
+        # self.data.delete()
         self.schema.clear_data_cache_all();
         self.set_allow_header(self.schema)
         self.redirect(self.schema.url())
@@ -104,10 +106,12 @@ class RecentDataHandler(BaseHandler):
                 data_keys_list = simplejson.loads(json)
                 for data_keys in data_keys_list:
                     data_keys.append(True)
-                    data_list.append(Data.retrieve(*data_keys))
+                    d = Data.retrieve(*data_keys)
+                    if d:
+                        data_list.append(d)
 
         if len(data_list) == 0:
-            data_list = Data.all().order('-created_on').fetch(limit+1, offset)
+            data_list = Data.all().filter('is_deleted =', False ).order('-created_on').fetch(limit+1, offset)
             data_keys_list = []
             for data in data_list:
                 data_keys_list.append([

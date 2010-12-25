@@ -25,7 +25,7 @@ class UserHandler(BaseHandler):
         page = int(self.request.get('page') or 1)
         page = 1 if page < 1 else page
         offset = limit * (page - 1)
-        data_list = Data.all().filter('owner = ', owner).order('-created_on').fetch(limit+1, offset)
+        data_list = Data.all().filter('is_deleted =', False).filter('owner = ', owner).order('-created_on').fetch(limit+1, offset)
 
         self.stash['pager'] = {
             'url': '/' + owner_name + '/',

@@ -19,6 +19,26 @@ indexes:
 
 - kind: Data
   properties:
+  - name: is_deleted
+  - name: created_on
+    direction: desc
+
+- kind: Data
+  properties:
+  - name: is_deleted
+  - name: owner
+  - name: created_on
+    direction: desc
+
+- kind: Data
+  properties:
+  - name: is_deleted
+  - name: schema
+  - name: created_on
+    direction: desc
+
+- kind: Data
+  properties:
   - name: owner
   - name: created_on
     direction: desc
