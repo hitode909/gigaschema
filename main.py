@@ -13,7 +13,7 @@ def main():
             ('/schema/?', RecentSchemaHandler),
             ('/user/?', UserRedirectHandler),
             ('/([^./]+)/?', UserHandler),
-            ('/([^./]+)/([^./]+).setting', SchemaSettingHandler),
+            ('/([^./]+)/([^./]+)/?.setting', SchemaSettingHandler),
             ('/([^./]+)/([^./]+)/?.json', SchemaJsonHandler),
             ('/([^./]+)/([^./]+)/?', SchemaHandler),
             ('/([^./]+)/([^./]+)/([^./]+)/?.json', DataJsonHandler),
