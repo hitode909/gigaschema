@@ -8,19 +8,12 @@
 {% if user %}
 
 <form id="create" method="POST" action="/">
-    <label>
-      <div class="grid_2">スキーマ名</div>
-      <input type="text" name="name" placeholder="名前" />
-    </label>
-    <div class="clear"></div>
-  <!-- <label>origin<input type="text" name="origin" placeholder="origin=*" /></label><br> -->
-  <div class="prefix_2">
-    <label><input type="checkbox" name="with-api-key">APIキーを使う</label><br>
+  <label>スキーマ<input type="text" name="name" placeholder="名前" /></label>
+  <div class="description">
+    スキーマの名前はURLの一部になります．一度決めると変更できません．
   </div>
   <div class="clear"></div>
-    <div class="prefix_2">
       <input type="submit" value="スキーマを作る">
-    </div>
     <div class="clear"></div>
 </form>
 

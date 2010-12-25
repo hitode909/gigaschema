@@ -19,15 +19,20 @@
         <div>{{ schema.api_key }}</div>
         {% endif %}
         <label><input type="radio" name="api_key_method" value="use" {% if schema.api_key %}checked="checked"{% endif %}>APIキーを使う</label>
-        <br>
-        <label><input type="radio" name="api_key_method" value="not_use"{% if not schema.api_key %}checked="checked"{% endif %}>APIキーを使わない</label>
-        {% if schema.api_key %}
-        <br>
-        <label><input type="radio" name="api_key_method" value="reset">APIキーをリセット</label>
-        {% endif %}
         <div class="description">
-          APIキーを設定すると，{{ schema.owner.nickname }}さんと，APIキーを知っている人だけがこのスキーマに投稿できます．
+          {{ schema.owner.nickname }}さんだけがスキーマにデータを投稿，データを削除できます．API経由でデータを投稿する際にはAPIキーを指定します．
         </div>
+        <label><input type="radio" name="api_key_method" value="not_use"{% if not schema.api_key %}checked="checked"{% endif %}>APIキーを使わない</label>
+        <div class="description">
+          誰でもスキーマにデータを投稿，削除することができます．
+        </div>
+        {% if schema.api_key %}
+        <label><input type="radio" name="api_key_method" value="reset">APIキーをリセット</label>
+        <div class="description">
+          不本意にAPIキーが人にばれてしまったときなどには，APIキーをリセットできます．
+        </div>
+        {% endif %}
+
     </td>
   </tr>
   <tr>
@@ -35,7 +40,12 @@
     <td>
       <input type="text" value="{{ schema.origin }}" name="origin" placeholder="*" size="60" />
       <div class="description">
-        originを指定すると，このスキーマにアクセスできるドメインを制限することができます．通常は，全てのドメインからのアクセスを許可しています．
+        originを指定すると，このスキーマにAPI経由でアクセスできるドメインを制限することができます．通常は，全てのドメインからのアクセスを許可しています．ここで指定した値は，Access-Control-Allow-Originの値になります．<br>
+        詳しくはこちらをご覧ください．<br>
+        <ul>
+          <li><a href="http://www.w3.org/TR/XMLHttpRequest2/">XMLHttpRequest Level 2</a></li>
+          <li><a href="https://developer.mozilla.org/en/http_access_control">HTTP access control - MDC Doc Center</a></li>
+        </ul>
       </div>
     </td>
   </tr>
