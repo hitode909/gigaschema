@@ -83,8 +83,15 @@ window.gigaschema.dispatcher('body#schema', function() {
 });
 
 window.gigaschema.dispatcher(true, function() {
-    $('form').submit(function() {
+    $('form').submit(function(event) {
         $(this).find(':submit').attr('disabled', 'disabled');
+        if ($(this).attr('data-confirm')) {
+            if (!confirm($(this).attr('data-confirm'))) {
+                $(this).find(':submit').attr('disabled', '');
+                event.preventDefault();
+                return false;
+            }
+        }
     });
 });
 

@@ -45,7 +45,7 @@
 </div>
 
 <div class="schema-delete">
-<form method="POST" action="{{ schema.url }}" onsubmit="return confirm('delete?');">
+<form method="POST" action="{{ schema.url }}" data-confirm="このスキーマを削除しますか？">
   <input type="hidden" name="delete" value="1">
   <input type="submit" value="スキーマの削除">
 </form>
