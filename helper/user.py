@@ -1,6 +1,8 @@
 import re
 import urllib, hashlib
+import logging
 from google.appengine.api import users
+from google.appengine.api import memcache
 import model
 
 class UserHelper:
@@ -22,10 +24,17 @@ class UserHelper:
         user.avatar_url = klass.avatar_url(user)
         user.small_avatar_url = klass.avatar_url(user) + "&s=16"
 
-        q = model.schema.Schema.all()
-        q.filter('owner = ', user)
-        q.order('-updated_on')
-        user.schemas = q.fetch(20)
+        user_schemas_key = '/'.join(['user', user.user_id(), 'schema_list'])
+        user_schemas = memcache.get(user_schemas_key)
+        if user_schemas:
+            logging.info('cache hit(user_schemas): ' + user_schemas_key)
+        else:
+            q = model.schema.Schema.all()
+            q.filter('owner = ', user)
+            q.order('-updated_on')
+            memcache.set(key=user_schemas_key, value=q.fetch(20), time=60*60*1)
+
+        user.schemas = user_schemas
 
         current_user = users.get_current_user()
         if current_user and user == current_user:
