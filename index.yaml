@@ -13,6 +13,7 @@ indexes:
 - kind: Data
   properties:
   - name: group
+  - name: is_deleted
   - name: schema
   - name: created_on
     direction: desc
@@ -34,41 +35,6 @@ indexes:
   properties:
   - name: is_deleted
   - name: schema
-  - name: created_on
-    direction: desc
-
-- kind: Data
-  properties:
-  - name: owner
-  - name: created_on
-    direction: desc
-
-- kind: Data
-  properties:
-  - name: schema
-  - name: created_on
-
-- kind: Data
-  properties:
-  - name: schema
-  - name: created_on
-    direction: desc
-
-- kind: Data
-  properties:
-  - name: schema
-  - name: datetime
-    direction: desc
-
-- kind: Data
-  properties:
-  - name: schema
-  - name: value
-    direction: desc
-
-- kind: Schema
-  properties:
-  - name: owner
   - name: created_on
     direction: desc
 
