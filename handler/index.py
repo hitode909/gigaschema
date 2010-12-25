@@ -4,6 +4,7 @@ import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util, template
 from google.appengine.api import users
+from google.appengine.api import memcache
 from datetime import datetime
 from helper import *
 from model import *
@@ -14,13 +15,28 @@ class IndexHandler(BaseHandler):
 
     @hook_request
     def get(self):
-        q = Data.all();
-        q.order('-created_on')
-        self.stash['data_list'] = q.fetch(20)
+        data_list_key = '/'.join(['index', 'data_list']);
+        data_list = memcache.get(key=data_list_key)
+        logging.info(data_list_key)
+        if not data_list :
+            q = Data.all();
+            q.order('-created_on')
+            data_list = q.fetch(20)
+            memcache.set(key=data_list_key, value=data_list, time=60*60*1)
 
-        q = Schema.all();
-        q.order('-updated_on')
-        self.stash['schema_list'] = q.fetch(20)
+        self.stash['data_list'] = data_list
+
+        schema_list_key = '/'.join(['index', 'schema_list']);
+        schema_list = memcache.get(key=schema_list_key)
+        logging.info(schema_list_key)
+        if not schema_list :
+            q = Schema.all();
+            q.order('-updated_on')
+            schema_list = q.fetch(20)
+            memcache.set(key=schema_list_key, value=schema_list, time=60*60*1)
+
+
+        self.stash['schema_list'] = schema_list
 
         self.response.out.write(ViewHelper.process('index', self.stash))
         return
