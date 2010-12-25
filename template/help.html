@@ -2,15 +2,158 @@
 {% block id %}help{% endblock %}
 
 {% block content %}
-<h2>ヘルプ</h2>
-<section>
-  <h3>おおおおおおおおお？</h3>
-  <p>ううううううううううううううううううううううううううううううううううううううううおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおお．</p>
-  <p>ぶぶぶういえふぉいうぇおいおいふぃおおいいおふぉいえをいおいおいおいいふぉいふぉいふぉいふぉいおふぃふぉいおいふぉいふぉいっふぃお．</p>
-</section>
-<section>
-  <h3>おおおおおおおおお？</h3>
-  <p>ううううううううううううううううううううううううううううううううううううううううおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおお．</p>
-  <p>ぶぶぶういえふぉいうぇおいおいふぃおおいいおふぉいえをいおいおいおいいふぉいふぉいふぉいふぉいおふぃふぉいおいふぉいふぉいっふぃお．</p>
-</section>
+        <h2>ヘルプ</h2>
+		<div class="section"> 
+            <h3><span class="sanchor"></span>  API 概要</h3> 
+			<p>GIGA SCHEMAで利用出来るAPIについて解説します。このAPIではGIGA SCHEMAに対して以下の操作を行うことができます。なお、このAPIではschemaの作成や設定を行うことができません。GIGA SCHEMAのWebサイトでschemaを作成後、ご利用ください。</p> 
+			<ul> 
+				<li> schema操作
+				<ul> 
+					<li> schemaへのdataの記録</li> 
+					<li> schema情報の取得</li> 
+					<li> schema内のdataをランダムで取得する</li> 
+				</ul> 
+				</li> 
+				<li> data操作
+				<ul> 
+					<li> data情報の取得(JSON)</li> 
+					<li> data情報の取得(raw)</li> 
+				</ul> 
+				</li> 
+			</ul> 
+			<p>APIに対してはHTTPによりリクエストを発行します。特に明記しない限りレスポンスはJSON形式になります。</p> 
+            <p>このAPIは、<a href="http://www.w3.org/TR/XMLHttpRequest2/">XMLHttpRequest Level 2</a> に対応しています。リクエストを許可するドメインはGIGA SCHEMA Webサイト内のschema設定ページから指定できます。デフォルトではすべてのWebサイトからのリクエストを許可しています。</p>			<br> 
+ 
+		</div> 
+ 
+		<div class="section"> 
+			<h3><span class="sanchor"></span>  schema操作 </h3> 
+			<h4> schemaへのdataの記録</h4> 
+			<p>特定のschemaにdataを記録することができます。記録時にgroupを指定することでdataを取得する際に絞り込みを行うことができます。また、value を複数渡すことで同時に複数のdataを記録できます。</p> 
+			<p>dataが記録されると、自動的にvalueの種類が判定されます。</p> 
+			<h5> リクエスト</h5> 
+<pre> 
+POST /{user_name}/{schema_name}.json
+</pre> 
+ 
+ 
+			<table> 
+				<tr><th>パラメータ</th><th>値</th></tr> 
+				<tr><td>value</td><td>dataとして記録する値(複数可)</td></tr> 
+				<tr><td>group</td><td>dataを取得する際に絞り込みに利用可能な任意の文字列</td></tr> 
+ 
+			</table> 
+			<h5> レスポンス</h5> 
+<pre class="syntax-highlight"> 
+<span class="synIdentifier">{</span> 
+    <span class="synConstant">&quot;name&quot;</span> : <span class="synConstant">&quot;sample&quot;</span>,  <span class="synComment">// スキーマの名前</span> 
+    <span class="synConstant">&quot;data&quot;</span> : <span class="synIdentifier">[</span> 
+        <span class="synConstant">&quot;group&quot;</span>      : <span class="synConstant">&quot;&quot;</span>,
+        <span class="synConstant">&quot;value&quot;</span>      : <span class="synConstant">&quot;これはサンプルです&quot;</span>,
+        <span class="synConstant">&quot;item_type&quot;</span>  : <span class="synConstant">&quot;text&quot;</span>,               <span class="synComment">// 自動的に識別されたvalueの種類</span> 
+        <span class="synConstant">&quot;created_on&quot;</span> : 1293269403,           <span class="synComment">// データ作成日時</span> 
+        <span class="synConstant">&quot;key&quot;</span>        : <span class="synConstant">&quot;agpnaWdhc2NoZW&quot;</span>      <span class="synComment">// データに割り当てられたユニークな文字列</span> 
+    <span class="synIdentifier">]</span> 
+<span class="synIdentifier">}</span> 
+</pre> 
+ 
+			<h4> schema情報の取得</h4> 
+			<p>特定のschemaの情報および、schemaに記録されているdataを取得します。ページングやgroupパラメータによる絞り込みに対応しています。</p> 
+			<h5> リクエスト</h5> 
+<pre> 
+GET /{user_name}/{schema_name}.json
+</pre> 
+ 
+ 
+			<table> 
+				<tr><th>パラメータ</th><th>値</th></tr> 
+				<tr><td>page</td><td>取得するdataのページ数</td></tr> 
+				<tr><td>group</td><td>取得するdataの絞り込みに用いるgroup</td></tr> 
+				<tr><td>api_key</td><td>APIキーが指定されたschemaにアクセスする際に必要</td></tr> 
+ 
+			</table> 
+			<h5> レスポンス</h5> 
+<pre class="syntax-highlight"> 
+<span class="synIdentifier">{</span> 
+    <span class="synConstant">&quot;name&quot;</span> : <span class="synConstant">&quot;sample&quot;</span>,  <span class="synComment">// スキーマの名前</span> 
+    <span class="synConstant">&quot;page&quot;</span> : 1,
+    <span class="synConstant">&quot;has_next&quot;</span> : 1,     <span class="synComment">// 次のページが存在するかを示す真偽値</span> 
+    <span class="synConstant">&quot;has_prev&quot;</span> : 0,     <span class="synComment">// 前のページが存在するかを示す真偽値</span> 
+    <span class="synConstant">&quot;data&quot;</span> : <span class="synIdentifier">[</span> 
+        <span class="synIdentifier">{</span> 
+           <span class="synConstant">&quot;group&quot;</span>      : <span class="synConstant">&quot;&quot;</span>,
+            <span class="synConstant">&quot;value&quot;</span>      : <span class="synConstant">&quot;これはサンプルです&quot;</span>,
+            <span class="synConstant">&quot;item_type&quot;</span>  : <span class="synConstant">&quot;text&quot;</span>,               <span class="synComment">// 自動的に識別されたvalueの種類</span> 
+            <span class="synConstant">&quot;created_on&quot;</span> : 1293269403,           <span class="synComment">// データ作成日時</span> 
+            <span class="synConstant">&quot;key&quot;</span>        : <span class="synConstant">&quot;agpnaWdhc2NoZW&quot;</span>      <span class="synComment">// データに割り当てられたユニークな文字列</span> 
+        <span class="synIdentifier">}</span>,
+        <span class="synIdentifier">{</span> 
+            <span class="synConstant">&quot;item_type&quot;</span>  : <span class="synConstant">&quot;text&quot;</span>,
+            <span class="synConstant">&quot;group&quot;</span>      : <span class="synConstant">&quot;&quot;</span>,
+            <span class="synConstant">&quot;value&quot;</span>      : <span class="synConstant">&quot;サンプル2&quot;</span>,
+            <span class="synConstant">&quot;created_on&quot;</span> : 1293269403,
+            <span class="synConstant">&quot;key&quot;</span>        : <span class="synConstant">&quot;agpnaWdhc2NoZW&quot;</span> 
+        <span class="synIdentifier">}</span>,
+        <span class="synComment">// ..</span> 
+    <span class="synIdentifier">]</span>,
+<span class="synIdentifier">}</span> 
+</pre> 
+ 
+			<h4> schema内のdataをランダムで取得する</h4> 
+			<p>特定のschemaに含まれるdataをランダムに取得することができます。</p> 
+			<h5> リクエスト</h5> 
+<pre> 
+GET /{user_name}/{schema_name}/random.json
+</pre> 
+ 
+			<h5> レスポンス</h5> 
+<pre class="syntax-highlight"> 
+<span class="synIdentifier">{</span> 
+    <span class="synConstant">&quot;group&quot;</span>      : <span class="synConstant">&quot;&quot;</span>,
+    <span class="synConstant">&quot;value&quot;</span>      : <span class="synConstant">&quot;スキーマ内のどのデータが取得できるかはわかりません&quot;</span>,
+    <span class="synConstant">&quot;item_type&quot;</span>  : <span class="synConstant">&quot;text&quot;</span>,               <span class="synComment">// 自動的に識別されたvalueの種類</span> 
+    <span class="synConstant">&quot;created_on&quot;</span> : 1293269403,           <span class="synComment">// データ作成日時</span> 
+    <span class="synConstant">&quot;key&quot;</span>        : <span class="synConstant">&quot;agpnaWdhc2NoZW&quot;</span>      <span class="synComment">// データに割り当てられたユニークな文字列</span> 
+<span class="synIdentifier">}</span> 
+</pre> 
+			<br> 
+ 
+		</div> 
+ 
+		<div class="section"> 
+			<h3><span class="sanchor"></span>  data操作 </h3> 
+			<h4> data情報の取得(JSON)</h4> 
+			<p>指定したキーのdataを取得できます。</p> 
+			<h5> リクエスト</h5> 
+<pre> 
+GET /{user_name}/{schema_name}/{data_key}.json
+</pre> 
+ 
+			<h5> レスポンス</h5> 
+<pre class="syntax-highlight"> 
+<span class="synIdentifier">{</span> 
+    <span class="synConstant">&quot;group&quot;</span>      : <span class="synConstant">&quot;&quot;</span>,
+    <span class="synConstant">&quot;value&quot;</span>      : <span class="synConstant">&quot;サンプル&quot;</span>,
+    <span class="synConstant">&quot;item_type&quot;</span>  : <span class="synConstant">&quot;text&quot;</span>,               <span class="synComment">// 自動的に識別されたvalueの種類</span> 
+    <span class="synConstant">&quot;created_on&quot;</span> : 1293269403,           <span class="synComment">// データ作成日時</span> 
+    <span class="synConstant">&quot;key&quot;</span>        : <span class="synConstant">&quot;agpnaWdhc2NoZW&quot;</span>      <span class="synComment">// データに割り当てられたユニークな文字列</span> 
+<span class="synIdentifier">}</span> 
+</pre> 
+			<br> 
+ 
+			<h4> data情報の取得(raw)</h4> 
+			<p>指定したキーのdataを取得できます。レスポンスにははJSON形式ではなくvalueがそのままのかたちで含まれます。</p> 
+			<h5> リクエスト</h5> 
+<pre> 
+GET /{user_name}/{schema_name}/{data_key}.value
+</pre> 
+ 
+			<h5> レスポンス</h5> 
+<pre> 
+サンプル
+</pre> 
+ 
+		</div> 
+ 
+ 
 {% endblock %}
