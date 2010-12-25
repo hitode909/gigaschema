@@ -51,3 +51,9 @@ indexes:
   - name: owner
   - name: created_on
     direction: desc
+
+- kind: Schema
+  properties:
+  - name: owner
+  - name: updated_on
+    direction: desc

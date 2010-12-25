@@ -24,8 +24,8 @@ class UserHelper:
 
         q = model.schema.Schema.all()
         q.filter('owner = ', user)
-        q.order('-created_on')
-        user.schemas = q.fetch(1000)
+        q.order('-updated_on')
+        user.schemas = q.fetch(20)
 
         current_user = users.get_current_user()
         if current_user and user == current_user:
