@@ -61,7 +61,6 @@ window.gigaschema.dispatcher('#chart', function() {
                 nums.push([day, post_at[day]]);
             }
         }
-        // console.log(nums);
         if (nums.length == 0) return;
         window.gigaschema.plotGraph('chart', [nums]);
     });
@@ -123,7 +122,6 @@ google.setOnLoadCallback(function() {
                 img.attr( {src: result.url, title: keyword });
                 img.hide();
                 img.bind('load', function() {
-                    console.log('load', this);
                     if (deferred) {
                         deferred.call($(this));
                         deferred = null;
