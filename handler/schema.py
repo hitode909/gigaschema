@@ -3,6 +3,7 @@ import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util, template
 from google.appengine.api import users
+from google.appengine.api import memcache
 from datetime import datetime
 from helper import *
 from model import *
@@ -142,32 +143,39 @@ class SchemaJsonHandler(BaseHandler):
 class SchemaFeedHandler(BaseHandler):
     @hook_request
     def get(self, owner_name, schema_name):
-        self.load_schema(owner_name, schema_name, use_cache = True)
+        schema_feed_key = '/'.join(['schema', owner_name, schema_name, 'feed']);
+        schema_feed = memcache.get(schema_feed_key)
 
-        group = self.request.get('group') or None
-        page = int(self.request.get('page') or 1)
-        page = 1 if page < 1 else page
+        if schema_feed:
+            logging.info('cache hit(schema.feed): ' + schema_feed_key)
+        else:
+            self.load_schema(owner_name, schema_name, use_cache = True)
 
-        pager = self.schema.data_at_page(page=page, group = group, per_page=50, use_cache=True)
+            group = self.request.get('group') or None
+            page = int(self.request.get('page') or 1)
+            page = 1 if page < 1 else page
 
-        feed = feedgenerator.Atom1Feed(
-            title = 'GIGA SCHEMA - ' + ('/'.join([owner_name, self.schema.name])),
-            link = 'http://gigaschema.appspot.com' + self.schema.url(),
-            description = "",
-            language = 'ja',
-            author_name = self.schema.owner.nickname(),
-        )
-
-        for data in pager['data']:
-            feed.add_item(
-                title ='GIGA SCHEMA - ' +  ('/'.join([owner_name, schema_name, str(data.key())])),
-                unique_id = '/'.join([owner_name, schema_name, str(data.key())]),
-                link = 'http://gigaschema.appspot.com' + data.url(),
-                description = data.as_html(),
-                pubdate = data.created_on,
+            pager = self.schema.data_at_page(page=page, group = group, per_page=50, use_cache=True)
+            feed = feedgenerator.Atom1Feed(
+                title = 'GIGA SCHEMA - ' + ('/'.join([owner_name, self.schema.name])),
+                link = 'http://gigaschema.appspot.com' + self.schema.url(),
+                description = "",
+                language = 'ja',
+                author_name = self.schema.owner.nickname(),
             )
+
+            for data in pager['data']:
+                feed.add_item(
+                    title ='GIGA SCHEMA - ' +  ('/'.join([owner_name, schema_name, str(data.key())])),
+                    unique_id = '/'.join([owner_name, schema_name, str(data.key())]),
+                    link = 'http://gigaschema.appspot.com' + data.url(),
+                    description = data.as_html(),
+                    pubdate = data.created_on,
+                )
+            schema_feed = feed.writeString('utf-8')
+            memcache.set(key=schema_feed_key, value=schema_feed, time=60*30)
         self.response.headers['Content-Type'] = 'application/atom+xml;type=feed;charset="utf-8"'
-        self.response.out.write(feed.writeString('utf-8'))
+        self.response.out.write(schema_feed)
 
 class SchemaRandomJsonHandler(BaseHandler):
     @hook_request

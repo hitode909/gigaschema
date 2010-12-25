@@ -67,31 +67,38 @@ class IndexHandler(BaseHandler):
 class FeedHandler(BaseHandler):
     @hook_request
     def get(self):
-        data_list_key = '/'.join(['index', 'data_list']);
-        data_list = memcache.get(key=data_list_key)
-        if not data_list :
-            q = Data.all();
-            q.order('-created_on')
-            data_list = q.fetch(20)
-            memcache.set(key=data_list_key, value=data_list, time=60*1)
+        recent_feed_key = '/'.join(['index', 'data_list', 'feed']);
+        recent_feed = memcache.get(recent_feed_key)
+        if recent_feed:
+            logging.info('cache hit(recent_feed)')
+        else:
+            data_list_key = '/'.join(['index', 'data_list']);
+            data_list = memcache.get(key=data_list_key)
+            if not data_list :
+                q = Data.all();
+                q.order('-created_on')
+                data_list = q.fetch(20)
+                memcache.set(key=data_list_key, value=data_list, time=60*1)
 
-        feed = feedgenerator.Atom1Feed(
-            title = 'GIGA SCHEMA - recent data',
-            link = 'http://gigaschema.appspot.com',
-            description = "",
-            language = 'ja',
-        )
-
-        for data in data_list:
-            feed.add_item(
-                title ='GIGA SCHEMA - ' +  ('/'.join([data.owner.nickname(), data.schema.name, str(data.key())])),
-                unique_id = '/'.join([data.owner.nickname(), data.schema.name, str(data.key())]),
-                link = 'http://gigaschema.appspot.com' + data.url(),
-                description = data.as_html(),
-                pubdate = data.created_on,
+            feed = feedgenerator.Atom1Feed(
+                title = 'GIGA SCHEMA - recent data',
+                link = 'http://gigaschema.appspot.com',
+                description = "",
+                language = 'ja',
             )
+
+            for data in data_list:
+                feed.add_item(
+                    title ='GIGA SCHEMA - ' +  ('/'.join([data.owner.nickname(), data.schema.name, str(data.key())])),
+                    unique_id = '/'.join([data.owner.nickname(), data.schema.name, str(data.key())]),
+                    link = 'http://gigaschema.appspot.com' + data.url(),
+                    description = data.as_html(),
+                    pubdate = data.created_on,
+                )
+            recent_feed = feed.writeString('utf-8')
+            memcache.set(key=recent_feed_key, value=recent_feed, time=60*30)
         self.response.headers['Content-Type'] = 'application/atom+xml;type=feed;charset="utf-8"'
-        self.response.out.write(feed.writeString('utf-8'))
+        self.response.out.write(recent_feed)
 
 class CreateHandler(BaseHandler):
 
