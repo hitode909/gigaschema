@@ -17,7 +17,7 @@
     {% for data in data_list %}
     {{ data.log }}
     <li>
-      {% include "macro/data_item.html" %}
+        {{ data.as_html }}
     </li>
     {% endfor %}
     <li>

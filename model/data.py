@@ -126,6 +126,17 @@ class Data(db.Model):
             'value': self.value,
             'item_type': self.item_type,
         }
+
+    def as_html(self):
+        data_html_key = '/'.join(['data', self.owner.nickname(),self.schema.name,str(self.key()), 'as_html'])
+        html = memcache.get(key=data_html_key)
+        if html:
+            logging.info('cache hit(data.as_html)' + data_html_key)
+        else:
+            html = ViewHelper.process('macro/data_item', {'data': self})
+            memcache.set(key=data_html_key, value=html, time=60*60*24*7)
+        return html
+
     def set_item_type(self):
         if self.item_type:
             return
