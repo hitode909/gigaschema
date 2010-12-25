@@ -189,6 +189,9 @@ class Schema(db.Model):
     def json_url(self):
         return self.url() + ".json"
 
+    def random_json_value_url(self):
+        return self.url() + "/random.json"
+
     def slug(self):
         return UserHelper.extract_user_name(self.owner) + "/" + self.name
 
