@@ -16,6 +16,7 @@ class Schema(db.Model):
     api_key = db.StringProperty()
     owner = db.UserProperty(required=True)
     created_on = db.DateTimeProperty(auto_now_add = True)
+    updated_on = db.DateTimeProperty(auto_now = True)
 
     @classmethod
     def retrieve(klass, owner_name, schema_name, use_cache=False):
