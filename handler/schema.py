@@ -151,7 +151,10 @@ class SchemaRandomJsonHandler(BaseHandler):
             q.filter('group = ', group)
 
         data = q.fetch(1, random.randint(0, q.count() - 1))[0]
-        self.redirect(data.json_url())
+
+        self.set_allow_header(self.schema)
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write( ViewHelper.process_data(data.as_hash()))
 
     @hook_request
     def options(self, owner_name, schema_name):
