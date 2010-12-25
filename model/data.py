@@ -4,6 +4,7 @@ import base64
 from google.appengine.api import memcache
 import re
 import datetime
+import time
 import logging
 from django.utils import simplejson
 from helper import *
@@ -111,9 +112,12 @@ class Data(db.Model):
     def value_url(self):
         return self.url() + '.value'
 
+    def created_on_epoch(self):
+        return time.mktime(self.created_on.utctimetuple())
+
     def as_hash(self):
         return {
-            'created_on': str(self.created_on),
+            'created_on': int(self.created_on_epoch()),
             'group': self.group,
             'value': self.output_value(),
             'item_type': self.item_type,
