@@ -252,6 +252,34 @@ body#schema-seting #left-pane .delete-schema {
     padding: 60px;
 }
 
+pre.api-sample {
+    background-color: #eee;
+    padding: 0 1.5em 1.5em 1.5em;
+}
+
+.hatena-syntax-generated table {
+    border-spacing: 2px 2px;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+}
+
+.hatena-syntax-generated table th {
+    background: #eee;
+    border: 1px solid #ccc;
+}
+
+.hatena-syntax-generated table td {
+    border: 1px solid #ccc;
+}
+
+.hatena-syntax-generated dt {
+    margin-top: 0.5em;
+    font-weight: bold;
+}
+
+.hatena-syntax-generated dd {
+    padding-left: 1em;
+}
 
 
 /* * { */
