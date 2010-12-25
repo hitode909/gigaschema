@@ -68,7 +68,7 @@ class FeedHandler(BaseHandler):
             data_list = q.fetch(20)
 
             feed = feedgenerator.Atom1Feed(
-                title = 'GIGA SCHEMA - recent data',
+                title = '新着データ - GIGA SCHEMA',
                 link = 'http://gigaschema.appspot.com',
                 description = "",
                 language = 'ja',
@@ -76,7 +76,7 @@ class FeedHandler(BaseHandler):
 
             for data in data_list:
                 feed.add_item(
-                    title ='GIGA SCHEMA - ' +  ('/'.join([data.owner.nickname(), data.schema.name, str(data.key())])),
+                    title = ('/'.join([data.owner.nickname(), data.schema.name, str(data.key())])) + ' - GIGA SCHEMA',
                     unique_id = '/'.join([data.owner.nickname(), data.schema.name, str(data.key())]),
                     link = 'http://gigaschema.appspot.com' + data.url(),
                     description = data.value_as_html(),
