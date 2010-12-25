@@ -202,7 +202,7 @@ class RecentSchemaHandler(BaseHandler):
         page = int(self.request.get('page') or 1)
         page = 1 if page < 1 else page
         offset = limit * (page - 1)
-        schema_list = Schema.all().order('-created_on').fetch(limit+1, offset)
+        schema_list = Schema.all().order('-updated_on').fetch(limit+1, offset)
 
         self.stash['pager'] = {
             'url': '/schema',
