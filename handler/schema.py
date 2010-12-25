@@ -10,6 +10,7 @@ from handler.base import BaseHandler
 from handler.base import hook_request
 import logging
 import random
+from django.utils import feedgenerator
 
 class SchemaHandler(BaseHandler):
 
@@ -138,6 +139,34 @@ class SchemaJsonHandler(BaseHandler):
         self.set_allow_header(self.schema)
         self.response.out.write('options')
 
+class SchemaFeedHandler(BaseHandler):
+    @hook_request
+    def get(self, owner_name, schema_name):
+        self.load_schema(owner_name, schema_name, use_cache = True)
+
+        group = self.request.get('group') or None
+        page = int(self.request.get('page') or 1)
+        page = 1 if page < 1 else page
+
+        pager = self.schema.data_at_page(page=page, group = group, per_page=50, use_cache=True)
+
+        feed = feedgenerator.Atom1Feed(
+            title = self.schema.name,
+            link = 'http://gigaschema.appspot.com' + self.schema.url(),
+            description = "",
+            language = 'ja',
+            author_name = self.schema.owner.nickname(),
+        )
+
+        for data in pager['data']:
+            feed.add_item(
+                title = '/'.join([owner_name, schema_name, str(data.key())]),
+                unique_id = '/'.join([owner_name, schema_name, str(data.key())]),
+                link = 'http://gigaschema.appspot.com' + data.url(),
+                description = data.as_html(),
+                pubdate = data.created_on,
+            )
+        self.response.out.write(feed.writeString('utf-8'))
 
 class SchemaRandomJsonHandler(BaseHandler):
     @hook_request
