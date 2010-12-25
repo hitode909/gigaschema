@@ -15,6 +15,7 @@ def main():
             ('/([^./]+)/?', UserHandler),
             ('/([^./]+)/([^./]+)/?.setting', SchemaSettingHandler),
             ('/([^./]+)/([^./]+)/?.json', SchemaJsonHandler),
+            ('/([^./]+)/([^./]+)/random\.json', SchemaRandomJsonHandler),
             ('/([^./]+)/([^./]+)/?', SchemaHandler),
             ('/([^./]+)/([^./]+)/([^./]+)/?.json', DataJsonHandler),
             ('/([^./]+)/([^./]+)/([^./]+)/?.value', DataValueHandler),

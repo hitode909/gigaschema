@@ -9,6 +9,7 @@ from model import *
 from handler.base import BaseHandler
 from handler.base import hook_request
 import logging
+import random
 
 class SchemaHandler(BaseHandler):
 
@@ -138,6 +139,26 @@ class SchemaJsonHandler(BaseHandler):
         self.response.out.write('options')
 
 
+class SchemaRandomJsonHandler(BaseHandler):
+    @hook_request
+    def get(self, owner_name, schema_name):
+        self.load_schema(owner_name, schema_name, use_cache = True)
+        q = Data.all()
+        q.filter('schema = ', self.schema.key())
+
+        group = self.request.get('group') or None
+        if group:
+            q.filter('group = ', group)
+
+        data = q.fetch(1, random.randint(0, q.count() - 1))[0]
+        self.redirect(data.json_url())
+
+    @hook_request
+    def options(self, owner_name, schema_name):
+        self.load_schema(owner_name, schema_name)
+
+        self.set_allow_header(self.schema)
+        self.response.out.write('options')
 
 
 # /schema
