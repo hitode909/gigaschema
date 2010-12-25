@@ -12,6 +12,7 @@ def main():
             ('/data/?', RecentDataHandler),
             ('/schema/?', RecentSchemaHandler),
             ('/user/?', UserRedirectHandler),
+            ('/feed/?', FeedHandler),
             ('/([^./]+)/?', UserHandler),
             ('/([^./]+)/([^./]+)/?.setting', SchemaSettingHandler),
             ('/([^./]+)/([^./]+)/?.json', SchemaJsonHandler),

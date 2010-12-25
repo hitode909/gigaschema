@@ -10,6 +10,7 @@ from helper import *
 from model import *
 from handler.base import BaseHandler
 from handler.base import hook_request
+from django.utils import feedgenerator
 
 class IndexHandler(BaseHandler):
 
@@ -62,6 +63,35 @@ class IndexHandler(BaseHandler):
             with_api_key=with_api_key
         )
         self.redirect(schema.url())
+
+class FeedHandler(BaseHandler):
+    @hook_request
+    def get(self):
+        data_list_key = '/'.join(['index', 'data_list']);
+        data_list = memcache.get(key=data_list_key)
+        if not data_list :
+            q = Data.all();
+            q.order('-created_on')
+            data_list = q.fetch(20)
+            memcache.set(key=data_list_key, value=data_list, time=60*1)
+
+        feed = feedgenerator.Atom1Feed(
+            title = 'GIGA SCHEMA - recent data',
+            link = 'http://gigaschema.appspot.com',
+            description = "",
+            language = 'ja',
+        )
+
+        for data in data_list:
+            feed.add_item(
+                title ='GIGA SCHEMA - ' +  ('/'.join([data.owner.nickname(), data.schema.name, str(data.key())])),
+                unique_id = '/'.join([data.owner.nickname(), data.schema.name, str(data.key())]),
+                link = 'http://gigaschema.appspot.com' + data.url(),
+                description = data.as_html(),
+                pubdate = data.created_on,
+            )
+        self.response.headers['Content-Type'] = 'application/atom+xml;type=feed;charset="utf-8"'
+        self.response.out.write(feed.writeString('utf-8'))
 
 class CreateHandler(BaseHandler):
 
