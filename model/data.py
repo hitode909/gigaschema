@@ -117,6 +117,7 @@ class Data(db.Model):
 
     def as_hash(self):
         return {
+            'key': str(self.key()),
             'created_on': int(self.created_on_epoch()),
             'group': self.group,
             'value': self.output_value(),
