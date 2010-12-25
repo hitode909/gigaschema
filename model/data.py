@@ -142,6 +142,10 @@ class Data(db.Model):
             memcache.set(key=data_html_key, value=html, time=60*60*24*7)
         return html
 
+    def value_as_html(self):
+        html = ViewHelper.process('macro/data_value', {'data': self})
+        return html
+
     def set_item_type(self):
         if self.item_type:
             return

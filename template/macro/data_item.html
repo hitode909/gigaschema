@@ -1,23 +1,5 @@
 <div class="data-item" data-value="{{ data.output_value }}" data-created-on="{{ data.created_on }}">
-  {% if data.is_text_item %}
-  <span class="body">{{ data.output_value|linebreaksbr }}</span>
-  {% else %}
-    {% if data.is_number_item %}
-      <span class="body">{{ data.output_value }}</span>
-    {% else %}
-      {% if data.is_image_item %}
-      <img src="{{ data.output_value }}">
-      {% else %}
-        {% if data.is_audio_item %}
-        <div><audio src="{{ data.output_value }}" controls="controls"></div>
-        {% else %}
-          {% if data.is_url_item %}
-          <a href="{{ data.output_value }}"><img src="http://capture.heartrails.com/free?{{ data.output_value }}">{{ data.output_value }}</a>
-          {% endif %}
-        {% endif %}
-      {% endif %}
-    {% endif %}
-  {% endif %}
+  {% include "data_value.html" %}
   <br>
   <!-- group:{{ data.group }} type:{{ data.item_type }} -->
   <div class="info">
