@@ -128,7 +128,7 @@ class Data(db.Model):
         }
 
     def as_html(self):
-        data_html_key = '/'.join(['data', self.owner.nickname(),self.schema.name,str(self.key()), 'as_html'])
+        data_html_key = '/'.join(['data', self.owner.nickname(),self.schema.name,str(self.key()), 'as_html', 'v0']) # テンプレートをかえたらバージョンをあげること
         html = memcache.get(key=data_html_key)
         if html:
             logging.info('cache hit(data.as_html)' + data_html_key)
