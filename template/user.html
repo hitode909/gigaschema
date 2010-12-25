@@ -4,12 +4,8 @@
 
 {% if h.owner.is_current_user %}
   {% if not h.owner.schemas %}
-    <p>ヘイ，新しいスキーマを作りましょう．</p>
-    <div class="new-schema">
-      <form action="/create" method="get">
-        <input type="submit" value="新しいスキーマ" />
-      </form>
-    </div>
+    <p>新しいスキーマを作りましょう．</p>
+    <p><a href="/create">☞新しいスキーマを作る</a></p>
   {% endif %}
 
 {% endif %}

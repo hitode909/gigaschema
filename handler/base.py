@@ -35,7 +35,7 @@ class BaseHandler(webapp.RequestHandler):
         if user:
             logout_url = users.create_logout_url("/")
         else:
-            login_url = users.create_login_url("/")
+            login_url = users.create_login_url("/user")
 
         self.stash = {
             'h': self,
