@@ -190,6 +190,10 @@ ul.data-list li {
     text-decoration: underline;
 }
 
+body#user #right-pane .owner {
+    font-weight: bold;
+}
+
 
 /* pages */
 
