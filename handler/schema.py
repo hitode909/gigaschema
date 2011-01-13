@@ -189,6 +189,9 @@ class SchemaRandomJsonHandler(BaseHandler):
         if group:
             q.filter('group = ', group)
 
+        if q.count() == 0:
+            self.error_response(404, log_msg="empty schema")
+
         data = q.fetch(1, random.randint(0, q.count() - 1))[0]
 
         self.set_allow_header(self.schema)
