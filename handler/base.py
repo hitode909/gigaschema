@@ -68,6 +68,7 @@ class BaseHandler(webapp.RequestHandler):
 
     def load_data(self, owner_name, schema_name, data_key, use_cache=False):
         data = None
+        schema_name = urllib.unquote(schema_name).decode('utf-8')
         try:
             data = Data.retrieve(owner_name, schema_name, data_key, use_cache)
             if data and data.schema and (UserHelper.extract_user_name(data.schema.owner)) != owner_name or (data.schema.name != schema_name):
