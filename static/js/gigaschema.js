@@ -31,9 +31,10 @@ window.gigaschema.plotGraph = function(id, data) {
 }
 
 window.gigaschema.roundDateTime = function(dt) {
-    dt += (new Date).getTimezoneOffset() * 60; // timezone
+    var timezone_offset = (new Date).getTimezoneOffset() * 60;
+    dt -= timezone_offset;
     var round = 60 * 60 * 24;
-    return Math.floor(dt / round) * round;
+    return Math.floor(dt / round) * round + timezone_offset;
 }
 
 
