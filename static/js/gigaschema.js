@@ -56,13 +56,15 @@ window.gigaschema.dispatcher('#chart', function() {
                 nums.push([created_on * 1000, num_value]);
             }
         });
-        if (nums.length == 0) {
-            for(var day in post_at) if (post_at.hasOwnProperty(day)) {
-                nums.push([day * 1000, post_at[day]]);
-            }
+
+        var nums_by_day = [];
+        for(var day in post_at) if (post_at.hasOwnProperty(day)) {
+            nums_by_day.push([day * 1000, post_at[day]]);
         }
-        if (nums.length == 0) return;
-        window.gigaschema.plotGraph('chart', [nums]);
+
+        var nums_for_plot = nums.length >= nums_by_day.length ? nums : nums_by_day;
+        if (nums_for_plot.length == 0) return;
+        window.gigaschema.plotGraph('chart', [nums_for_plot]);
     });
 });
 
