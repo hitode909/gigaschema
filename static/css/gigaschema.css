@@ -231,10 +231,6 @@ body#data #left-pane .data-item .info {
     margin-top: 30px;
 }
 
-.data-item .info .time {
-    display: none;
-}
-
 body#data #left-pane .data-item .info .time {
     display: inline;
 }
