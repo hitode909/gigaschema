@@ -109,6 +109,9 @@ class Data(db.Model):
     def schema_name(self):
         return self.schema.name
 
+    def schema_url(self):
+        return self.schema.url()
+
     def json_url(self):
         return self.url() + '.json'
 

@@ -5,12 +5,16 @@
   <div class="info">
     <ul class="inline-list">
       <li>
-      <a href="{{ data.url }}">
-        <img class="user-icon" src="{{ data.small_avatar_url }}">
-        {{ data.schema_name }}
-      </a>
+        <a href="{{ data.schema_url }}">
+          <img class="user-icon" src="{{ data.small_avatar_url }}">
+          {{ data.schema_name }}
+        </a>
       </li>
-      <li class="time">{{ data.created_on|date:"Y/m/d H:i:s T" }}</li>
+      <li class="time">
+        <a href="{{ data.url }}">
+          {{ data.created_on|date:"Y/m/d H:i:s T" }}
+        </a>
+      </li>
       <li class="star-container"></li>
     </ul>
     <span class="star-title" style="display:none"> {{ data.slug }} </span>
