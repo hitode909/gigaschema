@@ -15,10 +15,13 @@
           {{ data.created_on|date:"Y/m/d H:i:s T" }}
         </a>
       </li>
+      <li class="tweet-button-container">
+        <a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-text="{{ data.output_value }} - {{data.schema.slug}}" data-url="{{data.full_url}}">Tweet</a>
+      </li>
       <li class="star-container"></li>
     </ul>
     <span class="star-title" style="display:none"> {{ data.slug }} </span>
-    <a class="star-permalink" href="http://gigaschema.appspot.com{{ data.url }}" style="display:none">permalink</a>
+    <a class="star-permalink" href="{{ data.full_url }}" style="display:none">permalink</a>
 
   </div>
   <div class="clear"></div>

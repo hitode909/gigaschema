@@ -236,6 +236,10 @@ body#data #left-pane .data-item .info .time {
     display: inline;
 }
 
+body#data #left-pane .data-item .info .tweet-button-container iframe {
+    vertical-align: middle;
+}
+
 /* schema setting page */
 body#schema-setting #left-pane .schema-setting {
     margin-bottom: 120px;

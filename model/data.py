@@ -96,6 +96,9 @@ class Data(db.Model):
     def url(self):
         return self.schema.url() + '/' + str(self.key())
 
+    def full_url(self):
+        return "http://gigaschema.appspot.com" + self.schema.url() + '/' + str(self.key())
+
     def small_avatar_url(self):
         user = self.owner
         UserHelper.inject_params(user)
