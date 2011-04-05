@@ -183,6 +183,7 @@ google.setOnLoadCallback(function() {
                 $('#welcome #dummy').remove();
                 $('#welcome').css({opacity: 0.1}).animate({opacity: 1.0}, 1000);
                 $('#welcome #copy').text(copy.join('、') + '。');
+                $('#welcome p').css({opacity: 0.1, visibility: 'visible'}).animate({opacity: 1.0}, 1000);
             });
 
     });

@@ -114,6 +114,11 @@ h1 {
     margin: 10px;
 }
 
+#welcome p {
+    visibility: hidden;
+    margin: 1em;
+}
+
 /* pane */
 #left-pane {
 }
