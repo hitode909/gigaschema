@@ -1,28 +1,28 @@
 {% extends "base_standard.html" %}
 
-{% block page_title %}{{ schema.slug }}の設定 - GIGA SCHEMA{% endblock %}
+{% block page_title %}{{ schema.slug|escape }}の設定 - GIGA SCHEMA{% endblock %}
 
 {% block id %}schema-setting{% endblock %}
 
 {% block content %}
 
 <div class="schema-setting">
-<form method="POST" action="{{ schema.setting_url }}">
+<form method="POST" action="{{ schema.setting_url|escape }}">
   <table class="setting">
   <tr>
     <th>スキーマ</th>
-    <td>{{ schema.name }}</td>
+    <td>{{ schema.name|escape }}</td>
   </tr>
   <tr>
     <th>APIキー</th>
     <td>
       <label>
         {% if schema.api_key %}
-        <div>{{ schema.api_key }}</div>
+        <div>{{ schema.api_key|escape }}</div>
         {% endif %}
         <label><input type="radio" name="api_key_method" value="use" {% if schema.api_key %}checked="checked"{% endif %}>APIキーを使う</label>
         <div class="description">
-          {{ schema.owner.nickname }}さんだけがスキーマにデータを投稿，データを削除できます．API経由でデータを投稿する際にはAPIキーを指定します．
+          {{ schema.owner.nickname|escape }}さんだけがスキーマにデータを投稿，データを削除できます．API経由でデータを投稿する際にはAPIキーを指定します．
         </div>
         <label><input type="radio" name="api_key_method" value="not_use"{% if not schema.api_key %}checked="checked"{% endif %}>APIキーを使わない</label>
         <div class="description">
@@ -40,7 +40,7 @@
   <tr>
     <th>origin</th>
     <td>
-      <input type="text" value="{{ schema.origin }}" name="origin" placeholder="*" size="60" />
+      <input type="text" value="{{ schema.origin|escape }}" name="origin" placeholder="*" size="60" />
       <div class="description">
         originを指定すると，このスキーマにAPI経由でアクセスできるドメインを制限することができます．通常は，全てのドメインからのアクセスを許可しています．ここで指定した値は，Access-Control-Allow-Originの値になります．<br>
         詳しくはこちらをご覧ください．<br>
@@ -57,7 +57,7 @@
 </div>
 
 <div class="schema-delete">
-<form method="POST" action="{{ schema.url }}" data-confirm="このスキーマを削除しますか？">
+<form method="POST" action="{{ schema.url|escape }}" data-confirm="このスキーマを削除しますか？">
   <input type="hidden" name="delete" value="1">
   <input type="submit" value="スキーマの削除">
 </form>

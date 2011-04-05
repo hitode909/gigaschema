@@ -1,27 +1,27 @@
-<div class="data-item" data-value="{{ data.output_value }}" data-created-on="{{ data.created_on }}">
+<div class="data-item" data-value="{{ data.output_value|escape}}" data-created-on="{{ data.created_on|escape}}">
   {% include "data_value.html" %}
   <br>
-  <!-- group:{{ data.group }} type:{{ data.item_type }} -->
+  <!-- group:{{ data.group|escape}} type:{{ data.item_type|escape}} -->
   <div class="info">
     <ul class="inline-list">
       <li>
-        <a href="{{ data.schema_url }}">
-          <img class="user-icon" src="{{ data.small_avatar_url }}">
-          {{ data.schema_name }}
+        <a href="{{ data.schema_url|escape}}">
+          <img class="user-icon" src="{{ data.small_avatar_url|escape}}">
+          {{ data.schema_name|escape}}
         </a>
       </li>
       <li class="time">
-        <a href="{{ data.url }}">
-          {{ data.created_on|date:"Y/m/d H:i:s T" }}
+        <a href="{{ data.url|escape}}">
+          {{ data.created_on|date:"Y/m/d H:i:s T"|escape}}
         </a>
       </li>
       <li class="tweet-button-container">
-        <a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-text="{{ data.output_value }} - {{data.schema.slug}}" data-url="{{data.full_url}}">Tweet</a>
+        <a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-text="{{ data.output_value|escape}} - {{data.schema.slug|escape }}" data-url="{{data.full_url|escape }}">Tweet</a>
       </li>
       <li class="star-container"></li>
     </ul>
-    <span class="star-title" style="display:none"> {{ data.slug }} </span>
-    <a class="star-permalink" href="{{ data.full_url }}" style="display:none">permalink</a>
+    <span class="star-title" style="display:none"> {{ data.slug|escape}} </span>
+    <a class="star-permalink" href="{{ data.full_url|escape}}" style="display:none">permalink</a>
 
   </div>
   <div class="clear"></div>

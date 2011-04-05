@@ -20,7 +20,7 @@
 {% else %}
 
 <p>ログインすると，新しいスキーマを作ることができます．</p>
-<p><a href="{{ login_url }}">☞Googleアカウントでログイン</a></p>
+<p><a href="{{ login_url|escape}}">☞Googleアカウントでログイン</a></p>
 
 {% endif %}
 

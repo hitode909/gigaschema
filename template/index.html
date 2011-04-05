@@ -17,7 +17,7 @@
 <div id="lef-pane" class="grid_9">
   <ul class="data-list">
     {% for data in data_list %}
-    {{ data.log }}
+    {{ data.log|escape}}
     <li>
         {{ data.as_html }}
     </li>
@@ -31,11 +31,11 @@
   <div class="schemas">
 
     {% for schema in schema_list %}
-    {{ schema.log }}
+    {{ schema.log|escape}}
     <div class="schema">
-      <a href="{{ schema.url }}">
-        <img class="user-icon" src="{{ schema.small_avatar_url }}">
-        {{ schema.slug }}
+      <a href="{{ schema.url|escape}}">
+        <img class="user-icon" src="{{ schema.small_avatar_url|escape }}">
+        {{ schema.slug|escape }}
       </a>
     </div>
     {% endfor %}

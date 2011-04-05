@@ -1,17 +1,17 @@
 {% if data.is_text_item %}
-<span class="body">{{ data.output_value|linebreaksbr }}</span>
+<span class="body">{{ data.output_value|escape|linebreaksbr}}</span>
 {% else %}
   {% if data.is_number_item %}
-    <span class="body">{{ data.output_value }}</span>
+    <span class="body">{{ data.output_value|escape}}</span>
   {% else %}
     {% if data.is_image_item %}
-    <img src="{{ data.output_value }}">
+    <img src="{{ data.output_value|escape}}">
     {% else %}
       {% if data.is_audio_item %}
-      <div><audio src="{{ data.output_value }}" controls="controls"></div>
+      <div><audio src="{{ data.output_value|escape}}" controls="controls"></div>
       {% else %}
         {% if data.is_url_item %}
-        <a href="{{ data.output_value }}"><img src="http://capture.heartrails.com/free?{{ data.output_value }}">{{ data.output_value }}</a>
+        <a href="{{ data.output_value|escape}}"><img src="http://capture.heartrails.com/free?{{ data.output_value|escape}}">{{ data.output_value|escape}}</a>
         {% endif %}
       {% endif %}
     {% endif %}

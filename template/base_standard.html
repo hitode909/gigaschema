@@ -15,9 +15,9 @@
         {% if h.owner %}
 
           <div class="user owner">
-            <a href="{{ h.owner.url }}">
-              <img class="user-icon" src="{{ h.owner.small_avatar_url }}">
-              {{ h.owner.name }}
+            <a href="{{ h.owner.url|escape}}">
+              <img class="user-icon" src="{{ h.owner.small_avatar_url|escape}}">
+              {{ h.owner.name|escape}}
             </a>
           </div>
           <div class="clear"></div>
@@ -26,9 +26,9 @@
           <div class="schemas">
             {% for schema in h.owner.schemas %}
             <div class="schema {% ifequal schema.slug page_schema.slug %}selected{% endifequal %}">
-              <a href="{{ schema.url }}">
-                <img class="user-icon" src="{{ schema.small_avatar_url }}">
-                {{ schema.slug }}
+              <a href="{{ schema.url|escape}}">
+                <img class="user-icon" src="{{ schema.small_avatar_url|escape}}">
+                {{ schema.slug|escape}}
               </a>
             </div>
             {% endfor %}

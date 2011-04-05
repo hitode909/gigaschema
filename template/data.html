@@ -1,21 +1,21 @@
 {% extends "base_standard.html" %}
-{% block page_title %}{{ data.slug }} - GIGA SCHEMA{% endblock %}
+{% block page_title %}{{ data.slug|escape}} - GIGA SCHEMA{% endblock %}
 
 
 {% block id %}data{% endblock %}
 
 {% block content %}
 <ul class="inline-list">
-  <li><a href="{{ data.json_url }}">JSON</a></li>
-  <li><a href="{{ data.value_url }}">value</a></li>
+  <li><a href="{{ data.json_url|escape}}">JSON</a></li>
+  <li><a href="{{ data.value_url|escape}}">value</a></li>
 
   {% if data.media_url %}
-  <li><a href="{{ data.media_url }}">{{ data.blob_info.extname }}</a></li>
+  <li><a href="{{ data.media_url|escape}}">{{ data.blob_info.extname|escape}}</a></li>
   {% endif %}
 
   {% if data.schema.current_user_can_delete %}
   <li>
-    <form method="POST" action="{{ data.url }}" data-confirm="このデータを削除しますか？">
+    <form method="POST" action="{{ data.url|escape}}" data-confirm="このデータを削除しますか？">
       <input type="hidden" name="delete" value="1">
       <input type="submit" value="データを削除">
     </form>

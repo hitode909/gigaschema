@@ -9,10 +9,10 @@
 
   <div class="navigation">
   {% if pager.has_prev %}
-  <a href="{{ schema.url}}?page={{pager.prev_page}}" rel="prev" >☜</a>
+  <a href="{{ schema.url|escape}}?page={{pager.prev_page|escape}}" rel="prev" >☜</a>
   {% endif %}
   {% if pager.has_next %}
-  <a href="{{ schema.url}}?page={{pager.next_page}}" rel="next" >☞</a>
+  <a href="{{ schema.url|escape}}?page={{pager.next_page|escape}}" rel="next" >☞</a>
   {% endif %}
   </div>
 </div>

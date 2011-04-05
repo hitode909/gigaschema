@@ -24,11 +24,11 @@
       <div id="header" class="{% if user %}prefix_7{% else %}prefix_9{% endif %}">
         <ul class="inline-list">
           {% if user %}
-          <li><a href="/user"><img class="user-icon" src="{{ user.small_avatar_url }}">ホーム</a></li>
+          <li><a href="/user"><img class="user-icon" src="{{ user.small_avatar_url|escape}}">ホーム</a></li>
           {% endif %}
           <li><a href="/create">新しいスキーマ</a></li>
-          {% if not user %}<li><a href="{{ login_url }}">ログイン</a></li>{% endif %}
-          {% if user %}<li><a href="{{ logout_url }}">ログアウト</a></li>{% endif %}
+          {% if not user %}<li><a href="{{ login_url|escape}}">ログイン</a></li>{% endif %}
+          {% if user %}<li><a href="{{ logout_url|escape}}">ログアウト</a></li>{% endif %}
           <li><a href="/help">ヘルプ</a></li>
         </ul>
       </div>
