@@ -19,6 +19,7 @@ window.gigaschema.dispatcher = function(guard, func) {
 
 // [['2009/07/01 18:00:00',2], ['2009/09/08 18:30:00',11], ['2009/09/08 18:40:00',15], ['2010/01/02',3],['2010/01/03',6],['2010/02/01',3]]
 window.gigaschema.plotGraph = function(id, data) {
+    $("#" + id).empty();
     $.jqplot(id,
              data, {
                  // title:title,
@@ -37,16 +38,16 @@ window.gigaschema.roundDateTime = function(dt) {
     return Math.floor(dt / round) * round + timezone_offset;
 }
 
-
-window.gigaschema.dispatcher('#chart', function() {
+var plotChart = function() {
     var path = location.pathname + '.json';
     $.getJSON(path, function(data) {
         var self = window.gigaschema;
 
         var nums = [];
         var post_at = { };
+        var as_total = $('input[name="as_total"]').attr('checked');
 
-        data.data.forEach(function(row) {
+        data.data.reverse().forEach(function(row) {
             var created_on = row.created_on;
             var value = row.value;
             var num_value = parseFloat(value, 10);
@@ -55,7 +56,15 @@ window.gigaschema.dispatcher('#chart', function() {
             post_at[key] = (post_at[key] || 0) + 1;
 
             if (! isNaN(num_value)) {
-                nums.push([created_on * 1000, num_value]);
+                if (as_total) {
+                    var last_value = 0.0;
+                    if (nums.length > 0) {
+                        last_value += nums[nums.length-1][1];
+                    }
+                    nums.push([created_on * 1000, last_value + num_value]);
+                } else {
+                    nums.push([created_on * 1000, num_value]);
+                }
             }
         });
 
@@ -67,6 +76,13 @@ window.gigaschema.dispatcher('#chart', function() {
         var nums_for_plot = nums.length >= nums_by_day.length ? nums : nums_by_day;
         if (nums_for_plot.length == 0) return;
         window.gigaschema.plotGraph('chart', [nums_for_plot]);
+    });
+}
+
+window.gigaschema.dispatcher('#chart', function() {
+    plotChart();
+    $('input[name="as_total"]').change(function() {
+        plotChart();
     });
 });
 
