@@ -47,13 +47,18 @@ var plotChart = function() {
         var post_at = { };
         var as_total = $('input[name="as_total"]').attr('checked');
 
+        var last_value_post_at = 0;
         data.data.reverse().forEach(function(row) {
             var created_on = row.created_on;
             var value = row.value;
             var num_value = parseFloat(value, 10);
 
             var key = self.roundDateTime(created_on);
-            post_at[key] = (post_at[key] || 0) + 1;
+            if (!as_total) {
+                last_value_post_at = (post_at[key] || 0);
+            }
+            last_value_post_at++;
+            post_at[key] = last_value_post_at;
 
             if (! isNaN(num_value)) {
                 if (as_total) {
