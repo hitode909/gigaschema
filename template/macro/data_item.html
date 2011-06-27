@@ -15,9 +15,6 @@
           {{ data.created_on|date:"Y/m/d H:i:s T"|escape}}
         </a>
       </li>
-      <li class="tweet-button-container">
-        <a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-text="{{ data.output_value|escape}} - {{data.schema.slug|escape }}" data-url="{{data.full_url|escape }}">Tweet</a>
-      </li>
       <li class="star-container"></li>
     </ul>
     <span class="star-title" style="display:none"> {{ data.slug|escape}} </span>

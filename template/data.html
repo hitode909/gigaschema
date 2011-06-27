@@ -21,6 +21,10 @@
     </form>
   </li>
   {% endif %}
+  <li class="tweet-button-container">
+    <a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-text="{{ data.output_value|escape}} - {{data.schema.slug|escape }}" data-url="{{data.full_url|escape }}">Tweet</a>
+  </li>
+
 
 </ul>
 
