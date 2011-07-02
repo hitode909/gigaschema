@@ -18,6 +18,9 @@
     <form method="POST" action="{{ data.url|escape}}" data-confirm="このデータを削除しますか？">
       <input type="hidden" name="delete" value="1">
       <input type="submit" value="データを削除">
+      {% if data.schema.api_key %}
+        <input type="hidden" name="api_key" value="{{ data.schema.api_key|escape }}" />
+      {% endif %}
     </form>
   </li>
   {% endif %}

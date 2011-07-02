@@ -21,7 +21,7 @@ class DataHandler(BaseHandler):
     @hook_request
     def delete(self, owner_name, schema_name, data_key):
         self.load_data(owner_name, schema_name, data_key)
-        if not self.schema.current_user_can_delete() and self.schema.api_key and self.schema.api_key != self.request.get('api_key'):
+        if self.schema.api_key and self.schema.api_key != self.request.get('api_key'):
             self.error_response(403, log_msg="invalid api")
         self.data.is_deleted = True
         self.data.put()
