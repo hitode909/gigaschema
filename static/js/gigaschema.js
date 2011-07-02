@@ -39,6 +39,13 @@ window.gigaschema.roundDateTime = function(dt) {
 }
 
 var parseValue = function(value) {
+    try {
+        // return when can parse
+        return JSON.parse(value);
+    } catch(error) {
+        console.log(error);
+        // ok
+    };
     var num = parseFloat(value, 10);
     if (!isNaN(num)) {
         return num;
