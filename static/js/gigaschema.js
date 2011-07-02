@@ -132,6 +132,17 @@ window.gigaschema.dispatcher(true, function() {
             }
         }
     });
+
+    $('.data-item').each(function() {
+        try {
+            var item = $(this);
+            var value = item.attr('data-value');
+            var obj = JSON.parse(value);
+            var json_body = JSON.stringify(obj, null, "    ");
+            item.find('.body').replaceWith($('<pre>').attr('class', 'json-body').text(json_body));
+        } catch(error) {
+        }
+    });
 });
 
 $(function() {
