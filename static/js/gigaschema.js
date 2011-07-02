@@ -138,8 +138,10 @@ window.gigaschema.dispatcher(true, function() {
             var item = $(this);
             var value = item.attr('data-value');
             var obj = JSON.parse(value);
-            var json_body = JSON.stringify(obj, null, "    ");
-            item.find('.body').replaceWith($('<pre>').attr('class', 'json-body').text(json_body));
+            if (obj && typeof obj == "object") {
+                var json_body = JSON.stringify(obj, null, "    ");
+                item.find('.body').replaceWith($('<pre>').attr('class', 'json-body').text(json_body));
+            }
         } catch(error) {
         }
     });
