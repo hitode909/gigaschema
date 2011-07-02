@@ -38,6 +38,21 @@ window.gigaschema.roundDateTime = function(dt) {
     return Math.floor(dt / round) * round + timezone_offset;
 }
 
+var parseValue = function(value) {
+    var num = parseFloat(value, 10);
+    if (!isNaN(num)) {
+        return num;
+    }
+    $.each(value.split(/\s+/), function(i, v) {
+        if (isNaN(num)) {
+            num = parseFloat(v);
+        } else {
+            return false;
+        }
+    });
+    return num;
+};
+
 var plotChart = function() {
     var path = location.pathname + '.json';
     $.getJSON(path, function(data) {
@@ -51,7 +66,7 @@ var plotChart = function() {
         data.data.reverse().forEach(function(row) {
             var created_on = row.created_on;
             var value = row.value;
-            var num_value = parseFloat(value, 10);
+            var num_value = parseValue(value);
 
             var key = self.roundDateTime(created_on);
             if (!as_total) {
