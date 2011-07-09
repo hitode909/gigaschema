@@ -11,7 +11,7 @@
         </a>
       </li>
       <li class="time">
-        <a href="{{ data.url|escape}}">
+        <a href="{{ data.url|escape}}" data-epoch="{{ data.created_on_epoch|escape}}">
           {{ data.created_on|date:"Y/m/d H:i:s T"|escape}}
         </a>
       </li>

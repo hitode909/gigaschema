@@ -152,6 +152,12 @@ window.gigaschema.dispatcher(true, function() {
         } catch(error) {
         }
     });
+
+    $('[data-epoch]').each(function() {
+        var epoch = $(this).attr('data-epoch');
+        var date = new Date(+epoch * 1000);
+        $(this).text(date.toLocaleString());
+    });
 });
 
 $(function() {
