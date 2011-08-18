@@ -171,11 +171,20 @@ window.gigaschema.dispatcher('#notify', function() {
 
     var buffer = [];
 
+    var display = function() {
+       var message = buffer.shift();
+       if (message) {
+           $('title').text(message);
+           $('#notify-body').text(message);
+       }
+   };
+
     var fetch =  function() {
         $.getJSON(endpoint, function(res) {
             if (!lastCreatedOn) {
                 lastCreatedOn = res.data[0].created_on;
                 buffer.push(res.data[0].value);
+                display();
                 return;
             }
             for(var i = res.data.length-1; i >= 0; i--) {
@@ -184,21 +193,18 @@ window.gigaschema.dispatcher('#notify', function() {
                     lastCreatedOn = res.data[i].created_on;
                 }
             }
+            display();
         });
     };
 
     window.setInterval(function() {
         fetch();
-    }, 5 * 1000);
+    }, 10 * 1000);
     fetch();
 
     window.setInterval(function() {
-        var message = buffer.shift();
-        if (message) {
-            $('title').text(message);
-            $('#notify-body').text(message);
-        }
-    }, 3 * 1000);
+        display();
+    }, 5 * 1000);
 });
 
 Deferred.define();
