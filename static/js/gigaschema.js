@@ -43,7 +43,6 @@ var parseValue = function(value) {
         // return when can parse
         return JSON.parse(value);
     } catch(error) {
-        console.log(error);
         // ok
     };
     var num = parseFloat(value, 10);
@@ -164,8 +163,47 @@ $(function() {
     window.gigaschema.dispatcher();
 });
 
+window.gigaschema.dispatcher('#notify', function() {
+    var lastCreatedOn = null;
+    var segments = location.hash.replace(/^#/, '').split('/');
+    var endpoint = "/" + segments.join("/") + ".json";
+    if (endpoint == ".json") return;
+
+    var buffer = [];
+
+    var fetch =  function() {
+        $.getJSON(endpoint, function(res) {
+            if (!lastCreatedOn) {
+                lastCreatedOn = res.data[0].created_on;
+                buffer.push(res.data[0].value);
+                return;
+            }
+            for(var i = res.data.length-1; i >= 0; i--) {
+                if (res.data[i].created_on > lastCreatedOn) {
+                    buffer.push(res.data[i].value);
+                    lastCreatedOn = res.data[i].created_on;
+                }
+            }
+        });
+    };
+
+    window.setInterval(function() {
+        fetch();
+    }, 5 * 1000);
+    fetch();
+
+    window.setInterval(function() {
+        var message = buffer.shift();
+        if (message) {
+            $('title').text(message);
+            $('#notify-body').text(message);
+        }
+    }, 3 * 1000);
+});
+
 Deferred.define();
 
+try {
 google.load("search", "1");
 google.setOnLoadCallback(function() {
     if ($('body#index').length == 0) return;
@@ -251,6 +289,10 @@ google.setOnLoadCallback(function() {
     });
 
 });
+
+} catch(err) {};
+
+try {
 Hatena.Star.SiteConfig = {
   entryNodes: {
     'div.data-item': {
@@ -261,4 +303,4 @@ Hatena.Star.SiteConfig = {
   }
 };
 
-
+} catch(err) {};

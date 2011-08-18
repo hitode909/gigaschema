@@ -21,6 +21,10 @@ handlers:
   static_files: static/css/\1
   upload: static/css/(.*)
 
+- url: /notify/.*
+  static_files: static/html/notify.html
+  upload: static/html/notify.html
+
 - url: /admin/.*
   script: $PYTHON_LIB/google/appengine/ext/admin
   login: admin
