@@ -6,11 +6,13 @@ from model import *
 from google.appengine.ext.db import BadKeyError
 import urllib
 from helper.user import UserHelper
+import re
 
 class HandlerError(Exception):
-    def __init__(self, code, log_msg=""):
+    def __init__(self, code, log_msg="", redirect_to=None):
         self.code = code
         self.log_msg = log_msg
+        self.redirect_to = redirect_to
 
 def hook_request(orig):
     def decorator(self, *args):
@@ -26,8 +28,8 @@ class BaseHandler(webapp.RequestHandler):
         self.response.clear()
         return
 
-    def error_response(self, code, log_msg=""):
-        raise HandlerError(code, log_msg=log_msg)
+    def error_response(self, code, log_msg="", redirect_to=None):
+        raise HandlerError(code, log_msg=log_msg, redirect_to=redirect_to)
 
     def before_dispatch(self, *args):
         user = users.get_current_user()
@@ -42,6 +44,11 @@ class BaseHandler(webapp.RequestHandler):
             logout_url = users.create_logout_url("/")
         else:
             login_url = users.create_login_url("/user")
+
+        # allow gmail user only
+        r_gmail = re.compile("@gmail\.com$", re.IGNORECASE)
+        if user and not r_gmail.search(user.email()):
+            self.error_response(302, redirect_to=logout_url)
 
         self.stash = {
             'h': self,
@@ -110,8 +117,13 @@ class BaseHandler(webapp.RequestHandler):
     def handle_exception(self, exception, debug_mode):
         if isinstance(exception, HandlerError):
             logging.info(exception.log_msg)
-            self.error(exception.code)
-            self.response.out.write(exception.log_msg)
+            if exception.code == 302:
+                logging.info(exception.log_msg)
+                self.redirect(exception.redirect_to)
+            else:
+                logging.info(exception.log_msg)
+                self.error(exception.code)
+                self.response.out.write(exception.log_msg)
         else:
             return webapp.RequestHandler.handle_exception(self,exception, debug_mode)
 
