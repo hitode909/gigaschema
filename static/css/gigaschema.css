@@ -153,6 +153,10 @@ ul.data-list li {
     word-break: break-all;
 }
 
+.data-item .json-body {
+    overflow: scroll;
+}
+
 .data-item .body {
     font-size: 150%;
 }
