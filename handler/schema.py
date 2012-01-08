@@ -23,7 +23,7 @@ class SchemaHandler(BaseHandler):
         page = int(self.request.get('page') or 1)
         page = 1 if page < 1 else page
 
-        self.stash['pager'] = self.schema.data_at_page(page=page, group = group, per_page=50, use_cache=True)
+        self.stash['pager'] = self.schema.data_at_page(page=page, group = group, per_page=20, use_cache=True)
         self.response.out.write(ViewHelper.process('schema', self.stash))
 
     @hook_request
@@ -155,7 +155,7 @@ class SchemaFeedHandler(BaseHandler):
             page = int(self.request.get('page') or 1)
             page = 1 if page < 1 else page
 
-            pager = self.schema.data_at_page(page=page, group = group, per_page=50, use_cache=True)
+            pager = self.schema.data_at_page(page=page, group = group, per_page=20, use_cache=True)
             feed = feedgenerator.Atom1Feed(
                 title = ('/'.join([owner_name, self.schema.name])) + ' - GIGA SCHEMA',
                 link = 'http://gigaschema.appspot.com' + self.schema.url(),
@@ -211,7 +211,7 @@ class RecentSchemaHandler(BaseHandler):
 
     @hook_request
     def get(self):
-        limit = 50
+        limit = 20
         page = int(self.request.get('page') or 1)
         page = 1 if page < 1 else page
         offset = limit * (page - 1)

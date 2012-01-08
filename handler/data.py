@@ -93,7 +93,7 @@ class RecentDataHandler(BaseHandler):
 
     @hook_request
     def get(self):
-        limit = 50
+        limit = 20
         page = int(self.request.get('page') or 1)
         page = 1 if page < 1 else page
         offset = limit * (page - 1)
