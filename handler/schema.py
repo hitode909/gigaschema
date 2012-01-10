@@ -111,7 +111,7 @@ class SchemaJsonHandler(BaseHandler):
 
         self.set_allow_header(self.schema)
         self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write( ViewHelper.process_data(self.schema.as_hash(group=group, page=page, per_page=200, use_cache=True)) )
+        self.response.out.write( ViewHelper.process_data(self.schema.as_hash(group=group, page=page, per_page=20, use_cache=True)) )
 
     @hook_request
     def post(self, owner_name, schema_name):
