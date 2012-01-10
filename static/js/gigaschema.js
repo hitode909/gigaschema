@@ -27,6 +27,10 @@ window.gigaschema.plotGraph = function(id, data) {
                      xaxis: {
                          renderer: $.jqplot.DateAxisRenderer
                      }
+                 },
+                 seriesDefaults: {
+                     showMarker: false,
+                     lineWidth: 1
                  }
              });
 }
