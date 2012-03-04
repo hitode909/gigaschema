@@ -251,7 +251,13 @@ class Schema(db.Model):
         return self.current_user_can_post(user=user)
 
     def validate_value(self, value):
-        return len(value) < 1000 * 1000 * 1000
+        if len(value) > 1000 * 1000 * 1000:
+            return False
+
+        if re.compile('a href').search(value):
+            return False
+
+        return True
 
     @classmethod
     def validate_name(klass, value):
